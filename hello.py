@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""Simple Hello World example with PyQt5.
+
+======================
+Part 1: Intro to PyQt5
+======================
+"""
+
 import sys
 
 # Step 1: Import different widgets from QtWidgets

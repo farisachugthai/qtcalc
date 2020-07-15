@@ -5,6 +5,6 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": ".venv/bin/python"
+		"python.pythonPath": "C:\\Users\\Casey\\scoop\\apps\\miniconda3\\current\\envs\\pyqt\\python.exe"
 	}
 }

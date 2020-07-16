@@ -5,6 +5,12 @@
 Part 3: Grid Layout
 =======================
 
+The third layout manager class is QGridLayout, which arranges widgets into a
+grid of rows and columns. Every widget will have a relative position on the
+grid. You can define a widget’s position by passing it a pair of coordinates
+in the form of (row, column). These coordinates should be valid int numbers.
+They define which cell of the grid you’re going to place the widget on.
+
 """
 
 import sys

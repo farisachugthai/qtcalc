@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": "C:\\Users\\Casey\\scoop\\apps\\miniconda3\\current\\envs\\pyqt\\python.exe"
+		"python.pythonPath": "C:\\Users\\Casey\\scoop\\apps\\miniconda3\\current\\envs\\pyqt\\python.exe",
+		"python.linting.pylintEnabled": false
 	}
 }

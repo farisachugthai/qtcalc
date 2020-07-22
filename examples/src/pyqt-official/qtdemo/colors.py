@@ -96,7 +96,7 @@ class Colors(object):
     menuCount = 18
     animSpeed = 1.0
     benchmarkFps = -1.0
-    tickerLetterCount = 80;
+    tickerLetterCount = 80
     tickerMoveSpeed = 0.4
     tickerMorphSpeed = 2.5
     tickerText = ".EROM ETAERC .SSEL EDOC"
@@ -125,7 +125,7 @@ class Colors(object):
         font.setBold(True)
         font.setFamily('Verdana')
 
-        return font;
+        return font
 
     @staticmethod
     def buttonFont():

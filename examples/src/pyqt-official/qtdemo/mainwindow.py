@@ -41,10 +41,16 @@
 
 
 from PyQt5.QtCore import QFileInfo, QPoint, QRect, qRound, Qt, QTime, QTimer
-from PyQt5.QtGui import (QFontMetricsF, QImage, QPainter, QPixmap, QPolygon,
-        QRegion)
-from PyQt5.QtWidgets import (QApplication, QFrame, QGraphicsScene,
-        QGraphicsView, QGraphicsWidget, QMessageBox, QWidget)
+from PyQt5.QtGui import QFontMetricsF, QImage, QPainter, QPixmap, QPolygon, QRegion
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFrame,
+    QGraphicsScene,
+    QGraphicsView,
+    QGraphicsWidget,
+    QMessageBox,
+    QWidget,
+)
 
 from colors import Colors
 from demoitem import DemoItem
@@ -57,7 +63,7 @@ class MainWindow(QGraphicsView):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.imagesDir = QFileInfo(__file__).absolutePath() + '/images'
+        self.imagesDir = QFileInfo(__file__).absolutePath() + "/images"
 
         self.updateTimer = QTimer(self)
         self.demoStartTime = QTime()
@@ -113,36 +119,47 @@ class MainWindow(QGraphicsView):
     def start(self):
         self.switchTimerOnOff(True)
         self.demoStartTime.restart()
-        MenuManager.instance().itemSelected(MenuManager.ROOT,
-                Colors.rootMenuName)
+        MenuManager.instance().itemSelected(MenuManager.ROOT, Colors.rootMenuName)
         Colors.debug("- starting demo")
 
     def enableMask(self, enable):
         if not enable or Colors.noWindowMask:
             self.clearMask()
         else:
-            region = QPolygon([
+            region = QPolygon(
+                [
                     # North side.
-                    0, 0,
-                    800, 0,
+                    0,
+                    0,
+                    800,
+                    0,
                     # East side.
                     # 800, 70,
                     # 790, 90,
                     # 790, 480,
                     # 800, 500,
-                    800, 600,
+                    800,
+                    600,
                     # South side.
-                    700, 600,
-                    670, 590,
-                    130, 590,
-                    100, 600,
-                    0, 600,
+                    700,
+                    600,
+                    670,
+                    590,
+                    130,
+                    590,
+                    100,
+                    600,
+                    0,
+                    600,
                     # West side.
                     # 0, 550,
                     # 10, 530,
                     # 10, 520,
                     # 0, 520,
-                    0, 0])
+                    0,
+                    0,
+                ]
+            )
 
             self.setMask(QRegion(region))
 
@@ -179,7 +196,7 @@ class MainWindow(QGraphicsView):
         if t == 0:
             t = 0.01
 
-        self.currentFps = (1000.0 / t)
+        self.currentFps = 1000.0 / t
         self.fpsHistory.append(self.currentFps)
         self.fpsTime = QTime.currentTime()
 
@@ -232,32 +249,47 @@ class MainWindow(QGraphicsView):
 
     def setupSceneItems(self):
         if Colors.showFps:
-            self.fpsLabel = DemoTextItem("FPS: --", Colors.buttonFont(),
-                    Qt.white, -1, None, DemoTextItem.DYNAMIC_TEXT)
+            self.fpsLabel = DemoTextItem(
+                "FPS: --",
+                Colors.buttonFont(),
+                Qt.white,
+                -1,
+                None,
+                DemoTextItem.DYNAMIC_TEXT,
+            )
             self.fpsLabel.setZValue(1000)
-            self.fpsLabel.setPos(Colors.stageStartX,
-                    600 - QFontMetricsF(Colors.buttonFont()).height() - 5)
+            self.fpsLabel.setPos(
+                Colors.stageStartX,
+                600 - QFontMetricsF(Colors.buttonFont()).height() - 5,
+            )
 
         self.mainSceneRoot = QGraphicsWidget()
         self.scene.addItem(self.mainSceneRoot)
 
         self.companyLogo = ImageItem(
-                QImage(self.imagesDir + '/trolltech-logo.png'),
-                1000, 1000, None, True, 0.5)
-        self.qtLogo = ImageItem(QImage(self.imagesDir + '/qtlogo_small.png'),
-                1000, 1000, None, True, 0.5)
+            QImage(self.imagesDir + "/trolltech-logo.png"), 1000, 1000, None, True, 0.5
+        )
+        self.qtLogo = ImageItem(
+            QImage(self.imagesDir + "/qtlogo_small.png"), 1000, 1000, None, True, 0.5
+        )
         self.companyLogo.setZValue(100)
         self.qtLogo.setZValue(100)
-        self.pausedLabel = DemoTextItem("PAUSED", Colors.buttonFont(),
-                Qt.white, -1, None)
+        self.pausedLabel = DemoTextItem(
+            "PAUSED", Colors.buttonFont(), Qt.white, -1, None
+        )
         self.pausedLabel.setZValue(100)
         fm = QFontMetricsF(Colors.buttonFont())
-        self.pausedLabel.setPos(Colors.stageWidth - fm.width("PAUSED"),
-                590 - fm.height())
+        self.pausedLabel.setPos(
+            Colors.stageWidth - fm.width("PAUSED"), 590 - fm.height()
+        )
         self.pausedLabel.setRecursiveVisible(False)
 
     def checkAdapt(self):
-        if self.doneAdapt or Colors.noTimerUpdate or self.demoStartTime.elapsed() < 2000:
+        if (
+            self.doneAdapt
+            or Colors.noTimerUpdate
+            or self.demoStartTime.elapsed() < 2000
+        ):
             return
 
         self.doneAdapt = True
@@ -292,7 +324,7 @@ class MainWindow(QGraphicsView):
         self.background.fill(Qt.black)
         painter = QPainter(self.background)
 
-        bg = QImage(self.imagesDir + '/demobg.png')
+        bg = QImage(self.imagesDir + "/demobg.png")
         painter.drawImage(0, 0, bg)
 
     def drawBackground(self, painter, rect):
@@ -320,26 +352,26 @@ class MainWindow(QGraphicsView):
             w = QWidget()
             s += "\nColor bit depth: %d" % w.depth()
             s += "\nWanted FPS: %d" % Colors.fps
-            s += "\nBenchmarked FPS: ";
+            s += "\nBenchmarked FPS: "
             if Colors.benchmarkFps != -1:
                 s += "%d" % Colors.benchmarkFps
             else:
                 s += "not calculated"
-            s += "\nAnimations: ";
+            s += "\nAnimations: "
             s += ["on", "off"][Colors.noAnimations]
-            s += "\nBlending: ";
+            s += "\nBlending: "
             s += ["on", "off"][Colors.useEightBitPalette]
-            s += "\nTicker: ";
+            s += "\nTicker: "
             s += ["on", "off"][Colors.noTicker]
-            s += "\nPixmaps: ";
+            s += "\nPixmaps: "
             s += ["off", "on"][Colors.usePixmaps]
-            s += "\nRescale images on resize: ";
+            s += "\nRescale images on resize: "
             s += ["on", "off"][Colors.noRescale]
-            s += "\nTimer based updates: ";
+            s += "\nTimer based updates: "
             s += ["on", "off"][Colors.noTimerUpdate]
-            s += "\nSeparate loop: ";
+            s += "\nSeparate loop: "
             s += ["no", "yes"][Colors.useLoop]
-            s += "\nScreen sync: ";
+            s += "\nScreen sync: "
             s += ["yes", "no"][Colors.noScreenSync]
             QMessageBox.information(None, "Current configuration", s)
 
@@ -382,8 +414,9 @@ class MainWindow(QGraphicsView):
         if self.companyLogo:
             r = self.scene.sceneRect()
             ttb = self.companyLogo.boundingRect()
-            self.companyLogo.setPos(int((r.width() - ttb.width()) / 2),
-                    595 - ttb.height())
+            self.companyLogo.setPos(
+                int((r.width() - ttb.width()) / 2), 595 - ttb.height()
+            )
             qtb = self.qtLogo.boundingRect()
             self.qtLogo.setPos(802 - qtb.width(), 0)
 

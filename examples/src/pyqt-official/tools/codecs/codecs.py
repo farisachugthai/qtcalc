@@ -43,15 +43,26 @@
 
 
 from PyQt5.QtCore import QFile, QRegExp, QTextCodec, QTextStream
-from PyQt5.QtWidgets import (QAction, QApplication, QComboBox, QDialog,
-        QDialogButtonBox, QFileDialog, QGridLayout, QLabel, QMainWindow, QMenu,
-        QMessageBox, QTextEdit)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QFileDialog,
+    QGridLayout,
+    QLabel,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QTextEdit,
+)
 
 
 def codec_name(codec):
     try:
         # Python v3.
-        name = str(codec.name(), encoding='ascii')
+        name = str(codec.name(), encoding="ascii")
     except TypeError:
         # Python v2.
         name = str(codec.name())
@@ -85,8 +96,11 @@ class MainWindow(QMainWindow):
         if fileName:
             inFile = QFile(fileName)
             if not inFile.open(QFile.ReadOnly):
-                QMessageBox.warning(self, "Codecs",
-                        "Cannot read file %s:\n%s" % (fileName, inFile.errorString()))
+                QMessageBox.warning(
+                    self,
+                    "Codecs",
+                    "Cannot read file %s:\n%s" % (fileName, inFile.errorString()),
+                )
                 return
 
             data = inFile.readAll()
@@ -99,9 +113,12 @@ class MainWindow(QMainWindow):
         fileName, _ = QFileDialog.getSaveFileName(self)
         if fileName:
             outFile = QFile(fileName)
-            if not outFile.open(QFile.WriteOnly|QFile.Text):
-                QMessageBox.warning(self, "Codecs",
-                        "Cannot write file %s:\n%s" % (fileName, outFile.errorString()))
+            if not outFile.open(QFile.WriteOnly | QFile.Text):
+                QMessageBox.warning(
+                    self,
+                    "Codecs",
+                    "Cannot write file %s:\n%s" % (fileName, outFile.errorString()),
+                )
                 return
 
             action = self.sender()
@@ -112,9 +129,12 @@ class MainWindow(QMainWindow):
             out << self.textEdit.toPlainText()
 
     def about(self):
-        QMessageBox.about(self, "About Codecs",
-                "The <b>Codecs</b> example demonstrates how to read and "
-                "write files using various encodings.")
+        QMessageBox.about(
+            self,
+            "About Codecs",
+            "The <b>Codecs</b> example demonstrates how to read and "
+            "write files using various encodings.",
+        )
 
     def aboutToShowSaveAsMenu(self):
         currentText = self.textEdit.toPlainText()
@@ -126,16 +146,16 @@ class MainWindow(QMainWindow):
 
     def findCodecs(self):
         codecMap = []
-        iso8859RegExp = QRegExp('ISO[- ]8859-([0-9]+).*')
+        iso8859RegExp = QRegExp("ISO[- ]8859-([0-9]+).*")
 
         for mib in QTextCodec.availableMibs():
             codec = QTextCodec.codecForMib(mib)
             sortKey = codec_name(codec).upper()
             rank = 0
 
-            if sortKey.startswith('UTF-8'):
+            if sortKey.startswith("UTF-8"):
                 rank = 1
-            elif sortKey.startswith('UTF-16'):
+            elif sortKey.startswith("UTF-16"):
                 rank = 2
             elif iso8859RegExp.exactMatch(sortKey):
                 if len(iso8859RegExp.cap(1)) == 1:
@@ -151,23 +171,22 @@ class MainWindow(QMainWindow):
         self.codecs = [item[-1] for item in codecMap]
 
     def createActions(self):
-        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O",
-                triggered=self.open)
+        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
         for codec in self.codecs:
             name = codec_name(codec)
 
-            action = QAction(name + '...', self, triggered=self.save)
+            action = QAction(name + "...", self, triggered=self.save)
             action.setData(name)
             self.saveAsActs.append(action)
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                triggered=self.close)
+        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q", triggered=self.close)
 
         self.aboutAct = QAction("&About", self, triggered=self.about)
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt", self, triggered=QApplication.instance().aboutQt
+        )
 
     def createMenus(self):
         self.saveAsMenu = QMenu("&Save As", self)
@@ -243,7 +262,7 @@ class PreviewForm(QDialog):
         self.textEdit.setPlainText(self.decodedStr)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

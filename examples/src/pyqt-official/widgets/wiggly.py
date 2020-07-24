@@ -44,8 +44,7 @@
 
 from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QColor, QFontMetrics, QPainter, QPalette
-from PyQt5.QtWidgets import (QApplication, QDialog, QLineEdit, QVBoxLayout,
-        QWidget)
+from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit, QVBoxLayout, QWidget
 
 
 class WigglyWidget(QWidget):
@@ -60,13 +59,30 @@ class WigglyWidget(QWidget):
         self.setFont(newFont)
 
         self.timer = QBasicTimer()
-        self.text = ''
+        self.text = ""
 
-        self.step = 0;
-        self.timer.start(60, self)   
+        self.step = 0
+        self.timer.start(60, self)
 
     def paintEvent(self, event):
-        sineTable = (0, 38, 71, 92, 100, 92, 71, 38, 0, -38, -71, -92, -100, -92, -71, -38)
+        sineTable = (
+            0,
+            38,
+            71,
+            92,
+            100,
+            92,
+            71,
+            38,
+            0,
+            -38,
+            -71,
+            -92,
+            -100,
+            -92,
+            -71,
+            -38,
+        )
 
         metrics = QFontMetrics(self.font())
         x = (self.width() - metrics.width(self.text)) / 2
@@ -113,11 +129,11 @@ class Dialog(QDialog):
         self.resize(360, 145)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     dialog = Dialog()
-    dialog.show();
-    sys.exit(app.exec_())    
+    dialog.show()
+    sys.exit(app.exec_())

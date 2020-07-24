@@ -43,9 +43,22 @@
 
 
 from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtWidgets import (QApplication, QBoxLayout, QCheckBox, QComboBox,
-        QDial, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QScrollBar,
-        QSlider, QSpinBox, QStackedWidget, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QBoxLayout,
+    QCheckBox,
+    QComboBox,
+    QDial,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QScrollBar,
+    QSlider,
+    QSpinBox,
+    QStackedWidget,
+    QWidget,
+)
 
 
 class SlidersGroup(QGroupBox):
@@ -81,25 +94,25 @@ class SlidersGroup(QGroupBox):
         slidersLayout.addWidget(self.slider)
         slidersLayout.addWidget(self.scrollBar)
         slidersLayout.addWidget(self.dial)
-        self.setLayout(slidersLayout)    
+        self.setLayout(slidersLayout)
 
-    def setValue(self, value):    
-        self.slider.setValue(value)    
+    def setValue(self, value):
+        self.slider.setValue(value)
 
-    def setMinimum(self, value):    
+    def setMinimum(self, value):
         self.slider.setMinimum(value)
         self.scrollBar.setMinimum(value)
-        self.dial.setMinimum(value)    
+        self.dial.setMinimum(value)
 
-    def setMaximum(self, value):    
+    def setMaximum(self, value):
         self.slider.setMaximum(value)
         self.scrollBar.setMaximum(value)
-        self.dial.setMaximum(value)    
+        self.dial.setMaximum(value)
 
     def invertAppearance(self, invert):
         self.slider.setInvertedAppearance(invert)
         self.scrollBar.setInvertedAppearance(invert)
-        self.dial.setInvertedAppearance(invert)    
+        self.dial.setInvertedAppearance(invert)
 
     def invertKeyBindings(self, invert):
         self.slider.setInvertedControls(invert)
@@ -111,8 +124,7 @@ class Window(QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        self.horizontalSliders = SlidersGroup(Qt.Horizontal,
-                "Horizontal")
+        self.horizontalSliders = SlidersGroup(Qt.Horizontal, "Horizontal")
         self.verticalSliders = SlidersGroup(Qt.Vertical, "Vertical")
 
         self.stackedWidget = QStackedWidget()
@@ -185,7 +197,7 @@ class Window(QWidget):
         self.controlsGroup.setLayout(controlsLayout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

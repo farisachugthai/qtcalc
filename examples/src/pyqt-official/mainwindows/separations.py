@@ -43,17 +43,45 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QBuffer, QByteArray, QFileInfo,
-        QIODevice, QMimeData, QPoint, QSize, Qt)
-from PyQt5.QtGui import (qBlue, QColor, QDrag, qGreen, QImage, QKeySequence,
-        QPalette, QPixmap, qRed)
-from PyQt5.QtWidgets import (QApplication, QColorDialog, QFileDialog, QFrame,
-        QGridLayout, QLabel, QLayout, QMainWindow, QMenu, QMessageBox,
-        QPushButton, QVBoxLayout)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QBuffer,
+    QByteArray,
+    QFileInfo,
+    QIODevice,
+    QMimeData,
+    QPoint,
+    QSize,
+    Qt,
+)
+from PyQt5.QtGui import (
+    qBlue,
+    QColor,
+    QDrag,
+    qGreen,
+    QImage,
+    QKeySequence,
+    QPalette,
+    QPixmap,
+    qRed,
+)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QColorDialog,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QLabel,
+    QLayout,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+)
 
 
 class FinalWidget(QFrame):
-
     def __init__(self, parent, name, labelSize):
         super(FinalWidget, self).__init__(parent)
 
@@ -78,8 +106,9 @@ class FinalWidget(QFrame):
         if not event.buttons() & Qt.LeftButton:
             return
 
-        if (event.pos() - self.dragStartPosition).manhattanLength() \
-             < QApplication.startDragDistance():
+        if (
+            event.pos() - self.dragStartPosition
+        ).manhattanLength() < QApplication.startDragDistance():
             return
 
         if not self.hasImage:
@@ -91,14 +120,13 @@ class FinalWidget(QFrame):
         output = QByteArray()
         outputBuffer = QBuffer(output)
         outputBuffer.open(QIODevice.WriteOnly)
-        self.imageLabel.pixmap().toImage().save(outputBuffer, 'PNG')
+        self.imageLabel.pixmap().toImage().save(outputBuffer, "PNG")
         outputBuffer.close()
-        mimeData.setData('image/png', output)
+        mimeData.setData("image/png", output)
 
         drag.setMimeData(mimeData)
         drag.setPixmap(self.imageLabel.pixmap().scaled(64, 64, Qt.KeepAspectRatio))
-        drag.setHotSpot(QPoint(drag.pixmap().width() / 2,
-                                      drag.pixmap().height()))
+        drag.setHotSpot(QPoint(drag.pixmap().width() / 2, drag.pixmap().height()))
         drag.start()
 
     def mousePressEvent(self, event):
@@ -198,7 +226,8 @@ class ScreenWidget(QFrame):
                 newColor = QColor(
                     255 - min(int(amount * cyanInk), 255),
                     255 - min(int(amount * magentaInk), 255),
-                    255 - min(int(amount * yellowInk), 255))
+                    255 - min(int(amount * yellowInk), 255),
+                )
 
                 newImage.setPixel(x, y, newColor.rgb())
 
@@ -263,7 +292,7 @@ class Viewer(QMainWindow):
 
         self.scaledImage = QImage()
         self.menuMap = {}
-        self.path = ''
+        self.path = ""
         self.brightness = 255
 
         self.setWindowTitle("QImage Color Separations")
@@ -282,12 +311,12 @@ class Viewer(QMainWindow):
         self.brightnessMenu = QMenu("&Brightness", self)
 
         self.openAction = self.fileMenu.addAction("&Open...")
-        self.openAction.setShortcut(QKeySequence('Ctrl+O'))
+        self.openAction.setShortcut(QKeySequence("Ctrl+O"))
         self.saveAction = self.fileMenu.addAction("&Save...")
-        self.saveAction.setShortcut(QKeySequence('Ctrl+S'))
+        self.saveAction.setShortcut(QKeySequence("Ctrl+S"))
         self.saveAction.setEnabled(False)
         self.quitAction = self.fileMenu.addAction("E&xit")
-        self.quitAction.setShortcut(QKeySequence('Ctrl+Q'))
+        self.quitAction.setShortcut(QKeySequence("Ctrl+Q"))
 
         self.noBrightness = self.brightnessMenu.addAction("&0%")
         self.noBrightness.setCheckable(True)
@@ -335,12 +364,15 @@ class Viewer(QMainWindow):
 
         self.finalWidget = FinalWidget(frame, "Final image", labelSize)
 
-        self.cyanWidget = ScreenWidget(frame, Qt.cyan, "Cyan",
-                ScreenWidget.Cyan, labelSize)
-        self.magentaWidget = ScreenWidget(frame, Qt.magenta, "Magenta",
-                ScreenWidget.Magenta, labelSize)
-        self.yellowWidget = ScreenWidget(frame, Qt.yellow, "Yellow",
-                ScreenWidget.Yellow, labelSize)
+        self.cyanWidget = ScreenWidget(
+            frame, Qt.cyan, "Cyan", ScreenWidget.Cyan, labelSize
+        )
+        self.magentaWidget = ScreenWidget(
+            frame, Qt.magenta, "Magenta", ScreenWidget.Magenta, labelSize
+        )
+        self.yellowWidget = ScreenWidget(
+            frame, Qt.yellow, "Yellow", ScreenWidget.Yellow, labelSize
+        )
 
         self.cyanWidget.imageChanged.connect(self.createImage)
         self.magentaWidget.imageChanged.connect(self.createImage)
@@ -358,10 +390,11 @@ class Viewer(QMainWindow):
             If a file is selected, the appropriate function is called to process
             and display it.
         """
-        imageFile, _ = QFileDialog.getOpenFileName(self,
-                "Choose an image file to open", self.path, "Images (*.*)")
+        imageFile, _ = QFileDialog.getOpenFileName(
+            self, "Choose an image file to open", self.path, "Images (*.*)"
+        )
 
-        if imageFile != '':
+        if imageFile != "":
             self.openImageFile(imageFile)
             self.path = imageFile
 
@@ -404,10 +437,14 @@ class Viewer(QMainWindow):
             self.yellowWidget.setImage(self.scaledImage)
             self.createImage()
         else:
-            QMessageBox.warning(self, "Cannot open file",
-                    "The selected file could not be opened.",
-                    QMessageBox.Cancel, QMessageBox.NoButton,
-                    QMessageBox.NoButton)
+            QMessageBox.warning(
+                self,
+                "Cannot open file",
+                "The selected file could not be opened.",
+                QMessageBox.Cancel,
+                QMessageBox.NoButton,
+                QMessageBox.NoButton,
+            )
 
     def createImage(self):
         """ Creates an image by combining the contents of the three screens
@@ -447,7 +484,8 @@ class Viewer(QMainWindow):
                 newColor = QColor(
                     max(255 - int(cyan1 + cyan2 + cyan3) - darkness, 0),
                     max(255 - int(magenta1 + magenta2 + magenta3) - darkness, 0),
-                    max(255 - int(yellow1 + yellow2 + yellow3) - darkness, 0))
+                    max(255 - int(yellow1 + yellow2 + yellow3) - darkness, 0),
+                )
 
                 newImage.setPixel(x, y, newColor.rgb())
 
@@ -456,27 +494,38 @@ class Viewer(QMainWindow):
     def saveImage(self):
         """ Provides a dialog window to allow the user to save the image file.
         """
-        imageFile, _ = QFileDialog.getSaveFileName(self,
-                "Choose a filename to save the image", "", "Images (*.png)")
+        imageFile, _ = QFileDialog.getSaveFileName(
+            self, "Choose a filename to save the image", "", "Images (*.png)"
+        )
 
         info = QFileInfo(imageFile)
 
-        if info.baseName() != '':
-            newImageFile = QFileInfo(info.absoluteDir(),
-                    info.baseName() + '.png').absoluteFilePath()
+        if info.baseName() != "":
+            newImageFile = QFileInfo(
+                info.absoluteDir(), info.baseName() + ".png"
+            ).absoluteFilePath()
 
-            if not self.finalWidget.pixmap().save(newImageFile, 'PNG'):
-                QMessageBox.warning(self, "Cannot save file",
-                        "The file could not be saved.",
-                        QMessageBox.Cancel, QMessageBox.NoButton,
-                        QMessageBox.NoButton)
+            if not self.finalWidget.pixmap().save(newImageFile, "PNG"):
+                QMessageBox.warning(
+                    self,
+                    "Cannot save file",
+                    "The file could not be saved.",
+                    QMessageBox.Cancel,
+                    QMessageBox.NoButton,
+                    QMessageBox.NoButton,
+                )
         else:
-            QMessageBox.warning(self, "Cannot save file",
-                    "Please enter a valid filename.", QMessageBox.Cancel,
-                    QMessageBox.NoButton, QMessageBox.NoButton)
+            QMessageBox.warning(
+                self,
+                "Cannot save file",
+                "Please enter a valid filename.",
+                QMessageBox.Cancel,
+                QMessageBox.NoButton,
+                QMessageBox.NoButton,
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

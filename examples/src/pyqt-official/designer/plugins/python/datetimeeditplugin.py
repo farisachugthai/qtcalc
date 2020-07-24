@@ -1,6 +1,6 @@
-#============================================================================#
+# ============================================================================#
 # Designer plugins for PyDateEdit and PyDateTimeEdit                         #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 # Copyright (c) 2008 by Denviso GmbH, <ulrich.berning@denviso.de>            #
 #                                                                            #
 # All Rights Reserved                                                        #
@@ -19,7 +19,7 @@
 # WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER                      #
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE              #
 # OR PERFORMANCE OF THIS SOFTWARE.                                           #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 
 
 from PyQt5.QtGui import QIcon
@@ -28,17 +28,16 @@ from PyQt5.QtDesigner import QPyDesignerCustomWidgetPlugin
 from datetimeedit import PyDateEdit, PyDateTimeEdit
 
 
-#============================================================================#
+# ============================================================================#
 # The group name in designer widgetbox                                       #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 DESIGNER_GROUP_NAME = "PyQt Examples"
 
 
-#============================================================================#
+# ============================================================================#
 # Plugin for PyDateEdit                                                      #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 class PyDateEditPlugin(QPyDesignerCustomWidgetPlugin):
-
     def __init__(self, parent=None):
         super(PyDateEditPlugin, self).__init__(parent)
 
@@ -60,10 +59,10 @@ class PyDateEditPlugin(QPyDesignerCustomWidgetPlugin):
 
     def domXml(self):
         return '<widget class="PyDateEdit" name="pyDateEdit">\n</widget>\n'
-    
+
     def group(self):
         return DESIGNER_GROUP_NAME
-              
+
     def includeFile(self):
         return "datetimeedit"
 
@@ -80,11 +79,10 @@ class PyDateEditPlugin(QPyDesignerCustomWidgetPlugin):
         return PyDateEdit(parent)
 
 
-#============================================================================#
+# ============================================================================#
 # Plugin for PyDateTimeEdit                                                  #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 class PyDateTimeEditPlugin(QPyDesignerCustomWidgetPlugin):
-
     def __init__(self, parent=None):
         super(PyDateTimeEditPlugin, self).__init__(parent)
 
@@ -106,10 +104,10 @@ class PyDateTimeEditPlugin(QPyDesignerCustomWidgetPlugin):
 
     def domXml(self):
         return '<widget class="PyDateTimeEdit" name="pyDateTimeEdit">\n</widget>\n'
-    
+
     def group(self):
         return DESIGNER_GROUP_NAME
-              
+
     def includeFile(self):
         return "datetimeedit"
 

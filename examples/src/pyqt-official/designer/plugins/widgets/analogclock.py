@@ -42,8 +42,16 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtProperty, pyqtSignal, pyqtSlot, QPoint, QSize,
-        Qt, QTime, QTimer)
+from PyQt5.QtCore import (
+    pyqtProperty,
+    pyqtSignal,
+    pyqtSlot,
+    QPoint,
+    QSize,
+    Qt,
+    QTime,
+    QTimer,
+)
 from PyQt5.QtGui import QBrush, QColor, QPainter, QPen, QPolygon
 from PyQt5.QtWidgets import QApplication, QWidget
 
@@ -76,16 +84,8 @@ class PyAnalogClock(QWidget):
         self.setWindowTitle("Analog Clock")
         self.resize(200, 200)
 
-        self.hourHand = QPolygon([
-            QPoint(7, 8),
-            QPoint(-7, 8),
-            QPoint(0, -40)
-        ])
-        self.minuteHand = QPolygon([
-            QPoint(7, 8),
-            QPoint(-7, 8),
-            QPoint(0, -70)
-        ])
+        self.hourHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -40)])
+        self.minuteHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -70)])
 
         self.hourColor = QColor(0, 127, 0)
         self.minuteColor = QColor(0, 127, 127, 191)

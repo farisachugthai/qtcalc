@@ -47,8 +47,7 @@ import math
 
 from PyQt5.QtCore import pyqtSignal, QPoint, QSize, Qt
 from PyQt5.QtGui import QColor, QOpenGLVersionProfile
-from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QOpenGLWidget, QSlider,
-        QWidget)
+from PyQt5.QtWidgets import QApplication, QHBoxLayout, QOpenGLWidget, QSlider, QWidget
 
 
 class Window(QWidget):
@@ -151,8 +150,7 @@ class GLWidget(QOpenGLWidget):
         self.gl.glEnable(self.gl.GL_CULL_FACE)
 
     def paintGL(self):
-        self.gl.glClear(
-                self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
+        self.gl.glClear(self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
         self.gl.glLoadIdentity()
         self.gl.glTranslated(0.0, 0.0, -10.0)
         self.gl.glRotated(self.xRot / 16.0, 1.0, 0.0, 0.0)
@@ -165,8 +163,7 @@ class GLWidget(QOpenGLWidget):
         if side < 0:
             return
 
-        self.gl.glViewport((width - side) // 2, (height - side) // 2, side,
-                side)
+        self.gl.glViewport((width - side) // 2, (height - side) // 2, side, side)
 
         self.gl.glMatrixMode(self.gl.GL_PROJECTION)
         self.gl.glLoadIdentity()
@@ -275,7 +272,7 @@ class GLWidget(QOpenGLWidget):
         self.gl.glColor4f(c.redF(), c.greenF(), c.blueF(), c.alphaF())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     window = Window()

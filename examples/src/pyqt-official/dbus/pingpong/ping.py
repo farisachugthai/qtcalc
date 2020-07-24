@@ -48,20 +48,23 @@ from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface, QDBusReply
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QCoreApplication(sys.argv)
 
     if not QDBusConnection.sessionBus().isConnected():
-        sys.stderr.write("Cannot connect to the D-Bus session bus.\n"
-                "To start it, run:\n"
-                "\teval `dbus-launch --auto-syntax`\n");
+        sys.stderr.write(
+            "Cannot connect to the D-Bus session bus.\n"
+            "To start it, run:\n"
+            "\teval `dbus-launch --auto-syntax`\n"
+        )
         sys.exit(1)
 
-    iface = QDBusInterface('org.example.QtDBus.PingExample', '/', '',
-            QDBusConnection.sessionBus())
+    iface = QDBusInterface(
+        "org.example.QtDBus.PingExample", "/", "", QDBusConnection.sessionBus()
+    )
 
     if iface.isValid():
-        msg = iface.call('ping', sys.argv[1] if len(sys.argv) > 1 else "")
+        msg = iface.call("ping", sys.argv[1] if len(sys.argv) > 1 else "")
         reply = QDBusReply(msg)
 
         if reply.isValid():

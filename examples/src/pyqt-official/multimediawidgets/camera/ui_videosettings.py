@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_VideoSettingsUi(object):
     def setupUi(self, VideoSettingsUi):
         VideoSettingsUi.setObjectName("VideoSettingsUi")
@@ -88,11 +89,15 @@ class Ui_VideoSettingsUi(object):
         self.gridLayout_3.addWidget(self.containerFormatBox, 2, 0, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_4.addWidget(self.scrollArea, 0, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 14, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 14, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_4.addItem(spacerItem, 1, 0, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(VideoSettingsUi)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout_4.addWidget(self.buttonBox, 2, 0, 1, 1)
 
@@ -114,4 +119,3 @@ class Ui_VideoSettingsUi(object):
         self.label_6.setText(_translate("VideoSettingsUi", "Video Codec:"))
         self.label_7.setText(_translate("VideoSettingsUi", "Quality:"))
         self.label_4.setText(_translate("VideoSettingsUi", "Container Format:"))
-

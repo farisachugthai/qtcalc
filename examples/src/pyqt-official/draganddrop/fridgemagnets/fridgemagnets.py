@@ -42,10 +42,28 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QByteArray, QDataStream, QFile, QIODevice, QMimeData,
-        QPoint, QRect, QRectF, Qt, QTextStream)
-from PyQt5.QtGui import (QDrag, QFont, QFontMetrics, QImage, QPainter,
-        QPalette, QPixmap, qRgba)
+from PyQt5.QtCore import (
+    QByteArray,
+    QDataStream,
+    QFile,
+    QIODevice,
+    QMimeData,
+    QPoint,
+    QRect,
+    QRectF,
+    Qt,
+    QTextStream,
+)
+from PyQt5.QtGui import (
+    QDrag,
+    QFont,
+    QFontMetrics,
+    QImage,
+    QPainter,
+    QPalette,
+    QPixmap,
+    qRgba,
+)
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 
 import fridgemagnets_rc
@@ -58,8 +76,9 @@ class DragLabel(QLabel):
         metric = QFontMetrics(self.font())
         size = metric.size(Qt.TextSingleLine, text)
 
-        image = QImage(size.width() + 12, size.height() + 12,
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(
+            size.width() + 12, size.height() + 12, QImage.Format_ARGB32_Premultiplied
+        )
         image.fill(qRgba(0, 0, 0, 0))
 
         font = QFont()
@@ -70,8 +89,11 @@ class DragLabel(QLabel):
         painter.setRenderHint(QPainter.Antialiasing)
         painter.setBrush(Qt.white)
         painter.drawRoundedRect(
-                QRectF(0.5, 0.5, image.width()-1, image.height()-1),
-                25, 25, Qt.RelativeSize)
+            QRectF(0.5, 0.5, image.width() - 1, image.height() - 1),
+            25,
+            25,
+            Qt.RelativeSize,
+        )
 
         painter.setFont(font)
         painter.setBrush(Qt.black)
@@ -84,10 +106,12 @@ class DragLabel(QLabel):
     def mousePressEvent(self, event):
         itemData = QByteArray()
         dataStream = QDataStream(itemData, QIODevice.WriteOnly)
-        dataStream << QByteArray(self.labelText) << QPoint(event.pos() - self.rect().topLeft())
+        dataStream << QByteArray(self.labelText) << QPoint(
+            event.pos() - self.rect().topLeft()
+        )
 
         mimeData = QMimeData()
-        mimeData.setData('application/x-fridgemagnet', itemData)
+        mimeData.setData("application/x-fridgemagnet", itemData)
         mimeData.setText(self.labelText)
 
         drag = QDrag(self)
@@ -107,7 +131,7 @@ class DragWidget(QWidget):
     def __init__(self, parent=None):
         super(DragWidget, self).__init__(parent)
 
-        dictionaryFile = QFile(':/dictionary/words.txt')
+        dictionaryFile = QFile(":/dictionary/words.txt")
         dictionaryFile.open(QFile.ReadOnly)
 
         x = 5
@@ -131,7 +155,7 @@ class DragWidget(QWidget):
         self.setAcceptDrops(True)
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasFormat('application/x-fridgemagnet'):
+        if event.mimeData().hasFormat("application/x-fridgemagnet"):
             if event.source() in self.children():
                 event.setDropAction(Qt.MoveAction)
                 event.accept()
@@ -145,9 +169,9 @@ class DragWidget(QWidget):
     dragMoveEvent = dragEnterEvent
 
     def dropEvent(self, event):
-        if event.mimeData().hasFormat('application/x-fridgemagnet'):
+        if event.mimeData().hasFormat("application/x-fridgemagnet"):
             mime = event.mimeData()
-            itemData = mime.data('application/x-fridgemagnet')
+            itemData = mime.data("application/x-fridgemagnet")
             dataStream = QDataStream(itemData, QIODevice.ReadOnly)
 
             text = QByteArray()
@@ -156,7 +180,7 @@ class DragWidget(QWidget):
 
             try:
                 # Python v3.
-                text = str(text, encoding='latin1')
+                text = str(text, encoding="latin1")
             except TypeError:
                 # Python v2.
                 text = str(text)
@@ -186,7 +210,7 @@ class DragWidget(QWidget):
             event.ignore()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -71,7 +71,7 @@ class DemoItem(QGraphicsObject):
 
         self._sharedImage = SharedImage()
         self._sharedImage.refCount += 1
-        self._hashKey = ''
+        self._hashKey = ""
 
     def __del__(self):
         self._sharedImage.refCount -= 1
@@ -157,7 +157,9 @@ class DemoItem(QGraphicsObject):
         return None
 
     def _validateImage(self):
-        if (self._sharedImage.transform != DemoItem._transform and not Colors.noRescale) or (self._sharedImage.image is None and self._sharedImage.pixmap is None):
+        if (
+            self._sharedImage.transform != DemoItem._transform and not Colors.noRescale
+        ) or (self._sharedImage.image is None and self._sharedImage.pixmap is None):
             # (Re)create image according to new transform.
             self._sharedImage.image = None
             self._sharedImage.pixmap = None
@@ -177,7 +179,11 @@ class DemoItem(QGraphicsObject):
                     painter.fillRect(image.rect(), QColor(255, 0, 0, 50))
                     painter.end()
 
-                self._sharedImage.unscaledBoundingRect = self._sharedImage.transform.inverted()[0].mapRect(QRectF(image.rect()))
+                self._sharedImage.unscaledBoundingRect = self._sharedImage.transform.inverted()[
+                    0
+                ].mapRect(
+                    QRectF(image.rect())
+                )
 
                 if Colors.usePixmaps:
                     if image.isNull():
@@ -203,7 +209,9 @@ class DemoItem(QGraphicsObject):
 
     def paint(self, painter, option=None, widget=None):
         if self._validateImage():
-            wasSmoothPixmapTransform = painter.testRenderHint(QPainter.SmoothPixmapTransform)
+            wasSmoothPixmapTransform = painter.testRenderHint(
+                QPainter.SmoothPixmapTransform
+            )
             painter.setRenderHint(QPainter.SmoothPixmapTransform)
 
             if Colors.noRescale:
@@ -229,8 +237,7 @@ class DemoItem(QGraphicsObject):
                     painter.drawPixmap(QPointF(x, y), self._sharedImage.pixmap)
 
             if not wasSmoothPixmapTransform:
-                painter.setRenderHint(QPainter.SmoothPixmapTransform,
-                        False)
+                painter.setRenderHint(QPainter.SmoothPixmapTransform, False)
 
     def collidesWithItem(self, item, mode):
         return False

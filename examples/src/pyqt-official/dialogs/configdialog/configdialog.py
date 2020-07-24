@@ -44,10 +44,26 @@
 
 from PyQt5.QtCore import QDate, QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateTimeEdit,
-        QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
-        QListView, QListWidget, QListWidgetItem, QPushButton, QSpinBox,
-        QStackedWidget, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QDateTimeEdit,
+    QDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListView,
+    QListWidget,
+    QListWidgetItem,
+    QPushButton,
+    QSpinBox,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 import configdialog_rc
 
@@ -215,19 +231,19 @@ class ConfigDialog(QDialog):
 
     def createIcons(self):
         configButton = QListWidgetItem(self.contentsWidget)
-        configButton.setIcon(QIcon(':/images/config.png'))
+        configButton.setIcon(QIcon(":/images/config.png"))
         configButton.setText("Configuration")
         configButton.setTextAlignment(Qt.AlignHCenter)
         configButton.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
 
         updateButton = QListWidgetItem(self.contentsWidget)
-        updateButton.setIcon(QIcon(':/images/update.png'))
+        updateButton.setIcon(QIcon(":/images/update.png"))
         updateButton.setText("Update")
         updateButton.setTextAlignment(Qt.AlignHCenter)
         updateButton.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
 
         queryButton = QListWidgetItem(self.contentsWidget)
-        queryButton.setIcon(QIcon(':/images/query.png'))
+        queryButton.setIcon(QIcon(":/images/query.png"))
         queryButton.setText("Query")
         queryButton.setTextAlignment(Qt.AlignHCenter)
         queryButton.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -235,10 +251,10 @@ class ConfigDialog(QDialog):
         self.contentsWidget.currentItemChanged.connect(self.changePage)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     dialog = ConfigDialog()
-    sys.exit(dialog.exec_())    
+    sys.exit(dialog.exec_())

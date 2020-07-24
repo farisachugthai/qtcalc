@@ -47,7 +47,7 @@ from PyQt5.uic import loadUiType
 
 
 app = QApplication(sys.argv)
-form_class, base_class = loadUiType('demo.ui')
+form_class, base_class = loadUiType("demo.ui")
 
 
 class DemoImpl(QDialog, form_class):
@@ -55,7 +55,7 @@ class DemoImpl(QDialog, form_class):
         super(DemoImpl, self).__init__(*args)
 
         self.setupUi(self)
-    
+
     @pyqtSlot()
     def on_button1_clicked(self):
         for s in "This is a demo".split(" "):

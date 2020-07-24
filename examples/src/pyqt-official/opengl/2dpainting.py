@@ -46,17 +46,23 @@ import sys
 import math
 
 from PyQt5.QtCore import QPointF, QRect, QRectF, Qt, QTimer
-from PyQt5.QtGui import (QBrush, QColor, QFont, QLinearGradient, QPainter,
-        QPen, QSurfaceFormat)
-from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QOpenGLWidget,
-        QWidget)
+from PyQt5.QtGui import (
+    QBrush,
+    QColor,
+    QFont,
+    QLinearGradient,
+    QPainter,
+    QPen,
+    QSurfaceFormat,
+)
+from PyQt5.QtWidgets import QApplication, QGridLayout, QLabel, QOpenGLWidget, QWidget
 
 
 class Helper(object):
     def __init__(self):
         gradient = QLinearGradient(QPointF(50, -20), QPointF(80, 20))
         gradient.setColorAt(0.0, Qt.white)
-        gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39))
+        gradient.setColorAt(1.0, QColor(0xA6, 0xCE, 0x39))
 
         self.background = QBrush(QColor(64, 32, 64))
         self.circleBrush = QBrush(gradient)
@@ -79,10 +85,11 @@ class Helper(object):
         n = 30
         for i in range(n):
             painter.rotate(30)
-            radius = 0 + 120.0*((i+r)/n)
-            circleRadius = 1 + ((i+r)/n)*20
-            painter.drawEllipse(QRectF(radius, -circleRadius,
-                    circleRadius*2, circleRadius*2))
+            radius = 0 + 120.0 * ((i + r) / n)
+            circleRadius = 1 + ((i + r) / n) * 20
+            painter.drawEllipse(
+                QRectF(radius, -circleRadius, circleRadius * 2, circleRadius * 2)
+            )
 
         painter.restore()
 
@@ -159,7 +166,7 @@ class Window(QWidget):
         timer.start(50)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 

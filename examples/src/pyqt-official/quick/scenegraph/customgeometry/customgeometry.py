@@ -44,8 +44,14 @@
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QPointF, QUrl
 from PyQt5.QtGui import QColor, QGuiApplication
 from PyQt5.QtQml import qmlRegisterType
-from PyQt5.QtQuick import (QQuickItem, QQuickView, QSGFlatColorMaterial,
-        QSGGeometry, QSGGeometryNode, QSGNode)
+from PyQt5.QtQuick import (
+    QQuickItem,
+    QQuickView,
+    QSGFlatColorMaterial,
+    QSGGeometry,
+    QSGGeometryNode,
+    QSGNode,
+)
 
 import customgeometry_rc
 
@@ -135,8 +141,9 @@ class BezierCurve(QQuickItem):
         if self._root_node is None:
             self._root_node = QSGGeometryNode()
 
-            geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(),
-                    self._segmentCount)
+            geometry = QSGGeometry(
+                QSGGeometry.defaultAttributes_Point2D(), self._segmentCount
+            )
             geometry.setLineWidth(2)
             geometry.setDrawingMode(QSGGeometry.GL_LINE_STRIP)
             self._root_node.setGeometry(geometry)
@@ -158,10 +165,12 @@ class BezierCurve(QQuickItem):
             t = i / float(self._segmentCount - 1)
             invt = 1 - t
 
-            pos = invt * invt * invt * self._p1 \
-                    + 3 * invt * invt * t * self._p2 \
-                    + 3 * invt * t * t * self._p3 \
-                    + t * t * t * self._p4
+            pos = (
+                invt * invt * invt * self._p1
+                + 3 * invt * invt * t * self._p2
+                + 3 * invt * t * t * self._p3
+                + t * t * t * self._p4
+            )
 
             vertices[i].set(pos.x() * w, pos.y() * h)
 
@@ -170,7 +179,7 @@ class BezierCurve(QQuickItem):
         return self._root_node
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     app = QGuiApplication(sys.argv)
@@ -182,7 +191,7 @@ if __name__ == '__main__':
     format.setSamples(16)
     view.setFormat(format)
 
-    view.setSource(QUrl('qrc:///scenegraph/customgeometry/main.qml'))
+    view.setSource(QUrl("qrc:///scenegraph/customgeometry/main.qml"))
     view.show()
 
     sys.exit(app.exec_())

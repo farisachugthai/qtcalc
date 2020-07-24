@@ -42,8 +42,16 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QMutex, QMutexLocker, QPoint, QSize, Qt,
-        QThread, QWaitCondition)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QMutex,
+    QMutexLocker,
+    QPoint,
+    QSize,
+    Qt,
+    QThread,
+    QWaitCondition,
+)
 from PyQt5.QtGui import QColor, QImage, QPainter, QPixmap, qRgb
 from PyQt5.QtWidgets import QApplication, QWidget
 
@@ -77,7 +85,9 @@ class RenderThread(QThread):
         self.abort = False
 
         for i in range(RenderThread.ColormapSize):
-            self.colormap.append(self.rgbFromWaveLength(380.0 + (i * 400.0 / RenderThread.ColormapSize)))
+            self.colormap.append(
+                self.rgbFromWaveLength(380.0 + (i * 400.0 / RenderThread.ColormapSize))
+            )
 
     def __del__(self):
         self.mutex.lock()
@@ -137,25 +147,30 @@ class RenderThread(QThread):
 
                         while numIterations < MaxIterations:
                             numIterations += 1
-                            c = c*c + c0
+                            c = c * c + c0
                             if abs(c) >= Limit:
                                 break
                             numIterations += 1
-                            c = c*c + c0
+                            c = c * c + c0
                             if abs(c) >= Limit:
                                 break
                             numIterations += 1
-                            c = c*c + c0
+                            c = c * c + c0
                             if abs(c) >= Limit:
                                 break
                             numIterations += 1
-                            c = c*c + c0
+                            c = c * c + c0
                             if abs(c) >= Limit:
                                 break
 
                         if numIterations < MaxIterations:
-                            image.setPixel(x + halfWidth, y + halfHeight,
-                                           self.colormap[numIterations % RenderThread.ColormapSize])
+                            image.setPixel(
+                                x + halfWidth,
+                                y + halfHeight,
+                                self.colormap[
+                                    numIterations % RenderThread.ColormapSize
+                                ],
+                            )
                             allBlack = False
                         else:
                             image.setPixel(x + halfWidth, y + halfHeight, qRgb(0, 0, 0))
@@ -206,7 +221,7 @@ class RenderThread(QThread):
         g = pow(g * s, 0.8)
         b = pow(b * s, 0.8)
 
-        return qRgb(r*255, g*255, b*255)
+        return qRgb(r * 255, g * 255, b * 255)
 
 
 class MandelbrotWidget(QWidget):
@@ -235,8 +250,9 @@ class MandelbrotWidget(QWidget):
 
         if self.pixmap.isNull():
             painter.setPen(Qt.white)
-            painter.drawText(self.rect(), Qt.AlignCenter,
-                    "Rendering initial image, please wait...")
+            painter.drawText(
+                self.rect(), Qt.AlignCenter, "Rendering initial image, please wait..."
+            )
             return
 
         if self.curScale == self.pixmapScale:
@@ -256,22 +272,28 @@ class MandelbrotWidget(QWidget):
             painter.drawPixmap(exposed, self.pixmap, exposed)
             painter.restore()
 
-        text = "Use mouse wheel or the '+' and '-' keys to zoom. Press and " \
-                "hold left mouse button to scroll."
+        text = (
+            "Use mouse wheel or the '+' and '-' keys to zoom. Press and "
+            "hold left mouse button to scroll."
+        )
         metrics = painter.fontMetrics()
         textWidth = metrics.width(text)
 
         painter.setPen(Qt.NoPen)
         painter.setBrush(QColor(0, 0, 0, 127))
-        painter.drawRect((self.width() - textWidth) / 2 - 5, 0, textWidth + 10,
-                metrics.lineSpacing() + 5)
+        painter.drawRect(
+            (self.width() - textWidth) / 2 - 5,
+            0,
+            textWidth + 10,
+            metrics.lineSpacing() + 5,
+        )
         painter.setPen(Qt.white)
-        painter.drawText((self.width() - textWidth) / 2,
-                metrics.leading() + metrics.ascent(), text)
+        painter.drawText(
+            (self.width() - textWidth) / 2, metrics.leading() + metrics.ascent(), text
+        )
 
     def resizeEvent(self, event):
-        self.thread.render(self.centerX, self.centerY, self.curScale,
-                self.size())
+        self.thread.render(self.centerX, self.centerY, self.curScale, self.size())
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Plus:
@@ -326,18 +348,16 @@ class MandelbrotWidget(QWidget):
     def zoom(self, zoomFactor):
         self.curScale *= zoomFactor
         self.update()
-        self.thread.render(self.centerX, self.centerY, self.curScale,
-                self.size())
+        self.thread.render(self.centerX, self.centerY, self.curScale, self.size())
 
     def scroll(self, deltaX, deltaY):
         self.centerX += deltaX * self.curScale
         self.centerY += deltaY * self.curScale
         self.update()
-        self.thread.render(self.centerX, self.centerY, self.curScale,
-                self.size())
+        self.thread.render(self.centerX, self.centerY, self.curScale, self.size())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -45,10 +45,25 @@
 from math import cos, pi, sin
 
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import (QBrush, QColor, QFont, QLinearGradient, QPainter,
-        QPainterPath, QPalette, QPen)
-from PyQt5.QtWidgets import (QApplication, QComboBox, QGridLayout, QLabel,
-        QSizePolicy, QSpinBox, QWidget)
+from PyQt5.QtGui import (
+    QBrush,
+    QColor,
+    QFont,
+    QLinearGradient,
+    QPainter,
+    QPainterPath,
+    QPalette,
+    QPen,
+)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QGridLayout,
+    QLabel,
+    QSizePolicy,
+    QSpinBox,
+    QWidget,
+)
 
 
 class RenderArea(QWidget):
@@ -97,8 +112,8 @@ class RenderArea(QWidget):
         painter.translate(-50.0, -50.0)
 
         painter.setPen(
-                QPen(self.penColor, self.penWidth, Qt.SolidLine, Qt.RoundCap,
-                        Qt.RoundJoin))
+            QPen(self.penColor, self.penWidth, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
+        )
         gradient = QLinearGradient(0, 0, 0, 100)
         gradient.setColorAt(0.0, self.fillColor1)
         gradient.setColorAt(1.0, self.fillColor2)
@@ -157,7 +172,7 @@ class Window(QWidget):
         groupPath.closeSubpath()
 
         textPath = QPainterPath()
-        timesFont = QFont('Times', 50)
+        timesFont = QFont("Times", 50)
         timesFont.setStyleStrategy(QFont.ForceOutline)
         textPath.addText(10, 70, timesFont, "Qt")
 
@@ -168,15 +183,20 @@ class Window(QWidget):
         starPath = QPainterPath()
         starPath.moveTo(90, 50)
         for i in range(1, 5):
-            starPath.lineTo(50 + 40 * cos(0.8 * i * pi),
-                    50 + 40 * sin(0.8 * i * pi))
+            starPath.lineTo(50 + 40 * cos(0.8 * i * pi), 50 + 40 * sin(0.8 * i * pi))
         starPath.closeSubpath()
 
-        self.renderAreas = [RenderArea(rectPath), RenderArea(roundRectPath),
-                RenderArea(ellipsePath), RenderArea(piePath),
-                RenderArea(polygonPath), RenderArea(groupPath),
-                RenderArea(textPath), RenderArea(bezierPath),
-                RenderArea(starPath)]
+        self.renderAreas = [
+            RenderArea(rectPath),
+            RenderArea(roundRectPath),
+            RenderArea(ellipsePath),
+            RenderArea(piePath),
+            RenderArea(polygonPath),
+            RenderArea(groupPath),
+            RenderArea(textPath),
+            RenderArea(bezierPath),
+            RenderArea(starPath),
+        ]
         assert len(self.renderAreas) == 9
 
         self.fillRuleComboBox = QComboBox()
@@ -189,12 +209,14 @@ class Window(QWidget):
         self.fillColor1ComboBox = QComboBox()
         self.populateWithColors(self.fillColor1ComboBox)
         self.fillColor1ComboBox.setCurrentIndex(
-                self.fillColor1ComboBox.findText("mediumslateblue"))
+            self.fillColor1ComboBox.findText("mediumslateblue")
+        )
 
         self.fillColor2ComboBox = QComboBox()
         self.populateWithColors(self.fillColor2ComboBox)
         self.fillColor2ComboBox.setCurrentIndex(
-                self.fillColor2ComboBox.findText("cornsilk"))
+            self.fillColor2ComboBox.findText("cornsilk")
+        )
 
         fillGradientLabel = QLabel("&Fill Gradient:")
         fillGradientLabel.setBuddy(self.fillColor1ComboBox)
@@ -211,7 +233,8 @@ class Window(QWidget):
         self.penColorComboBox = QComboBox()
         self.populateWithColors(self.penColorComboBox)
         self.penColorComboBox.setCurrentIndex(
-                self.penColorComboBox.findText('darkslateblue'))
+            self.penColorComboBox.findText("darkslateblue")
+        )
 
         penColorLabel = QLabel("Pen &Color:")
         penColorLabel.setBuddy(self.penColorComboBox)
@@ -219,7 +242,7 @@ class Window(QWidget):
         self.rotationAngleSpinBox = QSpinBox()
         self.rotationAngleSpinBox.setRange(0, 359)
         self.rotationAngleSpinBox.setWrapping(True)
-        self.rotationAngleSpinBox.setSuffix(u'\N{DEGREE SIGN}')
+        self.rotationAngleSpinBox.setSuffix(u"\N{DEGREE SIGN}")
 
         rotationAngleLabel = QLabel("&Rotation Angle:")
         rotationAngleLabel.setBuddy(self.rotationAngleSpinBox)
@@ -231,7 +254,9 @@ class Window(QWidget):
 
         for i in range(Window.NumRenderAreas):
             self.penWidthSpinBox.valueChanged.connect(self.renderAreas[i].setPenWidth)
-            self.rotationAngleSpinBox.valueChanged.connect(self.renderAreas[i].setRotationAngle)
+            self.rotationAngleSpinBox.valueChanged.connect(
+                self.renderAreas[i].setRotationAngle
+            )
 
         topLayout = QGridLayout()
         for i in range(Window.NumRenderAreas):
@@ -288,7 +313,7 @@ class Window(QWidget):
         return comboBox.itemData(comboBox.currentIndex())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

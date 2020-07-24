@@ -44,15 +44,31 @@
 
 import sys
 
-from PyQt5.QtCore import (pyqtProperty, pyqtSignal, pyqtSlot, Q_CLASSINFO,
-        QCoreApplication, QDate, QObject, QTime, QTimer, QUrl)
+from PyQt5.QtCore import (
+    pyqtProperty,
+    pyqtSignal,
+    pyqtSlot,
+    Q_CLASSINFO,
+    QCoreApplication,
+    QDate,
+    QObject,
+    QTime,
+    QTimer,
+    QUrl,
+)
 from PyQt5.QtGui import QColor
-from PyQt5.QtQml import (qmlAttachedPropertiesObject, qmlRegisterType,
-        QQmlComponent, QQmlEngine, QQmlListProperty, QQmlProperty,
-        QQmlPropertyValueSource)
+from PyQt5.QtQml import (
+    qmlAttachedPropertiesObject,
+    qmlRegisterType,
+    QQmlComponent,
+    QQmlEngine,
+    QQmlListProperty,
+    QQmlProperty,
+    QQmlPropertyValueSource,
+)
 
 
-QML = b'''
+QML = b"""
 import People 1.0
 import QtQuick 2.0
 
@@ -86,7 +102,7 @@ BirthdayParty {
         shoe.price: 699.99
     }
 }
-'''
+"""
 
 
 class ShoeDescription(QObject):
@@ -95,7 +111,7 @@ class ShoeDescription(QObject):
 
         self._size = 0
         self._color = QColor()
-        self._brand = ''
+        self._brand = ""
         self._price = 0.0
 
     shoeChanged = pyqtSignal()
@@ -145,7 +161,7 @@ class Person(QObject):
     def __init__(self, parent=None):
         super(Person, self).__init__(parent)
 
-        self._name = ''
+        self._name = ""
         self._shoe = ShoeDescription()
 
     nameChanged = pyqtSignal()
@@ -193,9 +209,9 @@ class BirthdayPartyAttached(QObject):
 
 
 class BirthdayParty(QObject):
-    Q_CLASSINFO('DefaultProperty', 'guests')
+    Q_CLASSINFO("DefaultProperty", "guests")
 
-    partyStarted = pyqtSignal(QTime, arguments=['time'])
+    partyStarted = pyqtSignal(QTime, arguments=["time"])
 
     def __init__(self, parent=None):
         super(BirthdayParty, self).__init__(parent)
@@ -221,7 +237,7 @@ class BirthdayParty(QObject):
 
     @pyqtProperty(str)
     def announcement(self):
-        return ''
+        return ""
 
     @announcement.setter
     def announcement(self, announcement):
@@ -238,7 +254,7 @@ class HappyBirthdaySong(QObject, QQmlPropertyValueSource):
         self._line = -1
         self._lyrics = []
         self._target = QQmlProperty()
-        self._name = ''
+        self._name = ""
 
         timer = QTimer(self)
         timer.timeout.connect(self.advance)
@@ -260,7 +276,7 @@ class HappyBirthdaySong(QObject, QQmlPropertyValueSource):
                 "Happy birthday to you,",
                 "Happy birthday to you,",
                 "Happy birthday dear %s," % self._name,
-                "Happy birthday to you!"
+                "Happy birthday to you!",
             ]
 
             self.nameChanged.emit()
@@ -281,8 +297,14 @@ class HappyBirthdaySong(QObject, QQmlPropertyValueSource):
 app = QCoreApplication(sys.argv)
 
 qmlRegisterType(BirthdayPartyAttached)
-qmlRegisterType(BirthdayParty, "People", 1, 0, "BirthdayParty",
-        attachedProperties=BirthdayPartyAttached)
+qmlRegisterType(
+    BirthdayParty,
+    "People",
+    1,
+    0,
+    "BirthdayParty",
+    attachedProperties=BirthdayPartyAttached,
+)
 qmlRegisterType(HappyBirthdaySong, "People", 1, 0, "HappyBirthdaySong")
 qmlRegisterType(ShoeDescription)
 qmlRegisterType(Person)
@@ -297,7 +319,7 @@ component.setData(QML, QUrl())
 party = component.create()
 
 if party is not None and party.host is not None:
-    print("\"%s\" is having a birthday!" % party.host.name)
+    print('"%s" is having a birthday!' % party.host.name)
 
     if isinstance(party.host, Boy):
         print("He is inviting:")
@@ -308,18 +330,18 @@ if party is not None and party.host is not None:
         attached = qmlAttachedPropertiesObject(BirthdayParty, guest, False)
 
         if attached is not None:
-            rsvpDate = attached.property('rsvp')
+            rsvpDate = attached.property("rsvp")
         else:
             rsvpDate = QDate()
 
         if rsvpDate.isNull():
             print("    \"%s\" RSVP date: Hasn't RSVP'd" % guest.name)
         else:
-            print("    \"%s\" RSVP date: %s" % (guest.name, rsvpDate.toString()))
+            print('    "%s" RSVP date: %s' % (guest.name, rsvpDate.toString()))
 
     party.startParty()
 else:
     for e in component.errors():
-        print("Error:", e.toString());
+        print("Error:", e.toString())
 
 sys.exit(app.exec_())

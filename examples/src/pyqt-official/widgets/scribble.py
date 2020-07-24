@@ -44,8 +44,17 @@
 
 from PyQt5.QtCore import QDir, QPoint, QRect, QSize, Qt
 from PyQt5.QtGui import QImage, QImageWriter, QPainter, QPen, qRgb
-from PyQt5.QtWidgets import (QAction, QApplication, QColorDialog, QFileDialog,
-        QInputDialog, QMainWindow, QMenu, QMessageBox, QWidget)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QColorDialog,
+    QFileDialog,
+    QInputDialog,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QWidget,
+)
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 
 
@@ -124,13 +133,24 @@ class ScribbleArea(QWidget):
 
     def drawLineTo(self, endPoint):
         painter = QPainter(self.image)
-        painter.setPen(QPen(self.myPenColor, self.myPenWidth, Qt.SolidLine,
-                Qt.RoundCap, Qt.RoundJoin))
+        painter.setPen(
+            QPen(
+                self.myPenColor,
+                self.myPenWidth,
+                Qt.SolidLine,
+                Qt.RoundCap,
+                Qt.RoundJoin,
+            )
+        )
         painter.drawLine(self.lastPoint, endPoint)
         self.modified = True
 
         rad = self.myPenWidth / 2 + 2
-        self.update(QRect(self.lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad))
+        self.update(
+            QRect(self.lastPoint, endPoint)
+            .normalized()
+            .adjusted(-rad, -rad, +rad, +rad)
+        )
         self.lastPoint = QPoint(endPoint)
 
     def resizeImage(self, image, newSize):
@@ -190,8 +210,9 @@ class MainWindow(QMainWindow):
 
     def open(self):
         if self.maybeSave():
-            fileName, _ = QFileDialog.getOpenFileName(self, "Open File",
-                    QDir.currentPath())
+            fileName, _ = QFileDialog.getOpenFileName(
+                self, "Open File", QDir.currentPath()
+            )
             if fileName:
                 self.scribbleArea.openImage(fileName)
 
@@ -206,30 +227,39 @@ class MainWindow(QMainWindow):
             self.scribbleArea.setPenColor(newColor)
 
     def penWidth(self):
-        newWidth, ok = QInputDialog.getInt(self, "Scribble",
-                "Select pen width:", self.scribbleArea.penWidth(), 1, 50, 1)
+        newWidth, ok = QInputDialog.getInt(
+            self,
+            "Scribble",
+            "Select pen width:",
+            self.scribbleArea.penWidth(),
+            1,
+            50,
+            1,
+        )
         if ok:
             self.scribbleArea.setPenWidth(newWidth)
 
     def about(self):
-        QMessageBox.about(self, "About Scribble",
-                "<p>The <b>Scribble</b> example shows how to use "
-                "QMainWindow as the base widget for an application, and how "
-                "to reimplement some of QWidget's event handlers to receive "
-                "the events generated for the application's widgets:</p>"
-                "<p> We reimplement the mouse event handlers to facilitate "
-                "drawing, the paint event handler to update the application "
-                "and the resize event handler to optimize the application's "
-                "appearance. In addition we reimplement the close event "
-                "handler to intercept the close events before terminating "
-                "the application.</p>"
-                "<p> The example also demonstrates how to use QPainter to "
-                "draw an image in real time, as well as to repaint "
-                "widgets.</p>")
+        QMessageBox.about(
+            self,
+            "About Scribble",
+            "<p>The <b>Scribble</b> example shows how to use "
+            "QMainWindow as the base widget for an application, and how "
+            "to reimplement some of QWidget's event handlers to receive "
+            "the events generated for the application's widgets:</p>"
+            "<p> We reimplement the mouse event handlers to facilitate "
+            "drawing, the paint event handler to update the application "
+            "and the resize event handler to optimize the application's "
+            "appearance. In addition we reimplement the close event "
+            "handler to intercept the close events before terminating "
+            "the application.</p>"
+            "<p> The example also demonstrates how to use QPainter to "
+            "draw an image in real time, as well as to repaint "
+            "widgets.</p>",
+        )
 
     def createActions(self):
-        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O",
-                triggered=self.open)
+        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
         for format in QImageWriter.supportedImageFormats():
             format = str(format)
@@ -240,25 +270,26 @@ class MainWindow(QMainWindow):
             action.setData(format)
             self.saveAsActs.append(action)
 
-        self.printAct = QAction("&Print...", self,
-                triggered=self.scribbleArea.print_)
+        self.printAct = QAction("&Print...", self, triggered=self.scribbleArea.print_)
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                triggered=self.close)
+        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q", triggered=self.close)
 
-        self.penColorAct = QAction("&Pen Color...", self,
-                triggered=self.penColor)
+        self.penColorAct = QAction("&Pen Color...", self, triggered=self.penColor)
 
-        self.penWidthAct = QAction("Pen &Width...", self,
-                triggered=self.penWidth)
+        self.penWidthAct = QAction("Pen &Width...", self, triggered=self.penWidth)
 
-        self.clearScreenAct = QAction("&Clear Screen", self, shortcut="Ctrl+L",
-                triggered=self.scribbleArea.clearImage)
+        self.clearScreenAct = QAction(
+            "&Clear Screen",
+            self,
+            shortcut="Ctrl+L",
+            triggered=self.scribbleArea.clearImage,
+        )
 
         self.aboutAct = QAction("&About", self, triggered=self.about)
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt", self, triggered=QApplication.instance().aboutQt
+        )
 
     def createMenus(self):
         self.saveAsMenu = QMenu("&Save As", self)
@@ -288,30 +319,35 @@ class MainWindow(QMainWindow):
 
     def maybeSave(self):
         if self.scribbleArea.isModified():
-            ret = QMessageBox.warning(self, "Scribble",
-                        "The image has been modified.\n"
-                        "Do you want to save your changes?",
-                        QMessageBox.Save | QMessageBox.Discard |
-                        QMessageBox.Cancel)
+            ret = QMessageBox.warning(
+                self,
+                "Scribble",
+                "The image has been modified.\n" "Do you want to save your changes?",
+                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+            )
             if ret == QMessageBox.Save:
-                return self.saveFile('png')
+                return self.saveFile("png")
             elif ret == QMessageBox.Cancel:
                 return False
 
         return True
 
     def saveFile(self, fileFormat):
-        initialPath = QDir.currentPath() + '/untitled.' + fileFormat
+        initialPath = QDir.currentPath() + "/untitled." + fileFormat
 
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save As", initialPath,
-                "%s Files (*.%s);;All Files (*)" % (fileFormat.upper(), fileFormat))
+        fileName, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save As",
+            initialPath,
+            "%s Files (*.%s);;All Files (*)" % (fileFormat.upper(), fileFormat),
+        )
         if fileName:
             return self.scribbleArea.saveImage(fileName, fileFormat)
 
         return False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

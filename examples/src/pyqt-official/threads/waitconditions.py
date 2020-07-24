@@ -67,7 +67,7 @@ class Producer(QThread):
             if numUsedBytes == BufferSize:
                 bufferNotFull.wait(mutex)
             mutex.unlock()
-            
+
             buffer[i % BufferSize] = "ACGT"[random.randint(0, 3)]
 
             mutex.lock()
@@ -85,18 +85,18 @@ class Consumer(QThread):
             if numUsedBytes == 0:
                 bufferNotEmpty.wait(mutex)
             mutex.unlock()
-            
+
             sys.stderr.write(buffer[i % BufferSize])
 
             mutex.lock()
             numUsedBytes -= 1
             bufferNotFull.wakeAll()
             mutex.unlock()
-            
+
         sys.stderr.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QCoreApplication(sys.argv)
     producer = Producer()
     consumer = Consumer()

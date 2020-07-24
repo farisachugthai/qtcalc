@@ -43,8 +43,15 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QDialog, QDialogButtonBox,
-        QHBoxLayout, QMessageBox, QPushButton, QTableView)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QHBoxLayout,
+    QMessageBox,
+    QPushButton,
+    QTableView,
+)
 from PyQt5.QtSql import QSqlTableModel
 
 import connection
@@ -93,11 +100,14 @@ class TableEditor(QDialog):
             self.model.database().commit()
         else:
             self.model.database().rollback()
-            QMessageBox.warning(self, "Cached Table",
-                        "The database reported an error: %s" % self.model.lastError().text())
+            QMessageBox.warning(
+                self,
+                "Cached Table",
+                "The database reported an error: %s" % self.model.lastError().text(),
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -105,6 +115,6 @@ if __name__ == '__main__':
     if not connection.createConnection():
         sys.exit(1)
 
-    editor = TableEditor('person')
+    editor = TableEditor("person")
     editor.show()
     sys.exit(editor.exec_())

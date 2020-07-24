@@ -44,8 +44,7 @@
 
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtGui import QStandardItemModel
-from PyQt5.QtWidgets import (QApplication, QSpinBox, QStyledItemDelegate,
-        QTableView)
+from PyQt5.QtWidgets import QApplication, QSpinBox, QStyledItemDelegate, QTableView
 
 
 class SpinBoxDelegate(QStyledItemDelegate):
@@ -72,7 +71,7 @@ class SpinBoxDelegate(QStyledItemDelegate):
         editor.setGeometry(option.rect)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

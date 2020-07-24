@@ -43,9 +43,20 @@
 
 
 from PyQt5.QtCore import QFileInfo
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QDialog,
-        QDialogButtonBox, QFrame, QGroupBox, QLabel, QLineEdit, QListWidget,
-        QTabWidget, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QDialogButtonBox,
+    QFrame,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class TabDialog(QDialog):
@@ -176,11 +187,14 @@ class ApplicationsTab(QWidget):
         alwaysCheckBox = QCheckBox()
 
         if fileInfo.suffix():
-            alwaysCheckBox = QCheckBox("Always use this application to open "
-                    "files with the extension '%s'" % fileInfo.suffix())
+            alwaysCheckBox = QCheckBox(
+                "Always use this application to open "
+                "files with the extension '%s'" % fileInfo.suffix()
+            )
         else:
-            alwaysCheckBox = QCheckBox("Always use this application to open "
-                    "this type of file")
+            alwaysCheckBox = QCheckBox(
+                "Always use this application to open " "this type of file"
+            )
 
         layout = QVBoxLayout()
         layout.addWidget(topLabel)
@@ -189,7 +203,7 @@ class ApplicationsTab(QWidget):
         self.setLayout(layout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

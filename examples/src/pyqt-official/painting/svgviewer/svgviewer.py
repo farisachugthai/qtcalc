@@ -44,9 +44,19 @@
 
 from PyQt5.QtCore import QFile, QSize, Qt
 from PyQt5.QtGui import QBrush, QColor, QImage, QPainter, QPixmap, QPen
-from PyQt5.QtWidgets import (QActionGroup, QApplication, QFileDialog,
-        QGraphicsItem, QGraphicsRectItem, QGraphicsScene, QGraphicsView,
-        QMainWindow, QMenu, QMessageBox, QWidget)
+from PyQt5.QtWidgets import (
+    QActionGroup,
+    QApplication,
+    QFileDialog,
+    QGraphicsItem,
+    QGraphicsRectItem,
+    QGraphicsScene,
+    QGraphicsView,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QWidget,
+)
 from PyQt5.QtOpenGL import QGL, QGLFormat, QGLWidget
 from PyQt5.QtSvg import QGraphicsSvgItem
 
@@ -57,7 +67,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.currentPath = ''
+        self.currentPath = ""
 
         self.view = SvgView()
 
@@ -98,11 +108,15 @@ class MainWindow(QMainWindow):
 
         if QGLFormat.hasOpenGL():
             rendererMenu.addSeparator()
-            self.highQualityAntialiasingAction = rendererMenu.addAction("&High Quality Antialiasing")
+            self.highQualityAntialiasingAction = rendererMenu.addAction(
+                "&High Quality Antialiasing"
+            )
             self.highQualityAntialiasingAction.setEnabled(False)
             self.highQualityAntialiasingAction.setCheckable(True)
             self.highQualityAntialiasingAction.setChecked(False)
-            self.highQualityAntialiasingAction.toggled.connect(self.view.setHighQualityAntialiasing)
+            self.highQualityAntialiasingAction.toggled.connect(
+                self.view.setHighQualityAntialiasing
+            )
 
         rendererGroup = QActionGroup(self)
         rendererGroup.addAction(self.nativeAction)
@@ -123,14 +137,19 @@ class MainWindow(QMainWindow):
 
     def openFile(self, path=None):
         if not path:
-            path, _ = QFileDialog.getOpenFileName(self, "Open SVG File",
-                    self.currentPath, "SVG files (*.svg *.svgz *.svg.gz)")
+            path, _ = QFileDialog.getOpenFileName(
+                self,
+                "Open SVG File",
+                self.currentPath,
+                "SVG files (*.svg *.svgz *.svg.gz)",
+            )
 
         if path:
             svg_file = QFile(path)
             if not svg_file.exists():
-                QMessageBox.critical(self, "Open SVG File",
-                        "Could not open file '%s'." % path)
+                QMessageBox.critical(
+                    self, "Open SVG File", "Could not open file '%s'." % path
+                )
 
                 self.outlineAction.setEnabled(False)
                 self.backgroundAction.setEnabled(False)
@@ -138,7 +157,7 @@ class MainWindow(QMainWindow):
 
             self.view.openFile(svg_file)
 
-            if not path.startswith(':/'):
+            if not path.startswith(":/"):
                 self.currentPath = path
                 self.setWindowTitle("%s - SVGViewer" % self.currentPath)
 
@@ -192,8 +211,7 @@ class SvgView(QGraphicsView):
     def drawBackground(self, p, rect):
         p.save()
         p.resetTransform()
-        p.drawTiledPixmap(self.viewport().rect(),
-                self.backgroundBrush().texture())
+        p.drawTiledPixmap(self.viewport().rect(), self.backgroundBrush().texture())
         p.restore()
 
     def openFile(self, svg_file):
@@ -251,8 +269,9 @@ class SvgView(QGraphicsView):
 
     def setHighQualityAntialiasing(self, highQualityAntialiasing):
         if QGLFormat.hasOpenGL():
-            self.setRenderHint(QPainter.HighQualityAntialiasing,
-                    highQualityAntialiasing)
+            self.setRenderHint(
+                QPainter.HighQualityAntialiasing, highQualityAntialiasing
+            )
 
     def setViewBackground(self, enable):
         if self.backgroundItem:
@@ -265,8 +284,9 @@ class SvgView(QGraphicsView):
     def paintEvent(self, event):
         if self.renderer == SvgView.Image:
             if self.image.size() != self.viewport().size():
-                self.image = QImage(self.viewport().size(),
-                        QImage.Format_ARGB32_Premultiplied)
+                self.image = QImage(
+                    self.viewport().size(), QImage.Format_ARGB32_Premultiplied
+                )
 
             imagePainter = QPainter(self.image)
             QGraphicsView.render(self, imagePainter)
@@ -283,7 +303,7 @@ class SvgView(QGraphicsView):
         event.accept()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -293,6 +313,6 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         window.openFile(sys.argv[1])
     else:
-        window.openFile(':/files/bubbles.svg')
+        window.openFile(":/files/bubbles.svg")
     window.show()
     sys.exit(app.exec_())

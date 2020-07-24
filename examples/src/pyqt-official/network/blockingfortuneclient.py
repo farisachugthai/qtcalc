@@ -42,13 +42,26 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QDataStream, QMutex, QMutexLocker,
-        QThread, QWaitCondition)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QDataStream,
+    QMutex,
+    QMutexLocker,
+    QThread,
+    QWaitCondition,
+)
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import (QApplication, QDialogButtonBox, QGridLayout,
-        QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
-from PyQt5.QtNetwork import (QAbstractSocket, QHostAddress, QNetworkInterface,
-        QTcpSocket)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialogButtonBox,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QWidget,
+)
+from PyQt5.QtNetwork import QAbstractSocket, QHostAddress, QNetworkInterface, QTcpSocket
 
 
 class FortuneThread(QThread):
@@ -60,7 +73,7 @@ class FortuneThread(QThread):
         super(FortuneThread, self).__init__(parent)
 
         self.quit = False
-        self.hostName = ''
+        self.hostName = ""
         self.cond = QWaitCondition()
         self.mutex = QMutex()
         self.port = 0
@@ -100,7 +113,7 @@ class FortuneThread(QThread):
             while socket.bytesAvailable() < 2:
                 if not socket.waitForReadyRead(Timeout):
                     self.error.emit(socket.error(), socket.errorString())
-                    return 
+                    return
 
             instr = QDataStream(socket)
             instr.setVersion(QDataStream.Qt_4_0)
@@ -126,7 +139,7 @@ class BlockingClient(QWidget):
         super(BlockingClient, self).__init__(parent)
 
         self.thread = FortuneThread()
-        self.currentFortune = ''
+        self.currentFortune = ""
 
         hostLabel = QLabel("&Server name:")
         portLabel = QLabel("S&erver port:")
@@ -147,7 +160,8 @@ class BlockingClient(QWidget):
         portLabel.setBuddy(self.portLineEdit)
 
         self.statusLabel = QLabel(
-                "This example requires that you run the Fortune Server example as well.")
+            "This example requires that you run the Fortune Server example as well."
+        )
         self.statusLabel.setWordWrap(True)
 
         self.getFortuneButton = QPushButton("Get Fortune")
@@ -181,8 +195,9 @@ class BlockingClient(QWidget):
 
     def requestNewFortune(self):
         self.getFortuneButton.setEnabled(False)
-        self.thread.requestNewFortune(self.hostLineEdit.text(),
-                int(self.portLineEdit.text()))
+        self.thread.requestNewFortune(
+            self.hostLineEdit.text(), int(self.portLineEdit.text())
+        )
 
     def showFortune(self, nextFortune):
         if nextFortune == self.currentFortune:
@@ -195,26 +210,35 @@ class BlockingClient(QWidget):
 
     def displayError(self, socketError, message):
         if socketError == QAbstractSocket.HostNotFoundError:
-            QMessageBox.information(self, "Blocking Fortune Client",
-                    "The host was not found. Please check the host and port "
-                    "settings.")
+            QMessageBox.information(
+                self,
+                "Blocking Fortune Client",
+                "The host was not found. Please check the host and port " "settings.",
+            )
         elif socketError == QAbstractSocket.ConnectionRefusedError:
-            QMessageBox.information(self, "Blocking Fortune Client",
-                    "The connection was refused by the peer. Make sure the "
-                    "fortune server is running, and check that the host name "
-                    "and port settings are correct.")
+            QMessageBox.information(
+                self,
+                "Blocking Fortune Client",
+                "The connection was refused by the peer. Make sure the "
+                "fortune server is running, and check that the host name "
+                "and port settings are correct.",
+            )
         else:
-            QMessageBox.information(self, "Blocking Fortune Client",
-                    "The following error occurred: %s." % message)
+            QMessageBox.information(
+                self,
+                "Blocking Fortune Client",
+                "The following error occurred: %s." % message,
+            )
 
         self.getFortuneButton.setEnabled(True)
 
     def enableGetFortuneButton(self):
-        self.getFortuneButton.setEnabled(self.hostLineEdit.text() != '' and
-                self.portLineEdit.text() != '')
+        self.getFortuneButton.setEnabled(
+            self.hostLineEdit.text() != "" and self.portLineEdit.text() != ""
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -44,8 +44,17 @@
 
 from PyQt5.QtCore import QFile, QIODevice, QObject, QSizeF
 from PyQt5.QtGui import QTextCharFormat, QTextFormat, QTextObjectInterface
-from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-        QMessageBox, QPushButton, QTextEdit, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 from PyQt5.QtSvg import QSvgRenderer
 
 
@@ -83,8 +92,9 @@ class Window(QWidget):
         file = QFile(fileName)
 
         if not file.open(QIODevice.ReadOnly):
-            QMessageBox.warning(self, "Error Opening File",
-                    "Could not open '%s'" % fileName)
+            QMessageBox.warning(
+                self, "Error Opening File", "Could not open '%s'" % fileName
+            )
 
         svgData = file.readAll()
 
@@ -94,10 +104,10 @@ class Window(QWidget):
 
         try:
             # Python v2.
-            orc = unichr(0xfffc)
+            orc = unichr(0xFFFC)
         except NameError:
             # Python v3.
-            orc = chr(0xfffc)
+            orc = chr(0xFFFC)
 
         cursor = self.textEdit.textCursor()
         cursor.insertText(orc, svgCharFormat)
@@ -105,14 +115,16 @@ class Window(QWidget):
 
     def setupTextObject(self):
         svgInterface = SvgTextObject(self)
-        self.textEdit.document().documentLayout().registerHandler(Window.SvgTextFormat, svgInterface)
+        self.textEdit.document().documentLayout().registerHandler(
+            Window.SvgTextFormat, svgInterface
+        )
 
     def setupGui(self):
         fileNameLabel = QLabel("Svg File Name:")
         self.fileNameLineEdit = QLineEdit()
         insertTextObjectButton = QPushButton("Insert Image")
 
-        self.fileNameLineEdit.setText('./files/heart.svg')
+        self.fileNameLineEdit.setText("./files/heart.svg")
         insertTextObjectButton.clicked.connect(self.insertTextObject)
 
         bottomLayout = QHBoxLayout()
@@ -129,7 +141,7 @@ class Window(QWidget):
         self.setLayout(mainLayout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

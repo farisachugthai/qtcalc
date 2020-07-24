@@ -9,11 +9,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_NicknameDialog(object):
     def setupUi(self, NicknameDialog):
         NicknameDialog.setObjectName("NicknameDialog")
         NicknameDialog.resize(396, 105)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(1))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(1)
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(NicknameDialog.sizePolicy().hasHeightForWidth())
@@ -27,7 +30,9 @@ class Ui_NicknameDialog(object):
         self.vboxlayout1.setSpacing(6)
         self.vboxlayout1.setObjectName("vboxlayout1")
         self.label = QtWidgets.QLabel(NicknameDialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(1))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(1)
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -42,7 +47,9 @@ class Ui_NicknameDialog(object):
         self.hboxlayout.setContentsMargins(0, 0, 0, 0)
         self.hboxlayout.setSpacing(6)
         self.hboxlayout.setObjectName("hboxlayout")
-        spacerItem = QtWidgets.QSpacerItem(131, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            131, 31, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout.addItem(spacerItem)
         self.okButton = QtWidgets.QPushButton(NicknameDialog)
         self.okButton.setObjectName("okButton")
@@ -50,7 +57,9 @@ class Ui_NicknameDialog(object):
         self.cancelButton = QtWidgets.QPushButton(NicknameDialog)
         self.cancelButton.setObjectName("cancelButton")
         self.hboxlayout.addWidget(self.cancelButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.hboxlayout.addItem(spacerItem1)
         self.vboxlayout.addLayout(self.hboxlayout)
 
@@ -65,4 +74,3 @@ class Ui_NicknameDialog(object):
         self.label.setText(_translate("NicknameDialog", "New nickname:"))
         self.okButton.setText(_translate("NicknameDialog", "OK"))
         self.cancelButton.setText(_translate("NicknameDialog", "Cancel"))
-

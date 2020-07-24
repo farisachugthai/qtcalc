@@ -54,17 +54,17 @@ class Window(QMainWindow, Ui_Window):
         super(Window, self).__init__(parent)
 
         self.setupUi(self)
- 
+
     def setUrl(self, url):
         self.webView.setUrl(url)
-  
+
     def on_webView_loadFinished(self):
         # Begin document inspection.
         self.treeWidget.clear()
         frame = self.webView.page().mainFrame()
         document = frame.documentElement()
         self.examineChildElements(document, self.treeWidget.invisibleRootItem())
- 
+
     def examineChildElements(self, parentElement, parentItem):
         # Traverse the document.
         element = parentElement.firstChild()
@@ -76,7 +76,7 @@ class Window(QMainWindow, Ui_Window):
             element = element.nextSibling()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -84,6 +84,6 @@ if __name__ == '__main__':
 
     window = Window()
     window.show()
-    window.setUrl(QUrl('http://qt-project.org/'))
+    window.setUrl(QUrl("http://qt-project.org/"))
 
     sys.exit(app.exec_())

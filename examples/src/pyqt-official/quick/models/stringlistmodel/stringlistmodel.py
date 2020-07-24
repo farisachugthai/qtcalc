@@ -62,9 +62,9 @@ dataList = ["Item 1", "Item 2", "Item 3", "Item 4"]
 
 view = QQuickView()
 ctxt = view.rootContext()
-ctxt.setContextProperty('myModel', dataList)
+ctxt.setContextProperty("myModel", dataList)
 
-view.setSource(QUrl('qrc:view.qml'))
+view.setSource(QUrl("qrc:view.qml"))
 view.show()
 
 sys.exit(app.exec_())

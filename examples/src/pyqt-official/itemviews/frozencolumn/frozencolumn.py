@@ -65,23 +65,26 @@ class FreezeTableWidget(QTableView):
         self.horizontalHeader().sectionResized.connect(self.updateSectionWidth)
         self.verticalHeader().sectionResized.connect(self.updateSectionHeight)
         self.frozenTableView.verticalScrollBar().valueChanged.connect(
-            self.verticalScrollBar().setValue)
+            self.verticalScrollBar().setValue
+        )
         self.verticalScrollBar().valueChanged.connect(
-            self.frozenTableView.verticalScrollBar().setValue)
+            self.frozenTableView.verticalScrollBar().setValue
+        )
 
     def init(self):
         self.frozenTableView.setModel(self.model())
         self.frozenTableView.setFocusPolicy(Qt.NoFocus)
         self.frozenTableView.verticalHeader().hide()
-        self.frozenTableView.horizontalHeader().setSectionResizeMode(
-                QHeaderView.Fixed)
+        self.frozenTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.viewport().stackUnder(self.frozenTableView)
 
-        self.frozenTableView.setStyleSheet('''
+        self.frozenTableView.setStyleSheet(
+            """
             QTableView { border: none;
                          background-color: #8EDE21;
                          selection-background-color: #999;
-            }''') # for demo purposes
+            }"""
+        )  # for demo purposes
 
         self.frozenTableView.setSelectionModel(self.selectionModel())
         for col in range(1, self.model().columnCount()):
@@ -109,13 +112,17 @@ class FreezeTableWidget(QTableView):
 
     def moveCursor(self, cursorAction, modifiers):
         current = super(FreezeTableWidget, self).moveCursor(cursorAction, modifiers)
-        if (cursorAction == self.MoveLeft and
-                self.current.column() > 0 and
-                self.visualRect(current).topLeft().x() <
-                    self.frozenTableView.columnWidth(0)):
-            newValue = (self.horizontalScrollBar().value() +
-                        self.visualRect(current).topLeft().x() -
-                        self.frozenTableView.columnWidth(0))
+        if (
+            cursorAction == self.MoveLeft
+            and self.current.column() > 0
+            and self.visualRect(current).topLeft().x()
+            < self.frozenTableView.columnWidth(0)
+        ):
+            newValue = (
+                self.horizontalScrollBar().value()
+                + self.visualRect(current).topLeft().x()
+                - self.frozenTableView.columnWidth(0)
+            )
             self.horizontalScrollBar().setValue(newValue)
         return current
 
@@ -125,9 +132,11 @@ class FreezeTableWidget(QTableView):
 
     def updateFrozenTableGeometry(self):
         self.frozenTableView.setGeometry(
-                self.verticalHeader().width() + self.frameWidth(),
-                self.frameWidth(), self.columnWidth(0),
-                self.viewport().height() + self.horizontalHeader().height())
+            self.verticalHeader().width() + self.frameWidth(),
+            self.frameWidth(),
+            self.columnWidth(0),
+            self.viewport().height() + self.horizontalHeader().height(),
+        )
 
 
 def main(args):
@@ -136,16 +145,16 @@ def main(args):
 
     app = QApplication(args)
     model = QStandardItemModel()
-    file = QFile(QFileInfo(__file__).absolutePath() + '/grades.txt')
+    file = QFile(QFileInfo(__file__).absolutePath() + "/grades.txt")
     if file.open(QFile.ReadOnly):
-        line = file.readLine(200).decode('utf-8')
-        header = split_and_strip(line, ',')
+        line = file.readLine(200).decode("utf-8")
+        header = split_and_strip(line, ",")
         model.setHorizontalHeaderLabels(header)
         row = 0
         while file.canReadLine():
-            line = file.readLine(200).decode('utf-8')
-            if not line.startswith('#') and ',' in line:
-                fields = split_and_strip(line, ',')
+            line = file.readLine(200).decode("utf-8")
+            if not line.startswith("#") and "," in line:
+                fields = split_and_strip(line, ",")
                 for col, field in enumerate(fields):
                     newItem = QStandardItem(field)
                     model.setItem(row, col, newItem)
@@ -158,6 +167,7 @@ def main(args):
     return app.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     main(sys.argv)

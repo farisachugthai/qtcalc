@@ -44,8 +44,17 @@
 
 from PyQt5.QtCore import QRegExp, Qt
 from PyQt5.QtGui import QPalette
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
-        QGridLayout, QHBoxLayout, QLabel, QLineEdit, QSizePolicy)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QSizePolicy,
+)
 
 
 class RegExpDialog(QDialog):
@@ -56,8 +65,7 @@ class RegExpDialog(QDialog):
 
         self.patternComboBox = QComboBox()
         self.patternComboBox.setEditable(True)
-        self.patternComboBox.setSizePolicy(QSizePolicy.Expanding,
-                QSizePolicy.Preferred)
+        self.patternComboBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
 
         patternLabel = QLabel("&Pattern:")
         patternLabel.setBuddy(self.patternComboBox)
@@ -65,8 +73,7 @@ class RegExpDialog(QDialog):
         self.escapedPatternLineEdit = QLineEdit()
         self.escapedPatternLineEdit.setReadOnly(True)
         palette = self.escapedPatternLineEdit.palette()
-        palette.setBrush(QPalette.Base,
-                palette.brush(QPalette.Disabled, QPalette.Base))
+        palette.setBrush(QPalette.Base, palette.brush(QPalette.Disabled, QPalette.Base))
         self.escapedPatternLineEdit.setPalette(palette)
 
         escapedPatternLabel = QLabel("&Escaped Pattern:")
@@ -83,8 +90,7 @@ class RegExpDialog(QDialog):
 
         self.textComboBox = QComboBox()
         self.textComboBox.setEditable(True)
-        self.textComboBox.setSizePolicy(QSizePolicy.Expanding,
-                QSizePolicy.Preferred)
+        self.textComboBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
 
         textLabel = QLabel("&Text:")
         textLabel.setBuddy(self.textComboBox)
@@ -154,12 +160,16 @@ class RegExpDialog(QDialog):
         text = self.textComboBox.currentText()
 
         escaped = str(pattern)
-        escaped.replace('\\', '\\\\')
+        escaped.replace("\\", "\\\\")
         escaped.replace('"', '\\"')
         self.escapedPatternLineEdit.setText('"' + escaped + '"')
 
         rx = QRegExp(pattern)
-        cs = Qt.CaseSensitive if self.caseSensitiveCheckBox.isChecked() else Qt.CaseInsensitive
+        cs = (
+            Qt.CaseSensitive
+            if self.caseSensitiveCheckBox.isChecked()
+            else Qt.CaseInsensitive
+        )
         rx.setCaseSensitivity(cs)
         rx.setMinimal(self.minimalCheckBox.isChecked())
         syntax = self.syntaxComboBox.itemData(self.syntaxComboBox.currentIndex())
@@ -167,8 +177,9 @@ class RegExpDialog(QDialog):
 
         palette = self.patternComboBox.palette()
         if rx.isValid():
-            palette.setColor(QPalette.Text,
-                    self.textComboBox.palette().color(QPalette.Text))
+            palette.setColor(
+                QPalette.Text, self.textComboBox.palette().color(QPalette.Text)
+            )
         else:
             palette.setColor(QPalette.Text, Qt.red)
         self.patternComboBox.setPalette(palette)
@@ -183,7 +194,8 @@ class RegExpDialog(QDialog):
 
         self.setUpdatesEnabled(True)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 
     import sys
 

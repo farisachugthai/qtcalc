@@ -49,26 +49,25 @@ from ui_controller import Ui_Controller
 
 
 class CarInterface(QDBusAbstractInterface):
-
     def __init__(self, service, path, connection, parent=None):
-        super(CarInterface, self).__init__(service, path,
-                'org.example.Examples.CarInterface', connection, parent)
+        super(CarInterface, self).__init__(
+            service, path, "org.example.Examples.CarInterface", connection, parent
+        )
 
     def accelerate(self):
-        self.asyncCall('accelerate')
+        self.asyncCall("accelerate")
 
     def decelerate(self):
-        self.asyncCall('decelerate')
+        self.asyncCall("decelerate")
 
     def turnLeft(self):
-        self.asyncCall('turnLeft')
+        self.asyncCall("turnLeft")
 
     def turnRight(self):
-        self.asyncCall('turnRight')
+        self.asyncCall("turnRight")
 
 
 class Controller(QWidget):
-
     def __init__(self, parent=None):
         super(Controller, self).__init__(parent)
 
@@ -76,8 +75,9 @@ class Controller(QWidget):
 
         self.ui.setupUi(self)
 
-        self.car = CarInterface('org.example.CarExample', '/Car',
-                QDBusConnection.sessionBus(), self)
+        self.car = CarInterface(
+            "org.example.CarExample", "/Car", QDBusConnection.sessionBus(), self
+        )
 
         self.startTimer(1000)
 
@@ -100,7 +100,7 @@ class Controller(QWidget):
         self.car.turnRight()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)

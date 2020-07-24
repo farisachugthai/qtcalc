@@ -44,9 +44,21 @@
 
 from PyQt5.QtCore import QFileInfo, QSize, Qt
 from PyQt5.QtGui import QMovie, QPalette
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QFileDialog, QGridLayout,
-        QHBoxLayout, QLabel, QSizePolicy, QSlider, QSpinBox, QStyle,
-        QToolButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QFileDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QSizePolicy,
+    QSlider,
+    QSpinBox,
+    QStyle,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class MoviePlayer(QWidget):
@@ -62,7 +74,7 @@ class MoviePlayer(QWidget):
         self.movieLabel.setBackgroundRole(QPalette.Dark)
         self.movieLabel.setAutoFillBackground(True)
 
-        self.currentMovieDirectory = ''
+        self.currentMovieDirectory = ""
 
         self.createControls()
         self.createButtons()
@@ -86,8 +98,9 @@ class MoviePlayer(QWidget):
         self.resize(400, 400)
 
     def open(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open a Movie",
-                self.currentMovieDirectory)
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Open a Movie", self.currentMovieDirectory
+        )
 
         if fileName:
             self.openFile(fileName)
@@ -100,8 +113,8 @@ class MoviePlayer(QWidget):
         self.movie.setFileName(fileName)
         self.movie.start()
 
-        self.updateFrameSlider();
-        self.updateButtons();
+        self.updateFrameSlider()
+        self.updateButtons()
 
     def goToFrame(self, frame):
         self.movie.jumpToFrame(frame)
@@ -110,7 +123,7 @@ class MoviePlayer(QWidget):
         self.movieLabel.setScaledContents(self.fitCheckBox.isChecked())
 
     def updateFrameSlider(self):
-        hasFrames = (self.movie.currentFrameNumber() >= 0)
+        hasFrames = self.movie.currentFrameNumber() >= 0
 
         if hasFrames:
             if self.movie.frameCount() > 0:
@@ -128,8 +141,11 @@ class MoviePlayer(QWidget):
     def updateButtons(self):
         state = self.movie.state()
 
-        self.playButton.setEnabled(self.movie.isValid() and
-                self.movie.frameCount() != 1 and state == QMovie.NotRunning)
+        self.playButton.setEnabled(
+            self.movie.isValid()
+            and self.movie.frameCount() != 1
+            and state == QMovie.NotRunning
+        )
         self.pauseButton.setEnabled(state != QMovie.NotRunning)
         self.pauseButton.setChecked(state == QMovie.Paused)
         self.stopButton.setEnabled(state != QMovie.NotRunning)
@@ -201,7 +217,7 @@ class MoviePlayer(QWidget):
         self.buttonsLayout.addStretch()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

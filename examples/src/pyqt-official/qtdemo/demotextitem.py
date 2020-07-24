@@ -50,7 +50,16 @@ from demoitem import DemoItem
 class DemoTextItem(DemoItem):
     STATIC_TEXT, DYNAMIC_TEXT = range(2)
 
-    def __init__(self, text, font, textColor, textWidth, parent=None, type=STATIC_TEXT, bgColor=QColor()):
+    def __init__(
+        self,
+        text,
+        font,
+        textColor,
+        textWidth,
+        parent=None,
+        type=STATIC_TEXT,
+        bgColor=QColor(),
+    ):
         super(DemoTextItem, self).__init__(parent)
 
         self.type = type
@@ -81,8 +90,7 @@ class DemoTextItem(DemoItem):
 
         w = textItem.boundingRect().width()
         h = textItem.boundingRect().height()
-        image = QImage(int(w * sx), int(h * sy),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(int(w * sx), int(h * sy), QImage.Format_ARGB32_Premultiplied)
         image.fill(QColor(0, 0, 0, 0).rgba())
         painter = QPainter(image)
         painter.scale(sx, sy)

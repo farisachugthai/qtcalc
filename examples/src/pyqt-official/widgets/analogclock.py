@@ -48,17 +48,9 @@ from PyQt5.QtWidgets import QApplication, QWidget
 
 
 class AnalogClock(QWidget):
-    hourHand = QPolygon([
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -40)
-    ])
+    hourHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -40)])
 
-    minuteHand = QPolygon([
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -70)
-    ])
+    minuteHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -70)])
 
     hourColor = QColor(127, 0, 127)
     minuteColor = QColor(0, 127, 127, 191)
@@ -112,7 +104,7 @@ class AnalogClock(QWidget):
             painter.rotate(6.0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

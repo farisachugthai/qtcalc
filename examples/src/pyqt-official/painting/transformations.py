@@ -49,6 +49,7 @@ from PyQt5.QtWidgets import QApplication, QComboBox, QGridLayout, QWidget
 
 NoTransformation, Translate, Rotate, Scale = range(4)
 
+
 class RenderArea(QWidget):
     def __init__(self, parent=None):
         super(RenderArea, self).__init__(parent)
@@ -100,14 +101,20 @@ class RenderArea(QWidget):
         painter.drawLine(0, 0, 50, 0)
         painter.drawLine(48, -2, 50, 0)
         painter.drawLine(48, 2, 50, 0)
-        painter.drawText(60 - self.xBoundingRect.width() / 2,
-                         0 + self.xBoundingRect.height() / 2, "x")
+        painter.drawText(
+            60 - self.xBoundingRect.width() / 2,
+            0 + self.xBoundingRect.height() / 2,
+            "x",
+        )
 
         painter.drawLine(0, 0, 0, 50)
         painter.drawLine(-2, 48, 0, 50)
         painter.drawLine(2, 48, 0, 50)
-        painter.drawText(0 - self.yBoundingRect.width() / 2,
-                         60 + self.yBoundingRect.height() / 2, "y")
+        painter.drawText(
+            0 - self.yBoundingRect.width() / 2,
+            60 + self.yBoundingRect.height() / 2,
+            "y",
+        )
 
     def drawOutline(self, painter):
         painter.setPen(Qt.darkGreen)
@@ -239,7 +246,7 @@ class Window(QWidget):
             self.transformedRenderAreas[i].setShape(shape)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

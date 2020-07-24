@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -139,5 +140,6 @@ class Ui_MainWindow(object):
         self.actionAboutQt.setIconText(_translate("MainWindow", "About Qt"))
         self.actionNewWindow.setIconText(_translate("MainWindow", "Window"))
         self.actionNewWindow.setShortcut(_translate("MainWindow", "Ctrl+N"))
+
 
 from PyQt5 import QAxContainer

@@ -45,8 +45,16 @@
 
 
 from PyQt5.QtCore import QDataStream, QTimer
-from PyQt5.QtWidgets import (QApplication, QDialog, QDialogButtonBox,
-        QGridLayout, QLabel, QLineEdit, QMessageBox, QPushButton)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+)
 from PyQt5.QtNetwork import QLocalSocket
 
 
@@ -62,8 +70,8 @@ class Client(QDialog):
         hostLabel.setBuddy(self.hostLineEdit)
 
         self.statusLabel = QLabel(
-                "This examples requires that you run the Fortune Server "
-                "example as well.")
+            "This examples requires that you run the Fortune Server " "example as well."
+        )
         self.statusLabel.setWordWrap(True)
 
         self.getFortuneButton = QPushButton("Get Fortune")
@@ -114,28 +122,24 @@ class Client(QDialog):
         if nextFortune == self.currentFortune:
             QTimer.singleShot(0, self.requestNewFortune)
             return
- 
+
         self.currentFortune = nextFortune
         self.statusLabel.setText(self.currentFortune)
         self.getFortuneButton.setEnabled(True)
 
     def displayError(self, socketError):
         errors = {
-            QLocalSocket.ServerNotFoundError:
-                "The host was not found. Please check the host name and port "
-                "settings.",
-
-            QLocalSocket.ConnectionRefusedError:
-                "The connection was refused by the peer. Make sure the "
-                "fortune server is running, and check that the host name and "
-                "port settings are correct.",
-
-            QLocalSocket.PeerClosedError:
-                None,
+            QLocalSocket.ServerNotFoundError: "The host was not found. Please check the host name and port "
+            "settings.",
+            QLocalSocket.ConnectionRefusedError: "The connection was refused by the peer. Make sure the "
+            "fortune server is running, and check that the host name and "
+            "port settings are correct.",
+            QLocalSocket.PeerClosedError: None,
         }
 
-        msg = errors.get(socketError,
-                "The following error occurred: %s." % self.socket.errorString())
+        msg = errors.get(
+            socketError, "The following error occurred: %s." % self.socket.errorString()
+        )
         if msg is not None:
             QMessageBox.information(self, "Fortune Client", msg)
 
@@ -145,7 +149,7 @@ class Client(QDialog):
         self.getFortuneButton.setEnabled(self.hostLineEdit.text() != "")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

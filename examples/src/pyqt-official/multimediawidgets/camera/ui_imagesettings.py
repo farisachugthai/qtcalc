@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_ImageSettingsUi(object):
     def setupUi(self, ImageSettingsUi):
         ImageSettingsUi.setObjectName("ImageSettingsUi")
@@ -40,11 +41,15 @@ class Ui_ImageSettingsUi(object):
         self.imageQualitySlider.setObjectName("imageQualitySlider")
         self.gridLayout_2.addWidget(self.imageQualitySlider, 4, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox_2, 0, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 14, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 14, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(ImageSettingsUi)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
 
@@ -60,4 +65,3 @@ class Ui_ImageSettingsUi(object):
         self.label_8.setText(_translate("ImageSettingsUi", "Resolution:"))
         self.label_6.setText(_translate("ImageSettingsUi", "Image Format:"))
         self.label_7.setText(_translate("ImageSettingsUi", "Quality:"))
-

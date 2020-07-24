@@ -50,7 +50,7 @@ class DemoImpl(QDialog):
     def __init__(self, *args):
         super(DemoImpl, self).__init__(*args)
 
-        loadUi('demo.ui', self)
+        loadUi("demo.ui", self)
 
     @pyqtSlot()
     def on_button1_clicked(self):

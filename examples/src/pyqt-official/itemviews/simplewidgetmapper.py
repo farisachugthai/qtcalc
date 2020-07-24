@@ -44,8 +44,17 @@
 
 
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
-from PyQt5.QtWidgets import (QApplication, QDataWidgetMapper, QGridLayout,
-        QLabel, QLineEdit, QPushButton, QSpinBox, QTextEdit, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDataWidgetMapper,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QSpinBox,
+    QTextEdit,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -93,18 +102,19 @@ class Window(QWidget):
 
         self.setWindowTitle("Simple Widget Mapper")
         self.mapper.toFirst()
- 
+
     def setupModel(self):
         self.model = QStandardItemModel(5, 3, self)
         names = ("Alice", "Bob", "Carol", "Donald", "Emma")
-        addresses = ("<qt>123 Main Street<br/>Market Town</qt>",
-                     "<qt>PO Box 32<br/>Mail Handling Service"
-                     "<br/>Service City</qt>",
-                     "<qt>The Lighthouse<br/>Remote Island</qt>",
-                     "<qt>47338 Park Avenue<br/>Big City</qt>",
-                     "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>")
+        addresses = (
+            "<qt>123 Main Street<br/>Market Town</qt>",
+            "<qt>PO Box 32<br/>Mail Handling Service" "<br/>Service City</qt>",
+            "<qt>The Lighthouse<br/>Remote Island</qt>",
+            "<qt>47338 Park Avenue<br/>Big City</qt>",
+            "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>",
+        )
         ages = ("20", "31", "32", "19", "26")
-        
+
         for row, name in enumerate(names):
             item = QStandardItem(name)
             self.model.setItem(row, 0, item)
@@ -112,13 +122,13 @@ class Window(QWidget):
             self.model.setItem(row, 1, item)
             item = QStandardItem(ages[row])
             self.model.setItem(row, 2, item)
- 
+
     def updateButtons(self, row):
         self.previousButton.setEnabled(row > 0)
         self.nextButton.setEnabled(row < self.model.rowCount() - 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -45,16 +45,25 @@
 
 from PyQt5.QtCore import pyqtSignal, QMimeData, Qt
 from PyQt5.QtGui import QPalette, QPixmap
-from PyQt5.QtWidgets import (QAbstractItemView, QApplication, QDialogButtonBox,
-        QFrame, QLabel, QPushButton, QTableWidget, QTableWidgetItem,
-        QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QApplication,
+    QDialogButtonBox,
+    QFrame,
+    QLabel,
+    QPushButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class DropArea(QLabel):
 
     changed = pyqtSignal(QMimeData)
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(DropArea, self).__init__(parent)
 
         self.setMinimumSize(200, 200)
@@ -102,13 +111,13 @@ class DropArea(QLabel):
 
 
 class DropSiteWindow(QWidget):
-
     def __init__(self):
         super(DropSiteWindow, self).__init__()
 
         self.abstractLabel = QLabel(
-                "This example accepts drags from other applications and "
-                "displays the MIME types provided by the drag object.")
+            "This example accepts drags from other applications and "
+            "displays the MIME types provided by the drag object."
+        )
         self.abstractLabel.setWordWrap(True)
         self.abstractLabel.adjustSize()
 
@@ -152,14 +161,16 @@ class DropSiteWindow(QWidget):
             formatItem.setFlags(Qt.ItemIsEnabled)
             formatItem.setTextAlignment(Qt.AlignTop | Qt.AlignLeft)
 
-            if format == 'text/plain':
+            if format == "text/plain":
                 text = mimeData.text().strip()
-            elif format == 'text/html':
+            elif format == "text/html":
                 text = mimeData.html().strip()
-            elif format == 'text/uri-list':
+            elif format == "text/uri-list":
                 text = " ".join([url.toString() for url in mimeData.urls()])
             else:
-                text = " ".join(["%02X" % ord(datum) for datum in mimeData.data(format)])
+                text = " ".join(
+                    ["%02X" % ord(datum) for datum in mimeData.data(format)]
+                )
 
             row = self.formatsTable.rowCount()
             self.formatsTable.insertRow(row)
@@ -169,7 +180,7 @@ class DropSiteWindow(QWidget):
         self.formatsTable.resizeColumnToContents(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -177,4 +188,3 @@ if __name__ == '__main__':
     window = DropSiteWindow()
     window.show()
     sys.exit(app.exec_())
-

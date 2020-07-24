@@ -45,8 +45,7 @@
 
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import (QAction, QApplication, QMainWindow, QMessageBox,
-        QWidget)
+from PyQt5.QtWidgets import QAction, QApplication, QMainWindow, QMessageBox, QWidget
 
 import formextractor_rc
 from ui_formextractor import Ui_Form
@@ -60,39 +59,39 @@ class FormExtractor(QWidget):
         self.ui.setupUi(self)
 
         webView = self.ui.webView
-        webView.setUrl(QUrl('qrc:/form.html'))
+        webView.setUrl(QUrl("qrc:/form.html"))
         webView.page().mainFrame().javaScriptWindowObjectCleared.connect(
-                self.populateJavaScriptWindowObject)
+            self.populateJavaScriptWindowObject
+        )
 
         self.resize(300, 300)
- 
+
     @pyqtSlot()
     def submit(self):
         frame = self.ui.webView.page().mainFrame()
-        firstName = frame.findFirstElement('#firstname')
-        lastName = frame.findFirstElement('#lastname')
-        maleGender = frame.findFirstElement('#genderMale')
-        femaleGender = frame.findFirstElement('#genderFemale')
-        updates = frame.findFirstElement('#updates')
+        firstName = frame.findFirstElement("#firstname")
+        lastName = frame.findFirstElement("#lastname")
+        maleGender = frame.findFirstElement("#genderMale")
+        femaleGender = frame.findFirstElement("#genderFemale")
+        updates = frame.findFirstElement("#updates")
 
-        self.ui.firstNameEdit.setText(firstName.evaluateJavaScript('this.value'))
-        self.ui.lastNameEdit.setText(lastName.evaluateJavaScript('this.value'))
+        self.ui.firstNameEdit.setText(firstName.evaluateJavaScript("this.value"))
+        self.ui.lastNameEdit.setText(lastName.evaluateJavaScript("this.value"))
 
-        if maleGender.evaluateJavaScript('this.checked'):
-            self.ui.genderEdit.setText(
-                    maleGender.evaluateJavaScript('this.value'))
-        elif femaleGender.evaluateJavaScript('this.checked'):
-            self.ui.genderEdit.setText(
-                    femaleGender.evaluateJavaScript('this.value'))
+        if maleGender.evaluateJavaScript("this.checked"):
+            self.ui.genderEdit.setText(maleGender.evaluateJavaScript("this.value"))
+        elif femaleGender.evaluateJavaScript("this.checked"):
+            self.ui.genderEdit.setText(femaleGender.evaluateJavaScript("this.value"))
 
-        if updates.evaluateJavaScript('this.checked'):
+        if updates.evaluateJavaScript("this.checked"):
             self.ui.updatesEdit.setText("Yes")
         else:
             self.ui.updatesEdit.setText("No")
 
     def populateJavaScriptWindowObject(self):
         self.ui.webView.page().mainFrame().addToJavaScriptWindowObject(
-                'formExtractor', self)
+            "formExtractor", self
+        )
 
 
 class MainWindow(QMainWindow):
@@ -103,18 +102,29 @@ class MainWindow(QMainWindow):
         self.createMenus()
         self.centralWidget = FormExtractor(self)
         self.setCentralWidget(self.centralWidget)
-    
+
     def createActions(self):
-        self.exitAct = QAction("E&xit", self, statusTip="Exit the application",
-                shortcut=QKeySequence.Quit, triggered=self.close)
+        self.exitAct = QAction(
+            "E&xit",
+            self,
+            statusTip="Exit the application",
+            shortcut=QKeySequence.Quit,
+            triggered=self.close,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                statusTip="Show the application's About box",
-                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                statusTip="Show the Qt library's About box",
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
     def createMenus(self):
         fileMenu = self.menuBar().addMenu("&File")
@@ -125,12 +135,15 @@ class MainWindow(QMainWindow):
         helpMenu.addAction(self.aboutQtAct)
 
     def about(self):
-        QMessageBox.about(self, "About Form Extractor",
-                "The <b>Form Extractor</b> example demonstrates how to "
-                "extract data from a web form using QtWebKit.")
+        QMessageBox.about(
+            self,
+            "About Form Extractor",
+            "The <b>Form Extractor</b> example demonstrates how to "
+            "extract data from a web form using QtWebKit.",
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

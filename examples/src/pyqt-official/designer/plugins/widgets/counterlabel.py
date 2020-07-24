@@ -38,7 +38,7 @@ class CounterLabel(QWidget):
 
     # We define two signals that are used to indicate changes to the status
     # of the widget.
-    valueChanged = pyqtSignal((int, ), (str, ))
+    valueChanged = pyqtSignal((int,), (str,))
 
     def __init__(self, parent=None):
 
@@ -60,7 +60,7 @@ class CounterLabel(QWidget):
         p.begin(self)
         p.setRenderHint(QPainter.Antialiasing)
         p.setFont(self._font)
-        p.translate(self.width()/2.0, self.height()/2.0)
+        p.translate(self.width() / 2.0, self.height() / 2.0)
         p.scale(self._scale, self._scale)
         p.drawText(self._xpos, self._ypos, str(self._value))
         p.end()
@@ -71,19 +71,19 @@ class CounterLabel(QWidget):
     def rescale(self):
 
         fm = QFontMetricsF(self._font, self)
-        maxRect = fm.boundingRect(QRectF(self.rect()), Qt.AlignCenter,
-                str(self._maximum))
-        xscale = float(self.width())/maxRect.width()
-        yscale = float(self.height())/maxRect.height()
+        maxRect = fm.boundingRect(
+            QRectF(self.rect()), Qt.AlignCenter, str(self._maximum)
+        )
+        xscale = float(self.width()) / maxRect.width()
+        yscale = float(self.height()) / maxRect.height()
         self._scale = min(xscale, yscale)
 
     def reposition(self):
 
         fm = QFontMetricsF(self._font, self)
-        rect = fm.boundingRect(QRectF(self.rect()), Qt.AlignCenter,
-                str(self._value))
-        self._xpos = -rect.width()/2.0
-        self._ypos = rect.height()/2.0 - fm.descent()
+        rect = fm.boundingRect(QRectF(self.rect()), Qt.AlignCenter, str(self._value))
+        self._xpos = -rect.width() / 2.0
+        self._ypos = rect.height() / 2.0 - fm.descent()
         self.update()
 
     # Provide getter and setter methods for the font property.

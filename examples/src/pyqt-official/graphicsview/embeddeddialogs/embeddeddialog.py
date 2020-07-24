@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_embeddedDialog(object):
     def setupUi(self, embeddedDialog):
         embeddedDialog.setObjectName("embeddedDialog")
@@ -22,7 +23,9 @@ class Ui_embeddedDialog(object):
         self.layoutDirection.setObjectName("layoutDirection")
         self.layoutDirection.addItem("")
         self.layoutDirection.addItem("")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.layoutDirection)
+        self.formLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.layoutDirection
+        )
         self.label_2 = QtWidgets.QLabel(embeddedDialog)
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
@@ -54,9 +57,12 @@ class Ui_embeddedDialog(object):
         _translate = QtCore.QCoreApplication.translate
         embeddedDialog.setWindowTitle(_translate("embeddedDialog", "Embedded Dialog"))
         self.label.setText(_translate("embeddedDialog", "Layout Direction:"))
-        self.layoutDirection.setItemText(0, _translate("embeddedDialog", "Left to Right"))
-        self.layoutDirection.setItemText(1, _translate("embeddedDialog", "Right to Left"))
+        self.layoutDirection.setItemText(
+            0, _translate("embeddedDialog", "Left to Right")
+        )
+        self.layoutDirection.setItemText(
+            1, _translate("embeddedDialog", "Right to Left")
+        )
         self.label_2.setText(_translate("embeddedDialog", "Select Font:"))
         self.label_3.setText(_translate("embeddedDialog", "Style:"))
         self.label_4.setText(_translate("embeddedDialog", "Layout spacing:"))
-

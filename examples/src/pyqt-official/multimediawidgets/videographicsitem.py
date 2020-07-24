@@ -46,13 +46,21 @@ from PyQt5.QtCore import QDir, QSize, QSizeF, Qt, QUrl
 from PyQt5.QtGui import QTransform
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QGraphicsVideoItem
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
-        QGraphicsView, QHBoxLayout, QPushButton, QSlider, QStyle, QVBoxLayout,
-        QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QGraphicsScene,
+    QGraphicsView,
+    QHBoxLayout,
+    QPushButton,
+    QSlider,
+    QStyle,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class VideoPlayer(QWidget):
-
     def __init__(self, parent=None):
         super(VideoPlayer, self).__init__(parent)
 
@@ -67,7 +75,7 @@ class VideoPlayer(QWidget):
         scene.addItem(self.videoItem)
 
         rotateSlider = QSlider(Qt.Horizontal)
-        rotateSlider.setRange(-180,  180)
+        rotateSlider.setRange(-180, 180)
         rotateSlider.setValue(0)
         rotateSlider.valueChanged.connect(self.rotateVideo)
 
@@ -105,12 +113,10 @@ class VideoPlayer(QWidget):
         return QSize(800, 600)
 
     def openFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Movie",
-                QDir.homePath())
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open Movie", QDir.homePath())
 
-        if fileName != '':
-            self.mediaPlayer.setMedia(
-                    QMediaContent(QUrl.fromLocalFile(fileName)))
+        if fileName != "":
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
             self.playButton.setEnabled(True)
 
     def play(self):
@@ -121,11 +127,9 @@ class VideoPlayer(QWidget):
 
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
-            self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+            self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
         else:
-            self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPlay))
+            self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
@@ -141,10 +145,11 @@ class VideoPlayer(QWidget):
         y = self.videoItem.boundingRect().height() / 2.0
 
         self.videoItem.setTransform(
-                QTransform().translate(x, y).rotate(angle).translate(-x, -y))
+            QTransform().translate(x, y).rotate(angle).translate(-x, -y)
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

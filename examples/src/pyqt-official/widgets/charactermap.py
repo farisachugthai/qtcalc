@@ -45,11 +45,22 @@
 import unicodedata
 
 from PyQt5.QtCore import pyqtSignal, QSize, Qt
-from PyQt5.QtGui import (QClipboard, QFont, QFontDatabase, QFontMetrics,
-        QPainter)
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QFontComboBox,
-        QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QScrollArea,
-        QToolTip, QVBoxLayout, QWidget)
+from PyQt5.QtGui import QClipboard, QFont, QFontDatabase, QFontMetrics, QPainter
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QFontComboBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QPushButton,
+    QScrollArea,
+    QToolTip,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class CharacterWidget(QWidget):
@@ -76,13 +87,14 @@ class CharacterWidget(QWidget):
         self.displayFont.setPointSize(fontSize)
         self.squareSize = max(24, QFontMetrics(self.displayFont).xHeight() * 3)
         self.adjustSize()
-        self.update() 
+        self.update()
 
     def updateStyle(self, fontStyle):
         fontDatabase = QFontDatabase()
         oldStrategy = self.displayFont.styleStrategy()
-        self.displayFont = fontDatabase.font(self.displayFont.family(),
-                fontStyle, self.displayFont.pointSize())
+        self.displayFont = fontDatabase.font(
+            self.displayFont.family(), fontStyle, self.displayFont.pointSize()
+        )
         self.displayFont.setStyleStrategy(oldStrategy)
         self.squareSize = max(24, QFontMetrics(self.displayFont).xHeight() * 3)
         self.adjustSize()
@@ -97,22 +109,30 @@ class CharacterWidget(QWidget):
         self.update()
 
     def sizeHint(self):
-        return QSize(self.columns * self.squareSize,
-                (65536 / self.columns) * self.squareSize)
+        return QSize(
+            self.columns * self.squareSize, (65536 / self.columns) * self.squareSize
+        )
 
     def mouseMoveEvent(self, event):
         widgetPosition = self.mapFromGlobal(event.globalPos())
-        key = (widgetPosition.y() // self.squareSize) * self.columns + widgetPosition.x() // self.squareSize
+        key = (
+            widgetPosition.y() // self.squareSize
+        ) * self.columns + widgetPosition.x() // self.squareSize
 
-        text = '<p>Character: <span style="font-size: 24pt; font-family: %s">%s</span><p>Value: 0x%x' % (self.displayFont.family(), self._chr(key), key)
+        text = (
+            '<p>Character: <span style="font-size: 24pt; font-family: %s">%s</span><p>Value: 0x%x'
+            % (self.displayFont.family(), self._chr(key), key)
+        )
         QToolTip.showText(event.globalPos(), text, self)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.lastKey = (event.y() // self.squareSize) * self.columns + event.x() // self.squareSize
+            self.lastKey = (
+                event.y() // self.squareSize
+            ) * self.columns + event.x() // self.squareSize
             key_ch = self._chr(self.lastKey)
 
-            if unicodedata.category(key_ch) != 'Cn':
+            if unicodedata.category(key_ch) != "Cn":
                 self.characterSelected.emit(key_ch)
             self.update()
         else:
@@ -132,28 +152,42 @@ class CharacterWidget(QWidget):
         painter.setPen(Qt.gray)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
-                painter.drawRect(column * self.squareSize,
-                        row * self.squareSize, self.squareSize,
-                        self.squareSize)
+                painter.drawRect(
+                    column * self.squareSize,
+                    row * self.squareSize,
+                    self.squareSize,
+                    self.squareSize,
+                )
 
         fontMetrics = QFontMetrics(self.displayFont)
         painter.setPen(Qt.black)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
                 key = row * self.columns + column
-                painter.setClipRect(column * self.squareSize,
-                        row * self.squareSize, self.squareSize,
-                        self.squareSize)
+                painter.setClipRect(
+                    column * self.squareSize,
+                    row * self.squareSize,
+                    self.squareSize,
+                    self.squareSize,
+                )
 
                 if key == self.lastKey:
-                    painter.fillRect(column * self.squareSize + 1,
-                            row * self.squareSize + 1, self.squareSize,
-                            self.squareSize, Qt.red)
+                    painter.fillRect(
+                        column * self.squareSize + 1,
+                        row * self.squareSize + 1,
+                        self.squareSize,
+                        self.squareSize,
+                        Qt.red,
+                    )
 
                 key_ch = self._chr(key)
-                painter.drawText(column * self.squareSize + (self.squareSize / 2) - fontMetrics.width(key_ch) / 2,
-                        row * self.squareSize + 4 + fontMetrics.ascent(),
-                        key_ch)
+                painter.drawText(
+                    column * self.squareSize
+                    + (self.squareSize / 2)
+                    - fontMetrics.width(key_ch) / 2,
+                    row * self.squareSize + 4 + fontMetrics.ascent(),
+                    key_ch,
+                )
 
     @staticmethod
     def _chr(codepoint):
@@ -246,12 +280,16 @@ class MainWindow(QMainWindow):
         self.sizeCombo.blockSignals(True)
         self.sizeCombo.clear()
 
-        if fontDatabase.isSmoothlyScalable(font.family(), fontDatabase.styleString(font)):
+        if fontDatabase.isSmoothlyScalable(
+            font.family(), fontDatabase.styleString(font)
+        ):
             for size in QFontDatabase.standardSizes():
                 self.sizeCombo.addItem(str(size))
                 self.sizeCombo.setEditable(True)
         else:
-            for size in fontDatabase.smoothSizes(font.family(), fontDatabase.styleString(font)):
+            for size in fontDatabase.smoothSizes(
+                font.family(), fontDatabase.styleString(font)
+            ):
                 self.sizeCombo.addItem(str(size))
                 self.sizeCombo.setEditable(False)
 
@@ -271,7 +309,7 @@ class MainWindow(QMainWindow):
         self.clipboard.setText(self.lineEdit.text(), QClipboard.Selection)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

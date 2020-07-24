@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -58,5 +59,6 @@ class Ui_Form(object):
         self.clearButton.setText(_translate("Form", "Clear"))
         self.previewButton.setText(_translate("Form", "Preview"))
         self.previewerBox.setTitle(_translate("Form", "HTML Preview"))
+
 
 from PyQt5 import QtWebKitWidgets

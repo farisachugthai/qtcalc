@@ -46,13 +46,17 @@ import math
 
 from PyQt5.QtCore import pyqtSlot, Q_CLASSINFO, QRectF, Qt
 from PyQt5.QtGui import QBrush, QPainter, QTransform
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsObject,
-        QGraphicsScene, QGraphicsView)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGraphicsItem,
+    QGraphicsObject,
+    QGraphicsScene,
+    QGraphicsView,
+)
 from PyQt5.QtDBus import QDBusAbstractAdaptor, QDBusConnection
 
 
 class Car(QGraphicsObject):
-
     def __init__(self):
         super(Car, self).__init__()
 
@@ -97,52 +101,55 @@ class Car(QGraphicsObject):
 
     def paint(self, painter, option, widget):
         painter.setBrush(Qt.gray)
-        painter.drawRect(-20, -58, 40, 2)       # Front axel
-        painter.drawRect(-20, 7, 40, 2)         # Rear axel
+        painter.drawRect(-20, -58, 40, 2)  # Front axel
+        painter.drawRect(-20, 7, 40, 2)  # Rear axel
 
         painter.setBrush(self.color)
-        painter.drawRect(-25, -79, 50, 10)      # Front wing
+        painter.drawRect(-25, -79, 50, 10)  # Front wing
 
-        painter.drawEllipse(-25, -48, 50, 20)   # Side pods
-        painter.drawRect(-25, -38, 50, 35)      # Side pods
-        painter.drawRect(-5, 9, 10, 10)         # Back pod
+        painter.drawEllipse(-25, -48, 50, 20)  # Side pods
+        painter.drawRect(-25, -38, 50, 35)  # Side pods
+        painter.drawRect(-5, 9, 10, 10)  # Back pod
 
         painter.drawEllipse(-10, -81, 20, 100)  # Main body
 
-        painter.drawRect(-17, 19, 34, 15)       # Rear wing
+        painter.drawRect(-17, 19, 34, 15)  # Rear wing
 
         painter.setBrush(Qt.black)
         painter.drawPie(-5, -51, 10, 15, 0, 180 * 16)
-        painter.drawRect(-5, -44, 10, 10)       # Cockpit
+        painter.drawRect(-5, -44, 10, 10)  # Cockpit
 
         painter.save()
         painter.translate(-20, -58)
         painter.rotate(self.wheelsAngle)
-        painter.drawRect(-10, -7, 10, 15)       # Front left
+        painter.drawRect(-10, -7, 10, 15)  # Front left
         painter.restore()
 
         painter.save()
         painter.translate(20, -58)
         painter.rotate(self.wheelsAngle)
-        painter.drawRect(0, -7, 10, 15)         # Front right
+        painter.drawRect(0, -7, 10, 15)  # Front right
         painter.restore()
 
-        painter.drawRect(-30, 0, 12, 17)        # Rear left
-        painter.drawRect(19, 0, 12, 17)         # Rear right
+        painter.drawRect(-30, 0, 12, 17)  # Rear left
+        painter.drawRect(19, 0, 12, 17)  # Rear right
 
 
 class CarInterfaceAdaptor(QDBusAbstractAdaptor):
 
-    Q_CLASSINFO("D-Bus Interface", 'org.example.Examples.CarInterface')
+    Q_CLASSINFO("D-Bus Interface", "org.example.Examples.CarInterface")
 
-    Q_CLASSINFO("D-Bus Introspection", ''
-            '  <interface name="org.example.Examples.CarInterface">\n'
-            '    <method name="accelerate"/>\n'
-            '    <method name="decelerate"/>\n'
-            '    <method name="turnLeft"/>\n'
-            '    <method name="turnRight"/>\n'
-            '  </interface>\n'
-            '')
+    Q_CLASSINFO(
+        "D-Bus Introspection",
+        ""
+        '  <interface name="org.example.Examples.CarInterface">\n'
+        '    <method name="accelerate"/>\n'
+        '    <method name="decelerate"/>\n'
+        '    <method name="turnLeft"/>\n'
+        '    <method name="turnRight"/>\n'
+        "  </interface>\n"
+        "",
+    )
 
     def __init__(self, parent):
         super(CarInterfaceAdaptor, self).__init__(parent)
@@ -166,7 +173,7 @@ class CarInterfaceAdaptor(QDBusAbstractAdaptor):
         self.parent().turnRight()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
@@ -187,8 +194,8 @@ if __name__ == '__main__':
 
     a = CarInterfaceAdaptor(car)
     connection = QDBusConnection.sessionBus()
-    connection.registerObject('/Car', car)
-    connection.registerService('org.example.CarExample')
+    connection.registerObject("/Car", car)
+    connection.registerService("org.example.CarExample")
 
     rc = app.exec_()
 

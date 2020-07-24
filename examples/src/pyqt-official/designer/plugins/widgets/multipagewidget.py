@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 
-#============================================================================#
+# ============================================================================#
 # PyQt5 port of the designer/containerextension example from Qt v5.x         #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QSize
-from PyQt5.QtWidgets import (QApplication, QComboBox, QLabel, QStackedWidget,
-        QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QLabel,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 
-#============================================================================#
+# ============================================================================#
 # Implementation of a MultiPageWidget using a QComboBox and a QStackedWidget #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 class PyMultiPageWidget(QWidget):
 
     currentIndexChanged = pyqtSignal(int)
@@ -27,7 +33,7 @@ class PyMultiPageWidget(QWidget):
         # of the designer and you can't change the current page via the
         # combo box.
         # MAGIC
-        self.comboBox.setObjectName('__qt__passive_comboBox')        
+        self.comboBox.setObjectName("__qt__passive_comboBox")
         self.stackWidget = QStackedWidget()
         self.comboBox.activated.connect(self.setCurrentIndex)
         self.layout = QVBoxLayout()
@@ -66,8 +72,8 @@ class PyMultiPageWidget(QWidget):
 
     def getPageTitle(self):
         cw = self.stackWidget.currentWidget()
-        return cw.windowTitle() if cw is not None else ''
-    
+        return cw.windowTitle() if cw is not None else ""
+
     @pyqtSlot(str)
     def setPageTitle(self, newTitle):
         cw = self.stackWidget.currentWidget()
@@ -90,18 +96,19 @@ class PyMultiPageWidget(QWidget):
     currentIndex = pyqtProperty(int, fget=getCurrentIndex, fset=setCurrentIndex)
 
 
-#============================================================================#
+# ============================================================================#
 # Main for testing the class                                                 #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 if __name__ == "__main__":
     import sys
+
     app = QApplication(sys.argv)
     widget = PyMultiPageWidget()
-    widget.addPage(QLabel('This is page #1'))
-    widget.addPage(QLabel('This is page #2'))
+    widget.addPage(QLabel("This is page #1"))
+    widget.addPage(QLabel("This is page #2"))
     widget.show()
     sys.exit(app.exec_())
 
-#============================================================================#
+# ============================================================================#
 # EOF                                                                        #
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#

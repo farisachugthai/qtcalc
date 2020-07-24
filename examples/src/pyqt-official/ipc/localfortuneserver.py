@@ -47,8 +47,15 @@
 import random
 
 from PyQt5.QtCore import QByteArray, QDataStream, QIODevice
-from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QHBoxLayout,
-        QMessageBox, QPushButton, QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QLabel,
+    QHBoxLayout,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+)
 from PyQt5.QtNetwork import QLocalServer
 
 
@@ -72,14 +79,18 @@ class Server(QDialog):
         )
 
         self.server = QLocalServer()
-        if not self.server.listen('fortune'):
-            QMessageBox.critical(self, "Fortune Server",
-                    "Unable to start the server: %s." % self.server.errorString())
+        if not self.server.listen("fortune"):
+            QMessageBox.critical(
+                self,
+                "Fortune Server",
+                "Unable to start the server: %s." % self.server.errorString(),
+            )
             self.close()
             return
 
-        statusLabel.setText("The server is running.\nRun the Fortune Client "
-                "example now.")
+        statusLabel.setText(
+            "The server is running.\nRun the Fortune Client " "example now."
+        )
 
         quitButton.clicked.connect(self.close)
         self.server.newConnection.connect(self.sendFortune)
@@ -112,7 +123,7 @@ class Server(QDialog):
         clientConnection.disconnectFromServer()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -44,9 +44,20 @@
 
 from PyQt5.QtCore import QDir, QEvent, Qt, QT_TRANSLATE_NOOP, QTranslator
 from PyQt5.QtGui import QColor, QPalette
-from PyQt5.QtWidgets import (QAction, QApplication, QCheckBox, QDialog,
-        QDialogButtonBox, QGridLayout, QGroupBox, QListWidget, QMainWindow,
-        QRadioButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QDialogButtonBox,
+    QGridLayout,
+    QGroupBox,
+    QListWidget,
+    QMainWindow,
+    QRadioButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 import i18n_rc
 
@@ -56,7 +67,7 @@ class LanguageChooser(QDialog):
         super(LanguageChooser, self).__init__(parent, Qt.WindowStaysOnTopHint)
 
         self.qmFileForCheckBoxMap = {}
-        self.mainWindowForCheckBoxMap = {} 
+        self.mainWindowForCheckBoxMap = {}
 
         groupBox = QGroupBox("Languages")
 
@@ -74,10 +85,8 @@ class LanguageChooser(QDialog):
 
         buttonBox = QDialogButtonBox()
 
-        showAllButton = buttonBox.addButton("Show All",
-                QDialogButtonBox.ActionRole)
-        hideAllButton = buttonBox.addButton("Hide All",
-                QDialogButtonBox.ActionRole)
+        showAllButton = buttonBox.addButton("Show All", QDialogButtonBox.ActionRole)
+        hideAllButton = buttonBox.addButton("Hide All", QDialogButtonBox.ActionRole)
 
         showAllButton.clicked.connect(self.showAll)
         hideAllButton.clicked.connect(self.hideAll)
@@ -138,13 +147,13 @@ class LanguageChooser(QDialog):
             checkBox.setChecked(False)
 
     def findQmFiles(self):
-        trans_dir = QDir(':/translations')
-        fileNames = trans_dir.entryList(['*.qm'], QDir.Files, QDir.Name)
+        trans_dir = QDir(":/translations")
+        fileNames = trans_dir.entryList(["*.qm"], QDir.Files, QDir.Name)
 
         return [trans_dir.filePath(fn) for fn in fileNames]
 
     def languageName(self, qmFile):
-        translator = QTranslator() 
+        translator = QTranslator()
         translator.load(qmFile)
 
         return translator.translate("MainWindow", "English")
@@ -158,9 +167,11 @@ class LanguageChooser(QDialog):
 
 
 class MainWindow(QMainWindow):
-    listEntries = [QT_TRANSLATE_NOOP("MainWindow", "First"),
-                   QT_TRANSLATE_NOOP("MainWindow", "Second"),
-                   QT_TRANSLATE_NOOP("MainWindow", "Third")]
+    listEntries = [
+        QT_TRANSLATE_NOOP("MainWindow", "First"),
+        QT_TRANSLATE_NOOP("MainWindow", "Second"),
+        QT_TRANSLATE_NOOP("MainWindow", "Third"),
+    ]
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -180,8 +191,9 @@ class MainWindow(QMainWindow):
         mainLayout.addWidget(listWidget)
         self.centralWidget.setLayout(mainLayout)
 
-        exitAction = QAction(self.tr("E&xit"), self,
-                triggered=QApplication.instance().quit)
+        exitAction = QAction(
+            self.tr("E&xit"), self, triggered=QApplication.instance().quit
+        )
 
         fileMenu = self.menuBar().addMenu(self.tr("&File"))
         fileMenu.setPalette(QPalette(Qt.red))

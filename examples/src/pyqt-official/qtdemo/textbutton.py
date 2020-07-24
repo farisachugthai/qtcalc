@@ -41,8 +41,7 @@
 
 
 from PyQt5.QtCore import QPointF, QRect, QRectF, QSize, Qt
-from PyQt5.QtGui import (QColor, QImage, QLinearGradient, QPainter,
-        QPainterPath, QPen)
+from PyQt5.QtGui import QColor, QImage, QLinearGradient, QPainter, QPainterPath, QPen
 
 from colors import Colors
 from demoitem import DemoItem
@@ -59,7 +58,7 @@ class ButtonBackground(DemoItem):
         self.highlighted = highlighted
         self.pressed = pressed
         self.logicalSize = logicalSize
-        self.useSharedImage('%s%d%d%d' % (__file__, type, highlighted, pressed))
+        self.useSharedImage("%s%d%d%d" % (__file__, type, highlighted, pressed))
 
     def createImage(self, transform):
         if self.type in (TextButton.SIDEBAR, TextButton.PANEL):
@@ -68,11 +67,13 @@ class ButtonBackground(DemoItem):
             return self.createArrowBackground(transform)
 
     def createRoundButtonBackground(self, transform):
-        scaledRect = transform.mapRect(QRect(0, 0,
-                self.logicalSize.width(), self.logicalSize.height()))
+        scaledRect = transform.mapRect(
+            QRect(0, 0, self.logicalSize.width(), self.logicalSize.height())
+        )
 
-        image = QImage(scaledRect.width(), scaledRect.height(),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(
+            scaledRect.width(), scaledRect.height(), QImage.Format_ARGB32_Premultiplied
+        )
         image.fill(QColor(0, 0, 0, 0).rgba())
         painter = QPainter(image)
         painter.setRenderHint(QPainter.SmoothPixmapTransform)
@@ -121,17 +122,20 @@ class ButtonBackground(DemoItem):
         if self.type == TextButton.PANEL:
             painter.drawRect(0, 0, scaledRect.width(), scaledRect.height())
         else:
-            painter.drawRoundedRect(0, 0, scaledRect.width(),
-                    scaledRect.height(), 10, 90, Qt.RelativeSize)
+            painter.drawRoundedRect(
+                0, 0, scaledRect.width(), scaledRect.height(), 10, 90, Qt.RelativeSize
+            )
 
         return image
 
     def createArrowBackground(self, transform):
-        scaledRect = transform.mapRect(QRect(0, 0,
-                self.logicalSize.width(), self.logicalSize.height()))
+        scaledRect = transform.mapRect(
+            QRect(0, 0, self.logicalSize.width(), self.logicalSize.height())
+        )
 
-        image = QImage(scaledRect.width(), scaledRect.height(),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(
+            scaledRect.width(), scaledRect.height(), QImage.Format_ARGB32_Premultiplied
+        )
         image.fill(QColor(0, 0, 0, 0).rgba())
         painter = QPainter(image)
         painter.setRenderHint(QPainter.SmoothPixmapTransform)
@@ -170,7 +174,7 @@ class ButtonBackground(DemoItem):
                     brush.setColorAt(1, normal2)
                 painter.setPen(QPen(outlinebrush, 1))
 
-            painter.setBrush(brush);
+            painter.setBrush(brush)
 
         painter.drawRect(0, 0, scaledRect.width(), scaledRect.height())
 
@@ -205,6 +209,7 @@ class TextButton(DemoItem):
 
         # Prevent a circular import.
         from menumanager import MenuManager
+
         self._menu_manager = MenuManager.instance()
 
         self.menuString = text
@@ -226,7 +231,10 @@ class TextButton(DemoItem):
         if type in (TextButton.SIDEBAR, TextButton.PANEL):
             self.logicalSize = QSize(TextButton.BUTTON_WIDTH, TextButton.BUTTON_HEIGHT)
         else:
-            self.logicalSize = QSize(int((TextButton.BUTTON_WIDTH / 2.0) - 5), int(TextButton.BUTTON_HEIGHT * 1.5))
+            self.logicalSize = QSize(
+                int((TextButton.BUTTON_WIDTH / 2.0) - 5),
+                int(TextButton.BUTTON_HEIGHT * 1.5),
+            )
 
         self._prepared = False
 
@@ -241,15 +249,15 @@ class TextButton(DemoItem):
             self._prepared = True
 
     def boundingRect(self):
-        return QRectF(0, 0, self.logicalSize.width(),
-                self.logicalSize.height())
+        return QRectF(0, 0, self.logicalSize.width(), self.logicalSize.height())
 
     def setupHoverText(self):
         if not self.buttonLabel:
             return
 
-        textItem = DemoTextItem(self.buttonLabel, Colors.buttonFont(),
-                Colors.buttonText, -1, self)
+        textItem = DemoTextItem(
+            self.buttonLabel, Colors.buttonFont(), Colors.buttonText, -1, self
+        )
         textItem.setZValue(self.zValue() + 2)
         textItem.setPos(16, 0)
 
@@ -288,14 +296,18 @@ class TextButton(DemoItem):
             self.setCursor(Qt.PointingHandCursor)
 
     def setupButtonBg(self):
-        self.bgOn = ButtonBackground(self.buttonType, True, True,
-                self.logicalSize, self)
-        self.bgOff = ButtonBackground(self.buttonType, False, False,
-                self.logicalSize, self)
-        self.bgHighlight = ButtonBackground(self.buttonType, True, False,
-                self.logicalSize, self)
-        self.bgDisabled = ButtonBackground(self.buttonType, True, True,
-                self.logicalSize, self)
+        self.bgOn = ButtonBackground(
+            self.buttonType, True, True, self.logicalSize, self
+        )
+        self.bgOff = ButtonBackground(
+            self.buttonType, False, False, self.logicalSize, self
+        )
+        self.bgHighlight = ButtonBackground(
+            self.buttonType, True, False, self.logicalSize, self
+        )
+        self.bgDisabled = ButtonBackground(
+            self.buttonType, True, True, self.logicalSize, self
+        )
         self.setState(TextButton.OFF)
 
     def hoverEnterEvent(self, event):
@@ -311,8 +323,11 @@ class TextButton(DemoItem):
                 self.scanAnim.setDuration(1000)
                 self.scanAnim.setKeyValueAt(0.2, self.scanAnim.posAt(0))
 
-            if (self._menu_manager.window.fpsMedian > 10 or Colors.noAdapt or
-                    Colors.noTimerUpdate):
+            if (
+                self._menu_manager.window.fpsMedian > 10
+                or Colors.noAdapt
+                or Colors.noTimerUpdate
+            ):
                 if Colors.useButtonBalls:
                     self.scanAnim.play(True, True)
 

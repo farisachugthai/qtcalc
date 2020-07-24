@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -29,7 +30,9 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.webView)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.horizontalLayout.addWidget(self.webFormGroupBox)
-        spacerItem = QtWidgets.QSpacerItem(28, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            28, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.dataGroupBox = QtWidgets.QGroupBox(Form)
         self.dataGroupBox.setObjectName("dataGroupBox")
@@ -40,14 +43,20 @@ class Ui_Form(object):
         self.formLayout.setObjectName("formLayout")
         self.firstNameLabel = QtWidgets.QLabel(self.dataGroupBox)
         self.firstNameLabel.setObjectName("firstNameLabel")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.firstNameLabel)
+        self.formLayout.setWidget(
+            0, QtWidgets.QFormLayout.LabelRole, self.firstNameLabel
+        )
         self.firstNameEdit = QtWidgets.QLineEdit(self.dataGroupBox)
         self.firstNameEdit.setReadOnly(True)
         self.firstNameEdit.setObjectName("firstNameEdit")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.firstNameEdit)
+        self.formLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.firstNameEdit
+        )
         self.lastNameLabel = QtWidgets.QLabel(self.dataGroupBox)
         self.lastNameLabel.setObjectName("lastNameLabel")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lastNameLabel)
+        self.formLayout.setWidget(
+            1, QtWidgets.QFormLayout.LabelRole, self.lastNameLabel
+        )
         self.lastNameEdit = QtWidgets.QLineEdit(self.dataGroupBox)
         self.lastNameEdit.setReadOnly(True)
         self.lastNameEdit.setObjectName("lastNameEdit")
@@ -67,7 +76,9 @@ class Ui_Form(object):
         self.updatesEdit.setObjectName("updatesEdit")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.updatesEdit)
         self.verticalLayout_3.addLayout(self.formLayout)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 24, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 24, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout_3.addItem(spacerItem1)
         self.horizontalLayout.addWidget(self.dataGroupBox)
 
@@ -83,5 +94,6 @@ class Ui_Form(object):
         self.lastNameLabel.setText(_translate("Form", "Last Name"))
         self.genderLabel.setText(_translate("Form", "Gender"))
         self.updatesLabel.setText(_translate("Form", "Receive Updates"))
+
 
 from PyQt5 import QtWebKitWidgets

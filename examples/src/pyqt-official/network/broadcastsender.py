@@ -43,8 +43,14 @@
 
 
 from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QLabel,
-        QPushButton, QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+)
 from PyQt5.QtNetwork import QHostAddress, QUdpSocket
 
 
@@ -83,11 +89,13 @@ class Sender(QDialog):
     def broadcastDatagramm(self):
         self.statusLabel.setText("Now broadcasting datagram %d" % self.messageNo)
         datagram = "Broadcast message %d" % self.messageNo
-        self.udpSocket.writeDatagram(datagram, QHostAddress(QHostAddress.Broadcast), 45454)
+        self.udpSocket.writeDatagram(
+            datagram, QHostAddress(QHostAddress.Broadcast), 45454
+        )
         self.messageNo += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

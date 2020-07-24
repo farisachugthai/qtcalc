@@ -46,18 +46,17 @@ import random
 
 from PyQt5.QtCore import QEvent, QPoint, QPointF, QSize, Qt
 from PyQt5.QtGui import QColor, QIcon, QPainter, QPainterPath, QPalette
-from PyQt5.QtWidgets import (QApplication, QStyle, QToolButton, QToolTip,
-        QWidget)
+from PyQt5.QtWidgets import QApplication, QStyle, QToolButton, QToolTip, QWidget
 
 import tooltips_rc
 
 
 class ShapeItem(object):
-    def __init__(self):    
+    def __init__(self):
         self.myPath = QPainterPath()
         self.myPosition = QPoint()
-        self.myColor  = QColor()
-        self.myToolTip = ''
+        self.myColor = QColor()
+        self.myToolTip = ""
 
     def path(self):
         return self.myPath
@@ -93,7 +92,7 @@ class SortingBox(QWidget):
         self.circlePath = QPainterPath()
         self.squarePath = QPainterPath()
         self.trianglePath = QPainterPath()
-        self.shapeItems = []        
+        self.shapeItems = []
 
         self.previousPosition = QPoint()
 
@@ -102,12 +101,15 @@ class SortingBox(QWidget):
 
         self.itemInMotion = None
 
-        self.newCircleButton = self.createToolButton("New Circle",
-                QIcon(':/images/circle.png'), self.createNewCircle)
-        self.newSquareButton = self.createToolButton("New Square",
-                QIcon(':/images/square.png'), self.createNewSquare)
-        self.newTriangleButton = self.createToolButton("New Triangle",
-                QIcon(':/images/triangle.png'), self.createNewTriangle)
+        self.newCircleButton = self.createToolButton(
+            "New Circle", QIcon(":/images/circle.png"), self.createNewCircle
+        )
+        self.newSquareButton = self.createToolButton(
+            "New Square", QIcon(":/images/square.png"), self.createNewSquare
+        )
+        self.newTriangleButton = self.createToolButton(
+            "New Triangle", QIcon(":/images/triangle.png"), self.createNewTriangle
+        )
 
         self.circlePath.addEllipse(0, 0, 100, 100)
         self.squarePath.addRect(0, 0, 100, 100)
@@ -122,23 +124,33 @@ class SortingBox(QWidget):
         self.setWindowTitle("Tooltips")
         self.resize(500, 300)
 
-        self.createShapeItem(self.circlePath, "Circle",
-                self.initialItemPosition(self.circlePath),
-                self.initialItemColor())
-        self.createShapeItem(self.squarePath, "Square",
-                self.initialItemPosition(self.squarePath),
-                self.initialItemColor())
-        self.createShapeItem(self.trianglePath, "Triangle",
-                self.initialItemPosition(self.trianglePath),
-                self.initialItemColor())
+        self.createShapeItem(
+            self.circlePath,
+            "Circle",
+            self.initialItemPosition(self.circlePath),
+            self.initialItemColor(),
+        )
+        self.createShapeItem(
+            self.squarePath,
+            "Square",
+            self.initialItemPosition(self.squarePath),
+            self.initialItemColor(),
+        )
+        self.createShapeItem(
+            self.trianglePath,
+            "Triangle",
+            self.initialItemPosition(self.trianglePath),
+            self.initialItemColor(),
+        )
 
     def event(self, event):
         if event.type() == QEvent.ToolTip:
             helpEvent = event
             index = self.itemAt(helpEvent.pos())
             if index != -1:
-                QToolTip.showText(helpEvent.globalPos(),
-                        self.shapeItems[index].toolTip())
+                QToolTip.showText(
+                    helpEvent.globalPos(), self.shapeItems[index].toolTip()
+                )
             else:
                 QToolTip.hideText()
                 event.ignore()
@@ -189,21 +201,30 @@ class SortingBox(QWidget):
 
     def createNewCircle(self):
         SortingBox.circle_count += 1
-        self.createShapeItem(self.circlePath,
-                "Circle <%d>" % SortingBox.circle_count,
-                self.randomItemPosition(), self.randomItemColor())
+        self.createShapeItem(
+            self.circlePath,
+            "Circle <%d>" % SortingBox.circle_count,
+            self.randomItemPosition(),
+            self.randomItemColor(),
+        )
 
     def createNewSquare(self):
         SortingBox.square_count += 1
-        self.createShapeItem(self.squarePath,
-                "Square <%d>" % SortingBox.square_count,
-                self.randomItemPosition(), self.randomItemColor())
+        self.createShapeItem(
+            self.squarePath,
+            "Square <%d>" % SortingBox.square_count,
+            self.randomItemPosition(),
+            self.randomItemColor(),
+        )
 
     def createNewTriangle(self):
         SortingBox.triangle_count += 1
-        self.createShapeItem(self.trianglePath,
-                "Triangle <%d>" % SortingBox.triangle_count,
-                self.randomItemPosition(), self.randomItemColor())
+        self.createShapeItem(
+            self.trianglePath,
+            "Triangle <%d>" % SortingBox.triangle_count,
+            self.randomItemPosition(),
+            self.randomItemColor(),
+        )
 
     def itemAt(self, pos):
         for i in range(len(self.shapeItems) - 1, -1, -1):
@@ -221,10 +242,13 @@ class SortingBox(QWidget):
 
     def updateButtonGeometry(self, button, x, y):
         size = button.sizeHint()
-        button.setGeometry(x - size.width(), y - size.height(),
-                size.width(), size.height())
+        button.setGeometry(
+            x - size.width(), y - size.height(), size.width(), size.height()
+        )
 
-        return y - size.height() - self.style().pixelMetric(QStyle.PM_DefaultLayoutSpacing)
+        return (
+            y - size.height() - self.style().pixelMetric(QStyle.PM_DefaultLayoutSpacing)
+        )
 
     def createShapeItem(self, path, toolTip, pos, color):
         shapeItem = ShapeItem()
@@ -250,7 +274,9 @@ class SortingBox(QWidget):
         if len(self.shapeItems) == 0:
             x = ((3 * self.width()) / 2 - path.controlPointRect().width()) / 2
         else:
-            x = (self.width() / len(self.shapeItems) - path.controlPointRect().width()) / 2
+            x = (
+                self.width() / len(self.shapeItems) - path.controlPointRect().width()
+            ) / 2
 
         return QPoint(x, y)
 

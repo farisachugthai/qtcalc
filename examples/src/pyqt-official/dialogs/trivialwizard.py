@@ -42,8 +42,15 @@
 #############################################################################
 
 
-from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
-        QVBoxLayout, QWizard, QWizardPage)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QVBoxLayout,
+    QWizard,
+    QWizardPage,
+)
 
 
 def createIntroPage():
@@ -51,8 +58,8 @@ def createIntroPage():
     page.setTitle("Introduction")
 
     label = QLabel(
-            "This wizard will help you register your copy of Super Product "
-            "Two.")
+        "This wizard will help you register your copy of Super Product " "Two."
+    )
     label.setWordWrap(True)
 
     layout = QVBoxLayout()
@@ -97,7 +104,7 @@ def createConclusionPage():
     return page
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

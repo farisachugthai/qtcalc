@@ -58,20 +58,23 @@ def artisticSleep(sleepTime):
         QApplication.processEvents(QEventLoop.AllEvents, 50)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     Colors.parseArgs(sys.argv)
 
-    if sys.platform == 'win32':
-        QMessageBox.information(None, "Documentation Warning",
-                "If you are using the GPL version of PyQt from the binary "
-                "installer then you will probably see warning messages about "
-                "missing documentation.  This is because the installer does "
-                "not include a copy of the Qt documentation as it is so "
-                "large.")
+    if sys.platform == "win32":
+        QMessageBox.information(
+            None,
+            "Documentation Warning",
+            "If you are using the GPL version of PyQt from the binary "
+            "installer then you will probably see warning messages about "
+            "missing documentation.  This is because the installer does "
+            "not include a copy of the Qt documentation as it is so "
+            "large.",
+        )
 
     mainWindow = MainWindow()
     MenuManager.instance().init(mainWindow)

@@ -43,8 +43,17 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox,
-        QMenu, QPushButton, QRadioButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QGridLayout,
+    QGroupBox,
+    QMenu,
+    QPushButton,
+    QRadioButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -159,7 +168,7 @@ class Window(QWidget):
         return groupBox
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

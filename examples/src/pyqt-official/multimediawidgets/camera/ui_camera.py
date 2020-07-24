@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Camera(object):
     def setupUi(self, Camera):
         Camera.setObjectName("Camera")
@@ -18,10 +19,14 @@ class Ui_Camera(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.stackedWidget.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.stackedWidget.sizePolicy().hasHeightForWidth()
+        )
         self.stackedWidget.setSizePolicy(sizePolicy)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -57,10 +62,14 @@ class Ui_Camera(object):
         self.gridLayout_4 = QtWidgets.QGridLayout(self.previewPage)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.lastImagePreviewLabel = QtWidgets.QLabel(self.previewPage)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lastImagePreviewLabel.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.lastImagePreviewLabel.sizePolicy().hasHeightForWidth()
+        )
         self.lastImagePreviewLabel.setSizePolicy(sizePolicy)
         self.lastImagePreviewLabel.setFrameShape(QtWidgets.QFrame.Box)
         self.lastImagePreviewLabel.setText("")
@@ -80,7 +89,9 @@ class Ui_Camera(object):
         self.takeImageButton = QtWidgets.QPushButton(self.tab_2)
         self.takeImageButton.setObjectName("takeImageButton")
         self.gridLayout.addWidget(self.takeImageButton, 0, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 161, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 161, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
         self.label = QtWidgets.QLabel(self.tab_2)
         self.label.setObjectName("label")
@@ -107,7 +118,9 @@ class Ui_Camera(object):
         self.stopButton = QtWidgets.QPushButton(self.tab)
         self.stopButton.setObjectName("stopButton")
         self.gridLayout_2.addWidget(self.stopButton, 2, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 76, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 76, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridLayout_2.addItem(spacerItem1, 3, 0, 1, 1)
         self.muteButton = QtWidgets.QPushButton(self.tab)
         self.muteButton.setCheckable(True)
@@ -153,8 +166,10 @@ class Ui_Camera(object):
         self.actionExit.triggered.connect(Camera.close)
         self.takeImageButton.clicked.connect(Camera.takeImage)
         self.lockButton.clicked.connect(Camera.toggleLock)
-        self.muteButton.toggled['bool'].connect(Camera.setMuted)
-        self.exposureCompensation.valueChanged['int'].connect(Camera.setExposureCompensation)
+        self.muteButton.toggled["bool"].connect(Camera.setMuted)
+        self.exposureCompensation.valueChanged["int"].connect(
+            Camera.setExposureCompensation
+        )
         self.actionSettings.triggered.connect(Camera.configureCaptureSettings)
         self.actionStartCamera.triggered.connect(Camera.startCamera)
         self.actionStopCamera.triggered.connect(Camera.stopCamera)
@@ -166,17 +181,22 @@ class Ui_Camera(object):
         self.lockButton.setText(_translate("Camera", "Focus"))
         self.takeImageButton.setText(_translate("Camera", "Capture Photo"))
         self.label.setText(_translate("Camera", "Exposure Compensation:"))
-        self.captureWidget.setTabText(self.captureWidget.indexOf(self.tab_2), _translate("Camera", "Image"))
+        self.captureWidget.setTabText(
+            self.captureWidget.indexOf(self.tab_2), _translate("Camera", "Image")
+        )
         self.recordButton.setText(_translate("Camera", "Record"))
         self.pauseButton.setText(_translate("Camera", "Pause"))
         self.stopButton.setText(_translate("Camera", "Stop"))
         self.muteButton.setText(_translate("Camera", "Mute"))
-        self.captureWidget.setTabText(self.captureWidget.indexOf(self.tab), _translate("Camera", "Video"))
+        self.captureWidget.setTabText(
+            self.captureWidget.indexOf(self.tab), _translate("Camera", "Video")
+        )
         self.menuFile.setTitle(_translate("Camera", "File"))
         self.menuDevices.setTitle(_translate("Camera", "Devices"))
         self.actionExit.setText(_translate("Camera", "Exit"))
         self.actionStartCamera.setText(_translate("Camera", "Start Camera"))
         self.actionStopCamera.setText(_translate("Camera", "Stop Camera"))
         self.actionSettings.setText(_translate("Camera", "Settings"))
+
 
 from PyQt5.QtMultimediaWidgets import QCameraViewfinder

@@ -53,15 +53,21 @@
 
 import sys
 
-from PyQt5.QtCore import (pyqtSlot, QLoggingCategory, QModelIndex, QObject, Qt,
-        QTimer, QUrl)
+from PyQt5.QtCore import (
+    pyqtSlot,
+    QLoggingCategory,
+    QModelIndex,
+    QObject,
+    Qt,
+    QTimer,
+    QUrl,
+)
 from PyQt5.QtGui import QColor, QStandardItem, QStandardItemModel
 from PyQt5.QtRemoteObjects import QRemoteObjectHost, QRemoteObjectRegistryHost
 from PyQt5.QtWidgets import QApplication, QTreeView
 
 
 class TimerHandler(QObject):
-
     def __init__(self, model, parent=None):
         super().__init__(parent)
 
@@ -70,18 +76,19 @@ class TimerHandler(QObject):
     @pyqtSlot()
     def changeData(self):
         for i in range(10, 50):
-            self._model.setData(self._model.index(i, 1), QColor(Qt.blue),
-                    Qt.BackgroundRole)
+            self._model.setData(
+                self._model.index(i, 1), QColor(Qt.blue), Qt.BackgroundRole
+            )
 
     @pyqtSlot()
     def insertData(self):
         self._model.insertRows(2, 9)
 
         for i in range(2, 11):
-            self._model.setData(self._model.index(i, 1), QColor(Qt.green),
-                    Qt.BackgroundRole)
-            self._model.setData(self._model.index(i, 1), "InsertedRow",
-                    Qt.DisplayRole)
+            self._model.setData(
+                self._model.index(i, 1), QColor(Qt.green), Qt.BackgroundRole
+            )
+            self._model.setData(self._model.index(i, 1), "InsertedRow", Qt.DisplayRole)
 
     @pyqtSlot()
     def removeData(self):
@@ -108,7 +115,8 @@ def addChild(numChildren, nestingLevel):
 
     for i in range(numChildren):
         child = QStandardItem(
-                "Child num {}, nesting level {}".format(i + 1, nestingLevel))
+            "Child num {}, nesting level {}".format(i + 1, nestingLevel)
+        )
 
         if i == 0:
             child.appendRow(addChild(numChildren, nestingLevel - 1))
@@ -118,16 +126,18 @@ def addChild(numChildren, nestingLevel):
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    QLoggingCategory.setFilterRules('qt.remoteobjects.debug=false\n'
-                                    'qt.remoteobjects.warning=false')
+    QLoggingCategory.setFilterRules(
+        "qt.remoteobjects.debug=false\n" "qt.remoteobjects.warning=false"
+    )
 
     app = QApplication(sys.argv)
 
     sourceModel = QStandardItemModel()
     sourceModel.setHorizontalHeaderLabels(
-            ["First Column with spacing", "Second Column with spacing"])
+        ["First Column with spacing", "Second Column with spacing"]
+    )
 
     for i in range(10000):
         firstItem = QStandardItem("FancyTextNumber {}".format(i))
@@ -141,18 +151,15 @@ if __name__ == '__main__':
         sourceModel.invisibleRootItem().appendRow([firstItem, secondItem])
 
     # Needed by QMLModelViewClient.
-    roleNames = {
-        Qt.DisplayRole: b'_text',
-        Qt.BackgroundRole: b'_color'
-    }
+    roleNames = {Qt.DisplayRole: b"_text", Qt.BackgroundRole: b"_color"}
     sourceModel.setItemRoleNames(roleNames)
 
     roles = [Qt.DisplayRole, Qt.BackgroundRole]
 
-    node = QRemoteObjectRegistryHost(QUrl('local:registry'))
+    node = QRemoteObjectRegistryHost(QUrl("local:registry"))
 
-    node2 = QRemoteObjectHost(QUrl('local:replica'), QUrl('local:registry'))
-    node2.enableRemoting(sourceModel, 'RemoteModel', roles)
+    node2 = QRemoteObjectHost(QUrl("local:replica"), QUrl("local:registry"))
+    node2.enableRemoting(sourceModel, "RemoteModel", roles)
 
     view = QTreeView()
     view.setWindowTitle("SourceView")

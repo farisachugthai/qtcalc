@@ -87,7 +87,7 @@ class TreeModel(QAbstractItemModel):
         super(TreeModel, self).__init__(parent)
 
         self.rootItem = TreeItem(("Title", "Summary"))
-        self.setupModelData(data.split('\n'), self.rootItem)
+        self.setupModelData(data.split("\n"), self.rootItem)
 
     def columnCount(self, parent):
         if parent.isValid():
@@ -165,7 +165,7 @@ class TreeModel(QAbstractItemModel):
         while number < len(lines):
             position = 0
             while position < len(lines[number]):
-                if lines[number][position] != ' ':
+                if lines[number][position] != " ":
                     break
                 position += 1
 
@@ -173,7 +173,7 @@ class TreeModel(QAbstractItemModel):
 
             if lineData:
                 # Read the column data from the rest of the line.
-                columnData = [s for s in lineData.split('\t') if s]
+                columnData = [s for s in lineData.split("\t") if s]
 
                 if position > indentations[-1]:
                     # The last child of the current parent is now the new
@@ -194,13 +194,13 @@ class TreeModel(QAbstractItemModel):
             number += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
 
-    f = QFile(':/default.txt')
+    f = QFile(":/default.txt")
     f.open(QIODevice.ReadOnly)
     model = TreeModel(f.readAll())
     f.close()

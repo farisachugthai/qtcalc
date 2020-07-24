@@ -43,8 +43,17 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-        QMessageBox, QPushButton, QTextEdit, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class SortedDict(dict):
@@ -83,8 +92,8 @@ class AddressBook(QWidget):
         super(AddressBook, self).__init__(parent)
 
         self.contacts = SortedDict()
-        self.oldName = ''
-        self.oldAddress = ''
+        self.oldName = ""
+        self.oldAddress = ""
         self.currentMode = self.NavigationMode
 
         nameLabel = QLabel("Name:")
@@ -162,34 +171,50 @@ class AddressBook(QWidget):
         address = self.addressText.toPlainText()
 
         if name == "" or address == "":
-            QMessageBox.information(self, "Empty Field",
-                    "Please enter a name and address.")
+            QMessageBox.information(
+                self, "Empty Field", "Please enter a name and address."
+            )
             return
 
         if self.currentMode == self.AddingMode:
             if name not in self.contacts:
                 self.contacts[name] = address
-                QMessageBox.information(self, "Add Successful",
-                        "\"%s\" has been added to your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Add Successful",
+                    '"%s" has been added to your address book.' % name,
+                )
             else:
-                QMessageBox.information(self, "Add Unsuccessful",
-                        "Sorry, \"%s\" is already in your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Add Unsuccessful",
+                    'Sorry, "%s" is already in your address book.' % name,
+                )
                 return
 
         elif self.currentMode == self.EditingMode:
             if self.oldName != name:
                 if name not in self.contacts:
-                    QMessageBox.information(self, "Edit Successful",
-                            "\"%s\" has been edited in your address book." % self.oldName)
+                    QMessageBox.information(
+                        self,
+                        "Edit Successful",
+                        '"%s" has been edited in your address book.' % self.oldName,
+                    )
                     del self.contacts[self.oldName]
                     self.contacts[name] = address
                 else:
-                    QMessageBox.information(self, "Edit Unsuccessful",
-                            "Sorry, \"%s\" is already in your address book." % name)
+                    QMessageBox.information(
+                        self,
+                        "Edit Unsuccessful",
+                        'Sorry, "%s" is already in your address book.' % name,
+                    )
                     return
             elif self.oldAddress != address:
-                QMessageBox.information(self, "Edit Successful",
-                        "\"%s\" has been edited in your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Edit Successful",
+                    '"%s" has been edited in your address book.' % name,
+                )
                 self.contacts[name] = address
 
         self.updateInterface(self.NavigationMode)
@@ -204,16 +229,22 @@ class AddressBook(QWidget):
         address = self.addressText.toPlainText()
 
         if name in self.contacts:
-            button = QMessageBox.question(self, "Confirm Remove",
-                    "Are you sure you want to remove \"%s\"?" % name,
-                    QMessageBox.Yes | QMessageBox.No)
+            button = QMessageBox.question(
+                self,
+                "Confirm Remove",
+                'Are you sure you want to remove "%s"?' % name,
+                QMessageBox.Yes | QMessageBox.No,
+            )
 
             if button == QMessageBox.Yes:
                 self.previous()
                 del self.contacts[name]
 
-                QMessageBox.information(self, "Remove Successful",
-                        "\"%s\" has been removed from your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Remove Successful",
+                    '"%s" has been removed from your address book.' % name,
+                )
 
         self.updateInterface(self.NavigationMode)
 
@@ -287,13 +318,13 @@ class AddressBook(QWidget):
             self.editButton.setEnabled(number >= 1)
             self.removeButton.setEnabled(number >= 1)
             self.nextButton.setEnabled(number > 1)
-            self.previousButton.setEnabled(number >1 )
+            self.previousButton.setEnabled(number > 1)
 
             self.submitButton.hide()
             self.cancelButton.hide()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     from PyQt5.QtWidgets import QApplication

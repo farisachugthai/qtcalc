@@ -53,23 +53,23 @@ class MenuContentItem(DemoItem):
     def __init__(self, el, parent=None):
         super(MenuContentItem, self).__init__(parent)
 
-        self.name = el.getAttribute('name')
+        self.name = el.getAttribute("name")
         self.heading = None
         self.description1 = None
         self.description2 = None
 
         readme_dir = QFileInfo(__file__).dir()
         readme_dir.cdUp()
-        readme_dir.cd(el.getAttribute('dirname'))
+        readme_dir.cd(el.getAttribute("dirname"))
 
-        self.readmePath = readme_dir.absoluteFilePath('README')
+        self.readmePath = readme_dir.absoluteFilePath("README")
 
         self._prepared = False
 
     def prepare(self):
         if not self._prepared:
             self.createContent()
-            self._prepared= True
+            self._prepared = True
 
     def animationStopped(self, id):
         if self.name == Colors.rootMenuName:
@@ -86,7 +86,9 @@ class MenuContentItem(DemoItem):
     def loadDescription(self, startPara, nrPara):
         readme = QFile(self.readmePath)
         if not readme.open(QFile.ReadOnly):
-            Colors.debug("- MenuContentItem.loadDescription: Could not load:", self.readmePath)
+            Colors.debug(
+                "- MenuContentItem.loadDescription: Could not load:", self.readmePath
+            )
             return ""
 
         in_str = QTextStream(readme)
@@ -96,7 +98,7 @@ class MenuContentItem(DemoItem):
                 startPara -= 1
 
         # Read in the number of wanted paragraphs.
-        result = ''
+        result = ""
         line = in_str.readLine()
         while True:
             result += line + " "
@@ -115,19 +117,40 @@ class MenuContentItem(DemoItem):
         self.heading = HeadingItem(self.name, self)
         para1 = self.loadDescription(0, 1)
         if not para1:
-            para1 = Colors.contentColor + "Could not load description. Ensure that the documentation for Qt is built."
+            para1 = (
+                Colors.contentColor
+                + "Could not load description. Ensure that the documentation for Qt is built."
+            )
         bgcolor = Colors.sceneBg1.darker(200)
         bgcolor.setAlpha(100)
-        self.description1 = DemoTextItem(para1, Colors.contentFont(),
-                Colors.heading, 500, self, DemoTextItem.STATIC_TEXT)
-        self.description2 = DemoTextItem(self.loadDescription(1, 2),
-                Colors.contentFont(), Colors.heading, 250, self,
-                DemoTextItem.STATIC_TEXT)
+        self.description1 = DemoTextItem(
+            para1,
+            Colors.contentFont(),
+            Colors.heading,
+            500,
+            self,
+            DemoTextItem.STATIC_TEXT,
+        )
+        self.description2 = DemoTextItem(
+            self.loadDescription(1, 2),
+            Colors.contentFont(),
+            Colors.heading,
+            250,
+            self,
+            DemoTextItem.STATIC_TEXT,
+        )
 
         # Place the items on screen.
         self.heading.setPos(0, 3)
-        self.description1.setPos(0, self.heading.pos().y() + self.heading.boundingRect().height() + 10)
-        self.description2.setPos(0, self.description1.pos().y() + self.description1.boundingRect().height() + 15)
+        self.description1.setPos(
+            0, self.heading.pos().y() + self.heading.boundingRect().height() + 10
+        )
+        self.description2.setPos(
+            0,
+            self.description1.pos().y()
+            + self.description1.boundingRect().height()
+            + 15,
+        )
 
     def boundingRect(self):
         return QRectF(0, 0, 500, 350)

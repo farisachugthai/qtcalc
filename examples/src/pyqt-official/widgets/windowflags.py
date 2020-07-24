@@ -43,9 +43,18 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox,
-        QHBoxLayout, QPushButton, QRadioButton, QTextEdit, QVBoxLayout,
-        QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QPushButton,
+    QRadioButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class PreviewWindow(QWidget):
@@ -69,7 +78,7 @@ class PreviewWindow(QWidget):
     def setWindowFlags(self, flags):
         super(PreviewWindow, self).setWindowFlags(flags)
 
-        flag_type = (flags & Qt.WindowType_Mask)
+        flag_type = flags & Qt.WindowType_Mask
 
         if flag_type == Qt.Window:
             text = "Qt.Window"
@@ -166,7 +175,7 @@ class ControllerWindow(QWidget):
             flags = Qt.SplashScreen
 
         if self.msWindowsFixedSizeDialogCheckBox.isChecked():
-            flags |= Qt.MSWindowsFixedSizeDialogHint            
+            flags |= Qt.MSWindowsFixedSizeDialogHint
         if self.x11BypassWindowManagerCheckBox.isChecked():
             flags |= Qt.X11BypassWindowManagerHint
         if self.framelessWindowCheckBox.isChecked():
@@ -232,15 +241,25 @@ class ControllerWindow(QWidget):
     def createHintsGroupBox(self):
         self.hintsGroupBox = QGroupBox("Hints")
 
-        self.msWindowsFixedSizeDialogCheckBox = self.createCheckBox("MS Windows fixed size dialog")
-        self.x11BypassWindowManagerCheckBox = self.createCheckBox("X11 bypass window manager")
+        self.msWindowsFixedSizeDialogCheckBox = self.createCheckBox(
+            "MS Windows fixed size dialog"
+        )
+        self.x11BypassWindowManagerCheckBox = self.createCheckBox(
+            "X11 bypass window manager"
+        )
         self.framelessWindowCheckBox = self.createCheckBox("Frameless window")
         self.windowTitleCheckBox = self.createCheckBox("Window title")
         self.windowSystemMenuCheckBox = self.createCheckBox("Window system menu")
-        self.windowMinimizeButtonCheckBox = self.createCheckBox("Window minimize button")
-        self.windowMaximizeButtonCheckBox = self.createCheckBox("Window maximize button")
+        self.windowMinimizeButtonCheckBox = self.createCheckBox(
+            "Window minimize button"
+        )
+        self.windowMaximizeButtonCheckBox = self.createCheckBox(
+            "Window maximize button"
+        )
         self.windowCloseButtonCheckBox = self.createCheckBox("Window close button")
-        self.windowContextHelpButtonCheckBox = self.createCheckBox("Window context help button")
+        self.windowContextHelpButtonCheckBox = self.createCheckBox(
+            "Window context help button"
+        )
         self.windowShadeButtonCheckBox = self.createCheckBox("Window shade button")
         self.windowStaysOnTopCheckBox = self.createCheckBox("Window stays on top")
         self.windowStaysOnBottomCheckBox = self.createCheckBox("Window stays on bottom")
@@ -273,7 +292,7 @@ class ControllerWindow(QWidget):
         return button
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

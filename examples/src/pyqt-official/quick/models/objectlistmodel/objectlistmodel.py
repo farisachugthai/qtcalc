@@ -74,14 +74,14 @@ class DataObject(QObject):
             self._color = color
             self.colorChanged.emit()
 
-    def __init__(self, name='', color='', parent=None):
+    def __init__(self, name="", color="", parent=None):
         super(DataObject, self).__init__(parent)
 
         self._name = name
         self._color = color
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import os
     import sys
 
@@ -92,17 +92,19 @@ if __name__ == '__main__':
 
     app = QGuiApplication(sys.argv)
 
-    dataList = [DataObject("Item 1", 'red'),
-                DataObject("Item 2", 'green'),
-                DataObject("Item 3", 'blue'),
-                DataObject("Item 4", 'yellow')]
+    dataList = [
+        DataObject("Item 1", "red"),
+        DataObject("Item 2", "green"),
+        DataObject("Item 3", "blue"),
+        DataObject("Item 4", "yellow"),
+    ]
 
     view = QQuickView()
     view.setResizeMode(QQuickView.SizeRootObjectToView)
     ctxt = view.rootContext()
-    ctxt.setContextProperty('myModel', dataList)
+    ctxt.setContextProperty("myModel", dataList)
 
-    view.setSource(QUrl('qrc:view.qml'))
+    view.setSource(QUrl("qrc:view.qml"))
     view.show()
 
     sys.exit(app.exec_())

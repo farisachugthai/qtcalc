@@ -49,10 +49,10 @@ from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQuick import QQuickView
 
 # Access the shared module.
-sys.path.insert(1,
-        os.path.join(
-                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                'shared'))
+sys.path.insert(
+    1,
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "shared"),
+)
 import shared_rc
 
 import animation_rc
@@ -63,7 +63,7 @@ app = QGuiApplication(sys.argv)
 view = QQuickView()
 view.engine().quit.connect(app.quit)
 
-view.setSource(QUrl('qrc:///animation/animation.qml'))
+view.setSource(QUrl("qrc:///animation/animation.qml"))
 view.show()
 
 sys.exit(app.exec_())

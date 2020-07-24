@@ -45,8 +45,17 @@
 
 from PyQt5.QtCore import QStringListModel
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDataWidgetMapper,
-        QGridLayout, QLabel, QLineEdit, QPushButton, QTextEdit, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDataWidgetMapper,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTextEdit,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -77,7 +86,7 @@ class Window(QWidget):
         self.mapper.setModel(self.model)
         self.mapper.addMapping(nameEdit, 0)
         self.mapper.addMapping(addressEdit, 1)
-        self.mapper.addMapping(typeComboBox, 2, b'currentIndex')
+        self.mapper.addMapping(typeComboBox, 2, b"currentIndex")
 
         # Set up connections and layouts.
         self.previousButton.clicked.connect(self.mapper.toPrevious)
@@ -97,7 +106,7 @@ class Window(QWidget):
 
         self.setWindowTitle("Delegate Widget Mapper")
         self.mapper.toFirst()
- 
+
     def setupModel(self):
         items = ("Home", "Work", "Other")
         self.typeModel = QStringListModel(items, self)
@@ -105,25 +114,26 @@ class Window(QWidget):
         self.model = QStandardItemModel(5, 3, self)
 
         names = ("Alice", "Bob", "Carol", "Donald", "Emma")
-        addresses = ("<qt>123 Main Street<br/>Market Town</qt>",
-                     "<qt>PO Box 32<br/>Mail Handling Service"
-                     "<br/>Service City</qt>",
-                     "<qt>The Lighthouse<br/>Remote Island</qt>",
-                     "<qt>47338 Park Avenue<br/>Big City</qt>",
-                     "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>")
+        addresses = (
+            "<qt>123 Main Street<br/>Market Town</qt>",
+            "<qt>PO Box 32<br/>Mail Handling Service" "<br/>Service City</qt>",
+            "<qt>The Lighthouse<br/>Remote Island</qt>",
+            "<qt>47338 Park Avenue<br/>Big City</qt>",
+            "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>",
+        )
         types = ("0", "1", "2", "0", "2")
-        
+
         for row, name in enumerate(names):
             self.model.setItem(row, 0, QStandardItem(name))
             self.model.setItem(row, 1, QStandardItem(addresses[row]))
             self.model.setItem(row, 2, QStandardItem(types[row]))
- 
+
     def updateButtons(self, row):
         self.previousButton.setEnabled(row > 0)
         self.nextButton.setEnabled(row < self.model.rowCount() - 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

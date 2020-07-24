@@ -55,7 +55,7 @@ class CustomSqlModel(QSqlQueryModel):
         value = super(CustomSqlModel, self).data(index, role)
         if value is not None and role == Qt.DisplayRole:
             if index.column() == 0:
-                return '#%d' % value
+                return "#%d" % value
             elif index.column() == 2:
                 return value.upper()
 
@@ -92,28 +92,28 @@ class EditableSqlModel(QSqlQueryModel):
         return ok
 
     def refresh(self):
-        self.setQuery('select * from person')
+        self.setQuery("select * from person")
         self.setHeaderData(0, Qt.Horizontal, "ID")
         self.setHeaderData(1, Qt.Horizontal, "First name")
         self.setHeaderData(2, Qt.Horizontal, "Last name")
 
     def setFirstName(self, personId, firstName):
         query = QSqlQuery()
-        query.prepare('update person set firstname = ? where id = ?')
+        query.prepare("update person set firstname = ? where id = ?")
         query.addBindValue(firstName)
         query.addBindValue(personId)
         return query.exec_()
 
     def setLastName(self, personId, lastName):
         query = QSqlQuery()
-        query.prepare('update person set lastname = ? where id = ?')
+        query.prepare("update person set lastname = ? where id = ?")
         query.addBindValue(lastName)
         query.addBindValue(personId)
         return query.exec_()
 
 
 def initializeModel(model):
-    model.setQuery('select * from person')
+    model.setQuery("select * from person")
     model.setHeaderData(0, Qt.Horizontal, "ID")
     model.setHeaderData(1, Qt.Horizontal, "First name")
     model.setHeaderData(2, Qt.Horizontal, "Last name")
@@ -121,6 +121,7 @@ def initializeModel(model):
 
 offset = 0
 views = []
+
 
 def createView(title, model):
     global offset, views
@@ -134,7 +135,7 @@ def createView(title, model):
     view.show()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

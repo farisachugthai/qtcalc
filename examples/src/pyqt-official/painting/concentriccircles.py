@@ -44,8 +44,14 @@
 
 from PyQt5.QtCore import QRect, QRectF, QSize, Qt, QTimer
 from PyQt5.QtGui import QColor, QPainter, QPalette, QPen
-from PyQt5.QtWidgets import (QApplication, QFrame, QGridLayout, QLabel,
-        QSizePolicy, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFrame,
+    QGridLayout,
+    QLabel,
+    QSizePolicy,
+    QWidget,
+)
 
 
 class CircleWidget(QWidget):
@@ -89,11 +95,13 @@ class CircleWidget(QWidget):
                 painter.setPen(QPen(QColor(0, diameter / 2, 127, alpha), 3))
 
                 if self.floatBased:
-                    painter.drawEllipse(QRectF(-diameter / 2.0,
-                            -diameter / 2.0, diameter, diameter))
+                    painter.drawEllipse(
+                        QRectF(-diameter / 2.0, -diameter / 2.0, diameter, diameter)
+                    )
                 else:
-                    painter.drawEllipse(QRect(-diameter / 2,
-                            -diameter / 2, diameter, diameter))
+                    painter.drawEllipse(
+                        QRect(-diameter / 2, -diameter / 2, diameter, diameter)
+                    )
 
 
 class Window(QWidget):
@@ -136,7 +144,7 @@ class Window(QWidget):
         return label
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

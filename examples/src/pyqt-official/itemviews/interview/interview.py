@@ -51,26 +51,38 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QAbstractItemModel, QFileInfo, QItemSelectionModel,
-        QModelIndex, Qt)
+from PyQt5.QtCore import (
+    QAbstractItemModel,
+    QFileInfo,
+    QItemSelectionModel,
+    QModelIndex,
+    Qt,
+)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QAbstractItemView, QApplication,
-        QFileIconProvider, QListView, QSplitter, QTableView, QTreeView)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QApplication,
+    QFileIconProvider,
+    QListView,
+    QSplitter,
+    QTableView,
+    QTreeView,
+)
 
 
-images_dir = QFileInfo(__file__).absolutePath() + '/images'
+images_dir = QFileInfo(__file__).absolutePath() + "/images"
 
 
 class Node(object):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         self.parent = parent
         self.children = []
 
 
 class Model(QAbstractItemModel):
-    def __init__(self, rows, columns, parent = None):
+    def __init__(self, rows, columns, parent=None):
         super(Model, self).__init__(parent)
-        self.services = QIcon(images_dir + '/services.png')
+        self.services = QIcon(images_dir + "/services.png")
         self.rc = rows
         self.cc = columns
         self.tree = [Node() for node in range(rows)]
@@ -180,12 +192,13 @@ def main(args):
     list.viewport().setAttribute(Qt.WA_StaticContents)
     list.setAttribute(Qt.WA_MacShowFocusRect, False)
     page.addWidget(list)
-    page.setWindowIcon(QIcon(images_dir + '/interview.png'))
+    page.setWindowIcon(QIcon(images_dir + "/interview.png"))
     page.setWindowTitle("Interview")
     page.show()
     return app.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     main(sys.argv)

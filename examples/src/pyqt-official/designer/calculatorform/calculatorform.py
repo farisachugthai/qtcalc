@@ -65,7 +65,7 @@ class CalculatorForm(QWidget):
         self.ui.outputWidget.setText(str(value + self.ui.inputSpinBox1.value()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)

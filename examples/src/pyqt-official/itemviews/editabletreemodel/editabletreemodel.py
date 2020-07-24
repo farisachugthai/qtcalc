@@ -42,8 +42,14 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QAbstractItemModel, QFile, QIODevice,
-        QItemSelectionModel, QModelIndex, Qt)
+from PyQt5.QtCore import (
+    QAbstractItemModel,
+    QFile,
+    QIODevice,
+    QItemSelectionModel,
+    QModelIndex,
+    Qt,
+)
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import editabletreemodel_rc
@@ -191,8 +197,7 @@ class TreeModel(QAbstractItemModel):
     def insertRows(self, position, rows, parent=QModelIndex()):
         parentItem = self.getItem(parent)
         self.beginInsertRows(parent, position, position + rows - 1)
-        success = parentItem.insertChildren(position, rows,
-                self.rootItem.columnCount())
+        success = parentItem.insertChildren(position, rows, self.rootItem.columnCount())
         self.endInsertRows()
 
         return success
@@ -272,7 +277,7 @@ class TreeModel(QAbstractItemModel):
 
             if lineData:
                 # Read the column data from the rest of the line.
-                columnData = [s for s in lineData.split('\t') if s]
+                columnData = [s for s in lineData.split("\t") if s]
 
                 if position > indentations[-1]:
                     # The last child of the current parent is now the new
@@ -289,10 +294,13 @@ class TreeModel(QAbstractItemModel):
 
                 # Append a new item to the current parent's list of children.
                 parent = parents[-1]
-                parent.insertChildren(parent.childCount(), 1,
-                        self.rootItem.columnCount())
+                parent.insertChildren(
+                    parent.childCount(), 1, self.rootItem.columnCount()
+                )
                 for column in range(len(columnData)):
-                    parent.child(parent.childCount() -1).setData(column, columnData[column])
+                    parent.child(parent.childCount() - 1).setData(
+                        column, columnData[column]
+                    )
 
             number += 1
 
@@ -305,7 +313,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         headers = ("Title", "Description")
 
-        file = QFile(':/default.txt')
+        file = QFile(":/default.txt")
         file.open(QIODevice.ReadOnly)
         model = TreeModel(headers, file.readAll())
         file.close()
@@ -342,11 +350,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             child = model.index(0, column, index)
             model.setData(child, "[No data]", Qt.EditRole)
             if model.headerData(column, Qt.Horizontal) is None:
-                model.setHeaderData(column, Qt.Horizontal, "[No header]",
-                        Qt.EditRole)
+                model.setHeaderData(column, Qt.Horizontal, "[No header]", Qt.EditRole)
 
-        self.view.selectionModel().setCurrentIndex(model.index(0, 0, index),
-                QItemSelectionModel.ClearAndSelect)
+        self.view.selectionModel().setCurrentIndex(
+            model.index(0, 0, index), QItemSelectionModel.ClearAndSelect
+        )
         self.updateActions()
 
     def insertColumn(self):
@@ -355,8 +363,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         changed = model.insertColumn(column + 1)
         if changed:
-            model.setHeaderData(column + 1, Qt.Horizontal, "[No header]",
-                    Qt.EditRole)
+            model.setHeaderData(column + 1, Qt.Horizontal, "[No header]", Qt.EditRole)
 
         self.updateActions()
 
@@ -366,13 +373,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         index = self.view.selectionModel().currentIndex()
         model = self.view.model()
 
-        if not model.insertRow(index.row()+1, index.parent()):
+        if not model.insertRow(index.row() + 1, index.parent()):
             return
 
         self.updateActions()
 
         for column in range(model.columnCount(index.parent())):
-            child = model.index(index.row()+1, column, index.parent())
+            child = model.index(index.row() + 1, column, index.parent())
             model.setData(child, "[No data]", Qt.EditRole)
 
     def removeColumn(self):
@@ -389,7 +396,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         index = self.view.selectionModel().currentIndex()
         model = self.view.model()
 
-        if (model.removeRow(index.row(), index.parent())):
+        if model.removeRow(index.row(), index.parent()):
             self.updateActions()
 
     def updateActions(self):
@@ -409,10 +416,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.view.selectionModel().currentIndex().parent().isValid():
                 self.statusBar().showMessage("Position: (%d,%d)" % (row, column))
             else:
-                self.statusBar().showMessage("Position: (%d,%d) in top level" % (row, column))
+                self.statusBar().showMessage(
+                    "Position: (%d,%d) in top level" % (row, column)
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

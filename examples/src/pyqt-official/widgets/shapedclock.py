@@ -48,36 +48,32 @@ from PyQt5.QtWidgets import QAction, QApplication, QWidget
 
 
 class ShapedClock(QWidget):
-    hourHand = QPolygon([
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -40)
-    ])
+    hourHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -40)])
 
-    minuteHand = QPolygon([
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -70)
-    ])
+    minuteHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -70)])
 
     hourColor = QColor(127, 0, 127)
     minuteColor = QColor(0, 127, 127, 191)
 
     def __init__(self, parent=None):
-        super(ShapedClock, self).__init__(parent,
-                Qt.FramelessWindowHint | Qt.WindowSystemMenuHint)
+        super(ShapedClock, self).__init__(
+            parent, Qt.FramelessWindowHint | Qt.WindowSystemMenuHint
+        )
 
         timer = QTimer(self)
         timer.timeout.connect(self.update)
         timer.start(1000)
 
-        quitAction = QAction("E&xit", self, shortcut="Ctrl+Q",
-                triggered=QApplication.instance().quit)
+        quitAction = QAction(
+            "E&xit", self, shortcut="Ctrl+Q", triggered=QApplication.instance().quit
+        )
         self.addAction(quitAction)
 
         self.setContextMenuPolicy(Qt.ActionsContextMenu)
-        self.setToolTip("Drag the clock with the left mouse button.\n"
-                "Use the right mouse button to open a context menu.")
+        self.setToolTip(
+            "Drag the clock with the left mouse button.\n"
+            "Use the right mouse button to open a context menu."
+        )
         self.setWindowTitle(self.tr("Shaped Analog Clock"))
 
     def mousePressEvent(self, event):
@@ -132,18 +128,24 @@ class ShapedClock(QWidget):
     def resizeEvent(self, event):
         side = min(self.width(), self.height())
 
-        maskedRegion = QRegion(self.width()/2 - side/2, self.height()/2 - side/2, side, side, QRegion.Ellipse)
+        maskedRegion = QRegion(
+            self.width() / 2 - side / 2,
+            self.height() / 2 - side / 2,
+            side,
+            side,
+            QRegion.Ellipse,
+        )
         self.setMask(maskedRegion)
 
     def sizeHint(self):
         return QSize(100, 100)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     clock = ShapedClock()
     clock.show()
-    sys.exit(app.exec_())    
+    sys.exit(app.exec_())

@@ -44,11 +44,32 @@
 
 from PyQt5.QtCore import QFileInfo, QRegExp, QSize, Qt
 from PyQt5.QtGui import QIcon, QImage, QPalette, QPixmap
-from PyQt5.QtWidgets import (QAbstractItemView, QAction, QActionGroup,
-        QApplication, QComboBox, QFileDialog, QFrame, QGridLayout, QGroupBox,
-        QHBoxLayout, QHeaderView, QItemDelegate, QLabel, QMainWindow,
-        QMessageBox, QRadioButton, QSizePolicy, QSpinBox, QStyle,
-        QStyleFactory, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QAction,
+    QActionGroup,
+    QApplication,
+    QComboBox,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QHeaderView,
+    QItemDelegate,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QRadioButton,
+    QSizePolicy,
+    QSpinBox,
+    QStyle,
+    QStyleFactory,
+    QTableWidget,
+    QTableWidgetItem,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class IconSizeSpinBox(QSpinBox):
@@ -204,10 +225,13 @@ class MainWindow(QMainWindow):
         self.resize(self.minimumSizeHint())
 
     def about(self):
-        QMessageBox.about(self, "About Icons",
-                "The <b>Icons</b> example illustrates how Qt renders an icon "
-                "in different modes (active, normal, disabled and selected) "
-                "and states (on and off) based on a set of images.")
+        QMessageBox.about(
+            self,
+            "About Icons",
+            "The <b>Icons</b> example illustrates how Qt renders an icon "
+            "in different modes (active, normal, disabled and selected) "
+            "and states (on and off) based on a set of images.",
+        )
 
     def changeStyle(self, checked):
         if not checked:
@@ -220,18 +244,36 @@ class MainWindow(QMainWindow):
 
         QApplication.setStyle(style)
 
-        self.setButtonText(self.smallRadioButton, "Small (%d x %d)",
-                style, QStyle.PM_SmallIconSize)
-        self.setButtonText(self.largeRadioButton, "Large (%d x %d)",
-                style, QStyle.PM_LargeIconSize)
-        self.setButtonText(self.toolBarRadioButton, "Toolbars (%d x %d)",
-                style, QStyle.PM_ToolBarIconSize)
-        self.setButtonText(self.listViewRadioButton, "List views (%d x %d)",
-                style, QStyle.PM_ListViewIconSize)
-        self.setButtonText(self.iconViewRadioButton, "Icon views (%d x %d)",
-                style, QStyle.PM_IconViewIconSize)
-        self.setButtonText(self.tabBarRadioButton, "Tab bars (%d x %d)",
-                style, QStyle.PM_TabBarIconSize)
+        self.setButtonText(
+            self.smallRadioButton, "Small (%d x %d)", style, QStyle.PM_SmallIconSize
+        )
+        self.setButtonText(
+            self.largeRadioButton, "Large (%d x %d)", style, QStyle.PM_LargeIconSize
+        )
+        self.setButtonText(
+            self.toolBarRadioButton,
+            "Toolbars (%d x %d)",
+            style,
+            QStyle.PM_ToolBarIconSize,
+        )
+        self.setButtonText(
+            self.listViewRadioButton,
+            "List views (%d x %d)",
+            style,
+            QStyle.PM_ListViewIconSize,
+        )
+        self.setButtonText(
+            self.iconViewRadioButton,
+            "Icon views (%d x %d)",
+            style,
+            QStyle.PM_IconViewIconSize,
+        )
+        self.setButtonText(
+            self.tabBarRadioButton,
+            "Tab bars (%d x %d)",
+            style,
+            QStyle.PM_TabBarIconSize,
+        )
 
         self.changeSize()
 
@@ -296,8 +338,9 @@ class MainWindow(QMainWindow):
         self.previewArea.setIcon(icon)
 
     def addImage(self):
-        fileNames, _ = QFileDialog.getOpenFileNames(self, "Open Images", '',
-                "Images (*.png *.xpm *.jpg);;All Files (*)")
+        fileNames, _ = QFileDialog.getOpenFileNames(
+            self, "Open Images", "", "Images (*.png *.xpm *.jpg);;All Files (*)"
+        )
 
         for fileName in fileNames:
             row = self.imagesTable.rowCount()
@@ -312,14 +355,14 @@ class MainWindow(QMainWindow):
             item2 = QTableWidgetItem("Off")
 
             if self.guessModeStateAct.isChecked():
-                if '_act' in fileName:
+                if "_act" in fileName:
                     item1.setText("Active")
-                elif '_dis' in fileName:
+                elif "_dis" in fileName:
                     item1.setText("Disabled")
-                elif '_sel' in fileName:
+                elif "_sel" in fileName:
                     item1.setText("Selected")
 
-                if '_on' in fileName:
+                if "_on" in fileName:
                     item2.setText("On")
 
             self.imagesTable.setItem(row, 0, item0)
@@ -405,29 +448,38 @@ class MainWindow(QMainWindow):
         self.iconSizeGroupBox.setLayout(layout)
 
     def createActions(self):
-        self.addImagesAct = QAction("&Add Images...", self, shortcut="Ctrl+A",
-                triggered=self.addImage)
+        self.addImagesAct = QAction(
+            "&Add Images...", self, shortcut="Ctrl+A", triggered=self.addImage
+        )
 
-        self.removeAllImagesAct = QAction("&Remove All Images", self,
-                shortcut="Ctrl+R", triggered=self.removeAllImages)
+        self.removeAllImagesAct = QAction(
+            "&Remove All Images",
+            self,
+            shortcut="Ctrl+R",
+            triggered=self.removeAllImages,
+        )
 
-        self.exitAct = QAction("&Quit", self, shortcut="Ctrl+Q",
-                triggered=self.close)
+        self.exitAct = QAction("&Quit", self, shortcut="Ctrl+Q", triggered=self.close)
 
         self.styleActionGroup = QActionGroup(self)
         for styleName in QStyleFactory.keys():
-            action = QAction(self.styleActionGroup,
-                    text="%s Style" % styleName, checkable=True,
-                    triggered=self.changeStyle)
+            action = QAction(
+                self.styleActionGroup,
+                text="%s Style" % styleName,
+                checkable=True,
+                triggered=self.changeStyle,
+            )
             action.setData(styleName)
 
-        self.guessModeStateAct = QAction("&Guess Image Mode/State", self,
-                checkable=True, checked=True)
+        self.guessModeStateAct = QAction(
+            "&Guess Image Mode/State", self, checkable=True, checked=True
+        )
 
         self.aboutAct = QAction("&About", self, triggered=self.about)
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt", self, triggered=QApplication.instance().aboutQt
+        )
 
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -461,11 +513,14 @@ class MainWindow(QMainWindow):
             if candidate is None:
                 return
 
-            if candidate.metaObject().className() == QApplication.style().metaObject().className():
+            if (
+                candidate.metaObject().className()
+                == QApplication.style().metaObject().className()
+            ):
                 action.trigger()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

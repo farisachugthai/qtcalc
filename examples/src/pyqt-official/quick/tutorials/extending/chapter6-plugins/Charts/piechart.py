@@ -46,11 +46,11 @@ from pieslice import PieSlice
 
 
 class PieChart(QQuickItem):
-
     @pyqtProperty(QQmlListProperty)
     def slices(self):
-        return QQmlListProperty(PieSlice, self,
-                append=lambda pie_ch, pie_sl: pie_sl.setParentItem(pie_ch))
+        return QQmlListProperty(
+            PieSlice, self, append=lambda pie_ch, pie_sl: pie_sl.setParentItem(pie_ch)
+        )
 
     @pyqtProperty(str)
     def name(self):
@@ -63,4 +63,4 @@ class PieChart(QQuickItem):
     def __init__(self, parent=None):
         super(PieChart, self).__init__(parent)
 
-        self._name = ''
+        self._name = ""

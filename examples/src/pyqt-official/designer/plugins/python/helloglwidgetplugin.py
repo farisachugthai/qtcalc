@@ -39,7 +39,7 @@ class HelloGLWidgetPlugin(QPyDesignerCustomWidgetPlugin):
     # The __init__() method is only used to set up the plugin and define its
     # initialized variable.
     def __init__(self, parent=None):
-    
+
         super(HelloGLWidgetPlugin, self).__init__(parent)
 
         self.initialized = False

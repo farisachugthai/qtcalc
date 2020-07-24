@@ -39,7 +39,7 @@ class CounterLabelPlugin(QPyDesignerCustomWidgetPlugin):
     # The __init__() method is only used to set up the plugin and define its
     # initialized variable.
     def __init__(self, parent=None):
-    
+
         super(CounterLabelPlugin, self).__init__(parent)
 
         self.initialized = False
@@ -48,7 +48,7 @@ class CounterLabelPlugin(QPyDesignerCustomWidgetPlugin):
 
         if self.initialized:
             return
-        
+
         self.initialized = True
 
     def isInitialized(self):

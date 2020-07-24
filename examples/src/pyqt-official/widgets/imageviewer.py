@@ -44,8 +44,17 @@
 
 from PyQt5.QtCore import QDir, Qt
 from PyQt5.QtGui import QImage, QPainter, QPalette, QPixmap
-from PyQt5.QtWidgets import (QAction, QApplication, QFileDialog, QLabel,
-        QMainWindow, QMenu, QMessageBox, QScrollArea, QSizePolicy)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QFileDialog,
+    QLabel,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QScrollArea,
+    QSizePolicy,
+)
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 
 
@@ -73,13 +82,13 @@ class ImageViewer(QMainWindow):
         self.resize(500, 400)
 
     def open(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open File",
-                QDir.currentPath())
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open File", QDir.currentPath())
         if fileName:
             image = QImage(fileName)
             if image.isNull():
-                QMessageBox.information(self, "Image Viewer",
-                        "Cannot load %s." % fileName)
+                QMessageBox.information(
+                    self, "Image Viewer", "Cannot load %s." % fileName
+                )
                 return
 
             self.imageLabel.setPixmap(QPixmap.fromImage(image))
@@ -122,47 +131,71 @@ class ImageViewer(QMainWindow):
         self.updateActions()
 
     def about(self):
-        QMessageBox.about(self, "About Image Viewer",
-                "<p>The <b>Image Viewer</b> example shows how to combine "
-                "QLabel and QScrollArea to display an image. QLabel is "
-                "typically used for displaying text, but it can also display "
-                "an image. QScrollArea provides a scrolling view around "
-                "another widget. If the child widget exceeds the size of the "
-                "frame, QScrollArea automatically provides scroll bars.</p>"
-                "<p>The example demonstrates how QLabel's ability to scale "
-                "its contents (QLabel.scaledContents), and QScrollArea's "
-                "ability to automatically resize its contents "
-                "(QScrollArea.widgetResizable), can be used to implement "
-                "zooming and scaling features.</p>"
-                "<p>In addition the example shows how to use QPainter to "
-                "print an image.</p>")
+        QMessageBox.about(
+            self,
+            "About Image Viewer",
+            "<p>The <b>Image Viewer</b> example shows how to combine "
+            "QLabel and QScrollArea to display an image. QLabel is "
+            "typically used for displaying text, but it can also display "
+            "an image. QScrollArea provides a scrolling view around "
+            "another widget. If the child widget exceeds the size of the "
+            "frame, QScrollArea automatically provides scroll bars.</p>"
+            "<p>The example demonstrates how QLabel's ability to scale "
+            "its contents (QLabel.scaledContents), and QScrollArea's "
+            "ability to automatically resize its contents "
+            "(QScrollArea.widgetResizable), can be used to implement "
+            "zooming and scaling features.</p>"
+            "<p>In addition the example shows how to use QPainter to "
+            "print an image.</p>",
+        )
 
     def createActions(self):
-        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O",
-                triggered=self.open)
+        self.openAct = QAction("&Open...", self, shortcut="Ctrl+O", triggered=self.open)
 
-        self.printAct = QAction("&Print...", self, shortcut="Ctrl+P",
-                enabled=False, triggered=self.print_)
+        self.printAct = QAction(
+            "&Print...", self, shortcut="Ctrl+P", enabled=False, triggered=self.print_
+        )
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                triggered=self.close)
+        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q", triggered=self.close)
 
-        self.zoomInAct = QAction("Zoom &In (25%)", self, shortcut="Ctrl++",
-                enabled=False, triggered=self.zoomIn)
+        self.zoomInAct = QAction(
+            "Zoom &In (25%)",
+            self,
+            shortcut="Ctrl++",
+            enabled=False,
+            triggered=self.zoomIn,
+        )
 
-        self.zoomOutAct = QAction("Zoom &Out (25%)", self, shortcut="Ctrl+-",
-                enabled=False, triggered=self.zoomOut)
+        self.zoomOutAct = QAction(
+            "Zoom &Out (25%)",
+            self,
+            shortcut="Ctrl+-",
+            enabled=False,
+            triggered=self.zoomOut,
+        )
 
-        self.normalSizeAct = QAction("&Normal Size", self, shortcut="Ctrl+S",
-                enabled=False, triggered=self.normalSize)
+        self.normalSizeAct = QAction(
+            "&Normal Size",
+            self,
+            shortcut="Ctrl+S",
+            enabled=False,
+            triggered=self.normalSize,
+        )
 
-        self.fitToWindowAct = QAction("&Fit to Window", self, enabled=False,
-                checkable=True, shortcut="Ctrl+F", triggered=self.fitToWindow)
+        self.fitToWindowAct = QAction(
+            "&Fit to Window",
+            self,
+            enabled=False,
+            checkable=True,
+            shortcut="Ctrl+F",
+            triggered=self.fitToWindow,
+        )
 
         self.aboutAct = QAction("&About", self, triggered=self.about)
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt", self, triggered=QApplication.instance().aboutQt
+        )
 
     def createMenus(self):
         self.fileMenu = QMenu("&File", self)
@@ -202,11 +235,12 @@ class ImageViewer(QMainWindow):
         self.zoomOutAct.setEnabled(self.scaleFactor > 0.333)
 
     def adjustScrollBar(self, scrollBar, factor):
-        scrollBar.setValue(int(factor * scrollBar.value()
-                                + ((factor - 1) * scrollBar.pageStep()/2)))
+        scrollBar.setValue(
+            int(factor * scrollBar.value() + ((factor - 1) * scrollBar.pageStep() / 2))
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -44,18 +44,23 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QTableView
-from PyQt5.QtSql import (QSqlQuery, QSqlRelation, QSqlRelationalDelegate,
-        QSqlRelationalTableModel, QSqlTableModel)
+from PyQt5.QtSql import (
+    QSqlQuery,
+    QSqlRelation,
+    QSqlRelationalDelegate,
+    QSqlRelationalTableModel,
+    QSqlTableModel,
+)
 
 import connection
 
 
 def initializeModel(model):
-    model.setTable('employee')
+    model.setTable("employee")
 
     model.setEditStrategy(QSqlTableModel.OnManualSubmit)
-    model.setRelation(2, QSqlRelation('city', 'id', 'name'))
-    model.setRelation(3, QSqlRelation('country', 'id', 'name'))
+    model.setRelation(2, QSqlRelation("city", "id", "name"))
+    model.setRelation(3, QSqlRelation("country", "id", "name"))
 
     model.setHeaderData(0, Qt.Horizontal, "ID")
     model.setHeaderData(1, Qt.Horizontal, "Name")
@@ -77,7 +82,9 @@ def createView(title, model):
 def createRelationalTables():
     query = QSqlQuery()
 
-    query.exec_("create table employee(id int, name varchar(20), city int, country int)")
+    query.exec_(
+        "create table employee(id int, name varchar(20), city int, country int)"
+    )
     query.exec_("insert into employee values(1, 'Espen', 5000, 47)")
     query.exec_("insert into employee values(2, 'Harald', 80000, 49)")
     query.exec_("insert into employee values(3, 'Sam', 100, 41)")
@@ -93,7 +100,7 @@ def createRelationalTables():
     query.exec_("insert into country values(49, 'Germany')")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -45,11 +45,23 @@
 import random
 
 from PyQt5.QtCore import QByteArray, QDataStream, QIODevice, QSettings
-from PyQt5.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
-        QMessageBox, QPushButton, QVBoxLayout)
-from PyQt5.QtNetwork import (QHostAddress, QNetworkConfiguration,
-        QNetworkConfigurationManager, QNetworkInterface, QNetworkSession,
-        QTcpServer)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+)
+from PyQt5.QtNetwork import (
+    QHostAddress,
+    QNetworkConfiguration,
+    QNetworkConfigurationManager,
+    QNetworkInterface,
+    QNetworkSession,
+    QTcpServer,
+)
 
 
 class Server(QDialog):
@@ -60,7 +72,8 @@ class Server(QDialog):
         "You will feel hungry again in another hour.",
         "You might have mail.",
         "You cannot kill time without injuring eternity.",
-        "Computers are not intelligent. They only think they are.")
+        "Computers are not intelligent. They only think they are.",
+    )
 
     def __init__(self, parent=None):
         super(Server, self).__init__(parent)
@@ -74,9 +87,9 @@ class Server(QDialog):
 
         manager = QNetworkConfigurationManager()
         if manager.capabilities() & QNetworkConfigurationManager.NetworkSessionRequired:
-            settings = QSettings(QSettings.UserScope, 'QtProject')
-            settings.beginGroup('QtNetwork')
-            id = settings.value('DefaultNetworkConfiguration', '')
+            settings = QSettings(QSettings.UserScope, "QtProject")
+            settings.beginGroup("QtNetwork")
+            id = settings.value("DefaultNetworkConfiguration", "")
             settings.endGroup()
 
             config = manager.configurationFromIdentifier(id)
@@ -111,19 +124,22 @@ class Server(QDialog):
             config = self.networkSession.configuration()
 
             if config.type() == QNetworkConfiguration.UserChoice:
-                id = self.networkSession.sessionProperty('UserChoiceConfiguration')
+                id = self.networkSession.sessionProperty("UserChoiceConfiguration")
             else:
                 id = config.identifier()
 
-            settings = QSettings(QSettings.UserScope, 'QtProject')
-            settings.beginGroup('QtNetwork')
-            settings.setValue('DefaultNetworkConfiguration', id)
-            settings.endGroup();
+            settings = QSettings(QSettings.UserScope, "QtProject")
+            settings.beginGroup("QtNetwork")
+            settings.setValue("DefaultNetworkConfiguration", id)
+            settings.endGroup()
 
         self.tcpServer = QTcpServer(self)
         if not self.tcpServer.listen():
-            QMessageBox.critical(self, "Fortune Server",
-                    "Unable to start the server: %s." % self.tcpServer.errorString())
+            QMessageBox.critical(
+                self,
+                "Fortune Server",
+                "Unable to start the server: %s." % self.tcpServer.errorString(),
+            )
             self.close()
             return
 
@@ -135,8 +151,11 @@ class Server(QDialog):
 
         ipAddress = ipAddress.toString()
 
-        self.statusLabel.setText("The server is running on\n\nIP: %s\nport %d\n\n"
-                "Run the Fortune Client example now." % (ipAddress, self.tcpServer.serverPort()))
+        self.statusLabel.setText(
+            "The server is running on\n\nIP: %s\nport %d\n\n"
+            "Run the Fortune Client example now."
+            % (ipAddress, self.tcpServer.serverPort())
+        )
 
     def sendFortune(self):
         fortune = self.FORTUNES[random.randint(0, len(self.FORTUNES) - 1)]
@@ -156,7 +175,7 @@ class Server(QDialog):
         clientConnection.disconnectFromHost()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

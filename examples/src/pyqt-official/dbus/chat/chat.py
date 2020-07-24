@@ -44,8 +44,12 @@
 
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, Q_CLASSINFO
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox
-from PyQt5.QtDBus import (QDBusAbstractAdaptor, QDBusAbstractInterface,
-        QDBusConnection, QDBusMessage)
+from PyQt5.QtDBus import (
+    QDBusAbstractAdaptor,
+    QDBusAbstractInterface,
+    QDBusConnection,
+    QDBusMessage,
+)
 
 from ui_chatmainwindow import Ui_ChatMainWindow
 from ui_chatsetnickname import Ui_NicknameDialog
@@ -53,20 +57,23 @@ from ui_chatsetnickname import Ui_NicknameDialog
 
 class ChatAdaptor(QDBusAbstractAdaptor):
 
-    Q_CLASSINFO("D-Bus Interface", 'org.example.chat')
+    Q_CLASSINFO("D-Bus Interface", "org.example.chat")
 
-    Q_CLASSINFO("D-Bus Introspection", ''
+    Q_CLASSINFO(
+        "D-Bus Introspection",
+        ""
         '  <interface name="org.example.chat">\n'
         '    <signal name="message">\n'
         '      <arg direction="out" type="s" name="nickname"/>\n'
         '      <arg direction="out" type="s" name="text"/>\n'
-        '    </signal>\n'
+        "    </signal>\n"
         '    <signal name="action">\n'
         '      <arg direction="out" type="s" name="nickname"/>\n'
         '      <arg direction="out" type="s" name="text"/>\n'
-        '    </signal>\n'
-        '  </interface>\n'
-        '')
+        "    </signal>\n"
+        "  </interface>\n"
+        "",
+    )
 
     action = pyqtSignal(str, str)
 
@@ -85,8 +92,9 @@ class ChatInterface(QDBusAbstractInterface):
     message = pyqtSignal(str, str)
 
     def __init__(self, service, path, connection, parent=None):
-        super(ChatInterface, self).__init__(service, path, 'org.example.chat',
-                connection, parent)
+        super(ChatInterface, self).__init__(
+            service, path, "org.example.chat", connection, parent
+        )
 
 
 class ChatMainWindow(QMainWindow, Ui_ChatMainWindow):
@@ -112,11 +120,12 @@ class ChatMainWindow(QMainWindow, Ui_ChatMainWindow):
 
         # Add our D-Bus interface and connect to D-Bus.
         ChatAdaptor(self)
-        QDBusConnection.sessionBus().registerObject('/', self)
+        QDBusConnection.sessionBus().registerObject("/", self)
 
-        iface = ChatInterface('', '', QDBusConnection.sessionBus(), self)
-        QDBusConnection.sessionBus().connect('', '', 'org.example.chat',
-                'message', self.messageSlot)
+        iface = ChatInterface("", "", QDBusConnection.sessionBus(), self)
+        QDBusConnection.sessionBus().connect(
+            "", "", "org.example.chat", "message", self.messageSlot
+        )
         iface.action.connect(self.actionSlot)
 
         dialog = NicknameDialog()
@@ -126,7 +135,7 @@ class ChatMainWindow(QMainWindow, Ui_ChatMainWindow):
         self.action.emit(self.m_nickname, "joins the chat")
 
     def rebuildHistory(self):
-        history = '\n'.join(self.m_messages)
+        history = "\n".join(self.m_messages)
         self.chatHistory.setPlainText(history)
 
     @pyqtSlot(str, str)
@@ -149,14 +158,14 @@ class ChatMainWindow(QMainWindow, Ui_ChatMainWindow):
 
     @pyqtSlot(str)
     def textChangedSlot(self, newText):
-        self.sendButton.setEnabled(newText != '')
+        self.sendButton.setEnabled(newText != "")
 
     @pyqtSlot()
     def sendClickedSlot(self):
-        msg = QDBusMessage.createSignal('/', 'org.example.chat', 'message')
+        msg = QDBusMessage.createSignal("/", "org.example.chat", "message")
         msg << self.m_nickname << self.messageLineEdit.text()
         QDBusConnection.sessionBus().send(msg)
-        self.messageLineEdit.setText('')
+        self.messageLineEdit.setText("")
 
     @pyqtSlot()
     def changeNickname(self):
@@ -177,21 +186,22 @@ class ChatMainWindow(QMainWindow, Ui_ChatMainWindow):
 
 
 class NicknameDialog(QDialog, Ui_NicknameDialog):
-
     def __init__(self, parent=None):
         super(NicknameDialog, self).__init__(parent)
 
         self.setupUi(self)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
 
     if not QDBusConnection.sessionBus().isConnected():
-        sys.stderr.write("Cannot connect to the D-Bus session bus.\n"
-                "Please check your system settings and try again.\n")
+        sys.stderr.write(
+            "Cannot connect to the D-Bus session bus.\n"
+            "Please check your system settings and try again.\n"
+        )
         sys.exit(1)
 
     chat = ChatMainWindow()

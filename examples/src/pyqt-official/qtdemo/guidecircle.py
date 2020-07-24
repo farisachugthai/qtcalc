@@ -76,15 +76,37 @@ class GuideCircle(Guide):
         return abs(self.radiusX * self.spanRad)
 
     def startPos(self):
-        return QPointF((self.posX + self.radiusX + self.radiusX * math.cos(self.startAngleRad)) * self.scaleX,
-                (self.posY + self.radiusY + self.radiusY * math.sin(self.startAngleRad)) * self.scaleY)
+        return QPointF(
+            (self.posX + self.radiusX + self.radiusX * math.cos(self.startAngleRad))
+            * self.scaleX,
+            (self.posY + self.radiusY + self.radiusY * math.sin(self.startAngleRad))
+            * self.scaleY,
+        )
 
     def endPos(self):
-        return QPointF((self.posX + self.radiusX + self.radiusX * math.cos(self.endAngleRad)) * self.scaleX,
-                (self.posY + self.radiusY + self.radiusY * math.sin(self.endAngleRad)) * self.scaleY)
+        return QPointF(
+            (self.posX + self.radiusX + self.radiusX * math.cos(self.endAngleRad))
+            * self.scaleX,
+            (self.posY + self.radiusY + self.radiusY * math.sin(self.endAngleRad))
+            * self.scaleY,
+        )
 
     def guide(self, item, moveSpeed):
         frame = item.guideFrame - self.startLength
-        end = QPointF((self.posX + self.radiusX + self.radiusX * math.cos(self.startAngleRad + (frame * self.stepAngleRad))) * self.scaleX,
-                (self.posY + self.radiusY + self.radiusY * math.sin(self.startAngleRad + (frame * self.stepAngleRad))) * self.scaleY)
+        end = QPointF(
+            (
+                self.posX
+                + self.radiusX
+                + self.radiusX
+                * math.cos(self.startAngleRad + (frame * self.stepAngleRad))
+            )
+            * self.scaleX,
+            (
+                self.posY
+                + self.radiusY
+                + self.radiusY
+                * math.sin(self.startAngleRad + (frame * self.stepAngleRad))
+            )
+            * self.scaleY,
+        )
         self.move(item, end, moveSpeed)

@@ -107,12 +107,12 @@ class Colors(object):
         font = QFont()
         font.setStyleStrategy(QFont.PreferAntialias)
 
-        if sys.platform == 'darwin':
+        if sys.platform == "darwin":
             font.setPixelSize(14)
-            font.setFamily('Arial')
+            font.setFamily("Arial")
         else:
             font.setPixelSize(13)
-            font.setFamily('Verdana')
+            font.setFamily("Verdana")
 
         return font
 
@@ -123,7 +123,7 @@ class Colors(object):
 
         font.setPixelSize(23)
         font.setBold(True)
-        font.setFamily('Verdana')
+        font.setFamily("Verdana")
 
         return font
 
@@ -133,7 +133,7 @@ class Colors(object):
         font.setStyleStrategy(QFont.PreferAntialias)
 
         font.setPixelSize(11)
-        font.setFamily('Verdana')
+        font.setFamily("Verdana")
 
         return font
 
@@ -142,14 +142,14 @@ class Colors(object):
         font = QFont()
         font.setStyleStrategy(QFont.PreferAntialias)
 
-        if sys.platform == 'darwin':
+        if sys.platform == "darwin":
             font.setPixelSize(11)
             font.setBold(True)
-            font.setFamily('Arial')
+            font.setFamily("Arial")
         else:
             font.setPixelSize(10)
             font.setBold(True)
-            font.setFamily('sans serif')
+            font.setFamily("sans serif")
 
         return font
 
@@ -170,7 +170,7 @@ class Colors(object):
             if s == "-no-ticker":
                 cls.noTicker = True
             elif s.startswith("-ticker"):
-                cls.noTicker =  not bool(parseFloat(s, "-ticker"))
+                cls.noTicker = not bool(parseFloat(s, "-ticker"))
             elif s == "-no-animations":
                 cls.noAnimations = True
             elif s.startswith("-animations"):
@@ -225,17 +225,20 @@ class Colors(object):
             elif s.startswith("-fps"):
                 cls.fps = int(parseFloat(s, "-fps"))
             elif s.startswith("-h") or s.startswith("-help"):
-                QMessageBox.warning(None, "Arguments",
-                        "Usage: qtdemo.py [-verbose] [-no-adapt] "
-                        "[-fullscreen] [-ticker[0|1]] "
-                        "[-animations[0|1]] [-no-blending] [-no-sync] "
-                        "[-use-timer-update[0|1]] [-pause[0|1]] "
-                        "[-use-window-mask] [-no-rescale] [-use-pixmaps] "
-                        "[-show-fps] [-show-br] [-8bit[0|1]] [-menu<int>] "
-                        "[-use-loop] [-use-balls] [-animation-speed<float>] "
-                        "[-fps<int>] [-low] [-ticker-letters<int>] "
-                        "[-ticker-speed<float>] [-no-ticker-morph] "
-                        "[-ticker-morph-speed<float>] [-ticker-text<string>]")
+                QMessageBox.warning(
+                    None,
+                    "Arguments",
+                    "Usage: qtdemo.py [-verbose] [-no-adapt] "
+                    "[-fullscreen] [-ticker[0|1]] "
+                    "[-animations[0|1]] [-no-blending] [-no-sync] "
+                    "[-use-timer-update[0|1]] [-pause[0|1]] "
+                    "[-use-window-mask] [-no-rescale] [-use-pixmaps] "
+                    "[-show-fps] [-show-br] [-8bit[0|1]] [-menu<int>] "
+                    "[-use-loop] [-use-balls] [-animation-speed<float>] "
+                    "[-fps<int>] [-low] [-ticker-letters<int>] "
+                    "[-ticker-speed<float>] [-no-ticker-morph] "
+                    "[-ticker-morph-speed<float>] [-ticker-text<string>]",
+                )
                 sys.exit(0)
 
         cls.postConfigure()
@@ -271,9 +274,12 @@ def parseFloat(argument, name):
 
 def parseText(argument, name):
     if len(name) == len(argument):
-        QMessageBox.warning(None, "Arguments",
-                "No argument number found for %s. Remember to put name and "
-                "value adjacent! (e.g. -fps100)")
+        QMessageBox.warning(
+            None,
+            "Arguments",
+            "No argument number found for %s. Remember to put name and "
+            "value adjacent! (e.g. -fps100)",
+        )
         sys.exit(0)
 
-    return argument[len(name):]
+    return argument[len(name) :]

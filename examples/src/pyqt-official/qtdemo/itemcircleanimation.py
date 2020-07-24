@@ -80,16 +80,28 @@ class PostRotateXY(TickerPostEffect):
     def transform(self, item, pos):
         parent = item.parentItem()
         center = parent.boundingRect().center()
-        pos.setX(center.x() + (pos.x() - center.x()) * math.cos(self.currRotX + pos.x() * self.curvx))
-        pos.setY(center.y() + (pos.y() - center.y()) * math.cos(self.currRotY + pos.y() * self.curvy))
+        pos.setX(
+            center.x()
+            + (pos.x() - center.x()) * math.cos(self.currRotX + pos.x() * self.curvx)
+        )
+        pos.setY(
+            center.y()
+            + (pos.y() - center.y()) * math.cos(self.currRotY + pos.y() * self.curvy)
+        )
 
 
 class PostRotateXYTwist(PostRotateXY):
     def transform(self, item, pos):
         parent = item.parentItem()
         center = parent.boundingRect().center()
-        pos.setX(center.x() + (pos.x() - center.x()) * math.cos(self.currRotX + pos.y() * self.curvx))
-        pos.setY(center.y() + (pos.y() - center.y()) * math.cos(self.currRotY + pos.x() * self.curvy))
+        pos.setX(
+            center.x()
+            + (pos.x() - center.x()) * math.cos(self.currRotX + pos.y() * self.curvx)
+        )
+        pos.setY(
+            center.y()
+            + (pos.y() - center.y()) * math.cos(self.currRotY + pos.x() * self.curvy)
+        )
 
 
 class TickerEffect(object):
@@ -179,8 +191,9 @@ class EffectRaindrops(TickerEffect):
         super(EffectRaindrops, self).__init__(letters)
 
         for letter in self.letters:
-            letter.setGuidedPos(QPointF(random.randint(-100, 100),
-                    random.randint(-200, 1100)))
+            letter.setGuidedPos(
+                QPointF(random.randint(-100, 100), random.randint(-200, 1100))
+            )
 
 
 class EffectLine(TickerEffect):
@@ -230,7 +243,7 @@ class ItemCircleAnimation(DemoItem):
 
         # Fill in with blanks.
         while room > 0:
-            self.createLetter(' ')
+            self.createLetter(" ")
             room -= 1
 
     def setupGuides(self):
@@ -242,16 +255,20 @@ class ItemCircleAnimation(DemoItem):
         GuideLine(QPointF(x + 265, y + 246), self.qtGuide1)
         GuideLine(QPointF(x + 158, y + 134), self.qtGuide1)
         GuideLine(QPointF(x + 184, y + 109), self.qtGuide1)
-        GuideLine(QPointF(x + 160, y +  82), self.qtGuide1)
-        GuideLine(QPointF(x +  77, y + 163), self.qtGuide1)
+        GuideLine(QPointF(x + 160, y + 82), self.qtGuide1)
+        GuideLine(QPointF(x + 77, y + 163), self.qtGuide1)
         GuideLine(QPointF(x + 100, y + 190), self.qtGuide1)
         GuideLine(QPointF(x + 132, y + 159), self.qtGuide1)
         GuideLine(QPointF(x + 188, y + 211), self.qtGuide1)
-        GuideCircle(QRectF(x + 30, y + 30, 200, 200), -30, 336, GuideCircle.CW, self.qtGuide1)
+        GuideCircle(
+            QRectF(x + 30, y + 30, 200, 200), -30, 336, GuideCircle.CW, self.qtGuide1
+        )
         GuideLine(QPointF(x + 238, y + 201), self.qtGuide1)
 
         y = 30
-        self.qtGuide2 = GuideCircle(QRectF(x + 30, y + 30, 200, 200), 135, 270, GuideCircle.CCW)
+        self.qtGuide2 = GuideCircle(
+            QRectF(x + 30, y + 30, 200, 200), 135, 270, GuideCircle.CCW
+        )
         GuideLine(QPointF(x + 222, y + 38), self.qtGuide2)
         GuideCircle(QRectF(x, y, 260, 260), 135, 270, GuideCircle.CW, self.qtGuide2)
         GuideLine(QPointF(x + 59, y + 59), self.qtGuide2)
@@ -350,7 +367,7 @@ class ItemCircleAnimation(DemoItem):
         self.qtGuide3.setScale(self.scale, self.scale)
 
     def mousePressEvent(self, event):
-        self.mouseMoveLastPosition = event.scenePos();
+        self.mouseMoveLastPosition = event.scenePos()
 
         if event.button() == Qt.LeftButton:
             self.setCursor(Qt.ClosedHandCursor)
@@ -363,7 +380,10 @@ class ItemCircleAnimation(DemoItem):
 
     def mouseMoveEvent(self, event):
         newPosition = event.scenePos()
-        self.setPosUsingSheepDog(self.pos() + newPosition - self.mouseMoveLastPosition, QRectF(-260, -280, 1350, 1160))
+        self.setPosUsingSheepDog(
+            self.pos() + newPosition - self.mouseMoveLastPosition,
+            QRectF(-260, -280, 1350, 1160),
+        )
         self.mouseMoveLastPosition = newPosition
 
     def wheelEvent(self, event):

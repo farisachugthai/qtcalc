@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Window(object):
     def setupUi(self, Window):
         Window.setObjectName("Window")
@@ -31,7 +32,9 @@ class Ui_Window(object):
         self.statusbar.setObjectName("statusbar")
         Window.setStatusBar(self.statusbar)
         self.dockWidget = QtWidgets.QDockWidget(Window)
-        self.dockWidget.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea)
+        self.dockWidget.setAllowedAreas(
+            QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea
+        )
         self.dockWidget.setObjectName("dockWidget")
         self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
@@ -53,5 +56,6 @@ class Ui_Window(object):
         _translate = QtCore.QCoreApplication.translate
         Window.setWindowTitle(_translate("Window", "Web Element DOM Traversal"))
         self.dockWidget.setWindowTitle(_translate("Window", "Document Structure"))
+
 
 from PyQt5 import QtWebKitWidgets

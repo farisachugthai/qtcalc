@@ -45,11 +45,10 @@
 import sys
 
 from PyQt5.QtCore import pyqtProperty, QCoreApplication, QObject, QUrl
-from PyQt5.QtQml import (qmlRegisterType, QQmlComponent, QQmlEngine,
-        QQmlListProperty)
+from PyQt5.QtQml import qmlRegisterType, QQmlComponent, QQmlEngine, QQmlListProperty
 
 
-QML = b'''
+QML = b"""
 import QtQuick 2.0
 import People 1.0
 
@@ -65,14 +64,14 @@ BirthdayParty {
         Person { name: "Anne Brown" }
     ]
 }
-'''
+"""
 
 
 class Person(QObject):
     def __init__(self, parent=None):
         super(Person, self).__init__(parent)
 
-        self._name = ''
+        self._name = ""
         self._shoeSize = 0
 
     @pyqtProperty(str)
@@ -125,11 +124,11 @@ component.setData(QML, QUrl())
 party = component.create()
 
 if party is not None and party.host is not None:
-    print("\"%s\" is having a birthday!" % party.host.name)
+    print('"%s" is having a birthday!' % party.host.name)
     print("They are inviting:")
 
     for guest in party.guests:
-        print("    \"%s\"" % guest.name)
+        print('    "%s"' % guest.name)
 else:
     for e in component.errors():
-        print("Error:", e.toString());
+        print("Error:", e.toString())

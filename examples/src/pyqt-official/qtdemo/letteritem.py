@@ -57,12 +57,17 @@ class LetterItem(DemoItem):
 
     def createImage(self, transform):
         scaledRect = transform.mapRect(QRect(0, 0, 25, 25))
-        image = QImage(scaledRect.width(), scaledRect.height(),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(
+            scaledRect.width(), scaledRect.height(), QImage.Format_ARGB32_Premultiplied
+        )
         image.fill(0)
         painter = QPainter(image)
         painter.scale(transform.m11(), transform.m22())
-        painter.setRenderHints(QPainter.TextAntialiasing | QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
+        painter.setRenderHints(
+            QPainter.TextAntialiasing
+            | QPainter.Antialiasing
+            | QPainter.SmoothPixmapTransform
+        )
         painter.setPen(Qt.NoPen)
 
         if Colors.useEightBitPalette:

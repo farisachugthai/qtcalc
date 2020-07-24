@@ -9,11 +9,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_CalculatorForm(object):
     def setupUi(self, CalculatorForm):
         CalculatorForm.setObjectName("CalculatorForm")
         CalculatorForm.resize(400, 300)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(5), QtWidgets.QSizePolicy.Policy(5))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy(5), QtWidgets.QSizePolicy.Policy(5)
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(CalculatorForm.sizePolicy().hasHeightForWidth())
@@ -22,7 +25,9 @@ class Ui_CalculatorForm(object):
         self.gridlayout.setContentsMargins(9, 9, 9, 9)
         self.gridlayout.setSpacing(6)
         self.gridlayout.setObjectName("gridlayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
         self.gridlayout.addItem(spacerItem, 0, 6, 1, 1)
         self.label_3_2 = QtWidgets.QLabel(CalculatorForm)
         self.label_3_2.setGeometry(QtCore.QRect(169, 9, 20, 52))
@@ -41,11 +46,27 @@ class Ui_CalculatorForm(object):
         self.outputWidget.setGeometry(QtCore.QRect(1, 24, 36, 27))
         self.outputWidget.setFrameShape(QtWidgets.QFrame.Box)
         self.outputWidget.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.outputWidget.setAlignment(QtCore.Qt.AlignAbsolute|QtCore.Qt.AlignBottom|QtCore.Qt.AlignCenter|QtCore.Qt.AlignHCenter|QtCore.Qt.AlignHorizontal_Mask|QtCore.Qt.AlignJustify|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignRight|QtCore.Qt.AlignTop|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignVertical_Mask)
+        self.outputWidget.setAlignment(
+            QtCore.Qt.AlignAbsolute
+            | QtCore.Qt.AlignBottom
+            | QtCore.Qt.AlignCenter
+            | QtCore.Qt.AlignHCenter
+            | QtCore.Qt.AlignHorizontal_Mask
+            | QtCore.Qt.AlignJustify
+            | QtCore.Qt.AlignLeading
+            | QtCore.Qt.AlignLeft
+            | QtCore.Qt.AlignRight
+            | QtCore.Qt.AlignTop
+            | QtCore.Qt.AlignTrailing
+            | QtCore.Qt.AlignVCenter
+            | QtCore.Qt.AlignVertical_Mask
+        )
         self.outputWidget.setObjectName("outputWidget")
         self.vboxlayout.addWidget(self.outputWidget)
         self.gridlayout.addLayout(self.vboxlayout, 0, 5, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.gridlayout.addItem(spacerItem1, 1, 2, 1, 1)
         self.vboxlayout1 = QtWidgets.QVBoxLayout()
         self.vboxlayout1.setContentsMargins(1, 1, 1, 1)
@@ -91,4 +112,3 @@ class Ui_CalculatorForm(object):
         self.label_2.setText(_translate("CalculatorForm", "Input 2"))
         self.label_3.setText(_translate("CalculatorForm", "+"))
         self.label.setText(_translate("CalculatorForm", "Input 1"))
-

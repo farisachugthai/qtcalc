@@ -49,7 +49,6 @@ import abstractitemmodel_rc
 
 
 class Animal(object):
-
     def __init__(self, type, size):
         self._type = type
         self._size = size
@@ -99,7 +98,7 @@ class AnimalModel(QAbstractListModel):
         return self._roles
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import os
     import sys
 
@@ -118,9 +117,9 @@ if __name__ == '__main__':
     view = QQuickView()
     view.setResizeMode(QQuickView.SizeRootObjectToView)
     ctxt = view.rootContext()
-    ctxt.setContextProperty('myModel', model)
+    ctxt.setContextProperty("myModel", model)
 
-    view.setSource(QUrl('qrc:view.qml'))
+    view.setSource(QUrl("qrc:view.qml"))
     view.show()
 
     sys.exit(app.exec_())

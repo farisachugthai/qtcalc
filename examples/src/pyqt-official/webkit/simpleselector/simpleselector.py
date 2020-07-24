@@ -63,23 +63,23 @@ class SimpleSelector(QWidget, Ui_Window):
         elements = document.findAll(self.elementLineEdit.text())
 
         for element in elements:
-            element.setAttribute('style', 'background-color: #f0f090')
+            element.setAttribute("style", "background-color: #f0f090")
 
     def on_highlightButton_clicked(self):
         self.on_elementLineEdit_returnPressed()
- 
+
     def setUrl(self, url):
         self.webView.setUrl(url)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
 
     win = SimpleSelector()
-    win.setUrl(QUrl('http://www.webkit.org'))
+    win.setUrl(QUrl("http://www.webkit.org"))
     win.show()
 
     sys.exit(app.exec_())

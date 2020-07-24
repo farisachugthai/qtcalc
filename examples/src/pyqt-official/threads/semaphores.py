@@ -74,7 +74,7 @@ class Consumer(QThread):
         sys.stderr.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QCoreApplication(sys.argv)
     producer = Producer()
     consumer = Consumer()

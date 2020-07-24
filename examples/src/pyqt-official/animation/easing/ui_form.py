@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -16,10 +17,14 @@ class Ui_Form(object):
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
         self.easingCurvePicker = QtWidgets.QListWidget(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.easingCurvePicker.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.easingCurvePicker.sizePolicy().hasHeightForWidth()
+        )
         self.easingCurvePicker.setSizePolicy(sizePolicy)
         self.easingCurvePicker.setMaximumSize(QtCore.QSize(16777215, 120))
         self.easingCurvePicker.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -52,17 +57,23 @@ class Ui_Form(object):
         self.gridLayout_2.addWidget(self.circleRadio, 1, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)
         self.groupBox = QtWidgets.QGroupBox(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy)
         self.groupBox.setObjectName("groupBox")
         self.formLayout = QtWidgets.QFormLayout(self.groupBox)
-        self.formLayout.setFieldGrowthPolicy(QtWidgets.QFormLayout.AllNonFixedFieldsGrow)
+        self.formLayout.setFieldGrowthPolicy(
+            QtWidgets.QFormLayout.AllNonFixedFieldsGrow
+        )
         self.formLayout.setObjectName("formLayout")
         self.label = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -72,17 +83,23 @@ class Ui_Form(object):
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
         self.periodSpinBox = QtWidgets.QDoubleSpinBox(self.groupBox)
         self.periodSpinBox.setEnabled(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.periodSpinBox.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.periodSpinBox.sizePolicy().hasHeightForWidth()
+        )
         self.periodSpinBox.setSizePolicy(sizePolicy)
         self.periodSpinBox.setMinimumSize(QtCore.QSize(0, 30))
         self.periodSpinBox.setMinimum(-1.0)
         self.periodSpinBox.setSingleStep(0.1)
         self.periodSpinBox.setProperty("value", -1.0)
         self.periodSpinBox.setObjectName("periodSpinBox")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.periodSpinBox)
+        self.formLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.periodSpinBox
+        )
         self.amplitudeSpinBox = QtWidgets.QDoubleSpinBox(self.groupBox)
         self.amplitudeSpinBox.setEnabled(False)
         self.amplitudeSpinBox.setMinimumSize(QtCore.QSize(0, 30))
@@ -90,7 +107,9 @@ class Ui_Form(object):
         self.amplitudeSpinBox.setSingleStep(0.1)
         self.amplitudeSpinBox.setProperty("value", -1.0)
         self.amplitudeSpinBox.setObjectName("amplitudeSpinBox")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.amplitudeSpinBox)
+        self.formLayout.setWidget(
+            2, QtWidgets.QFormLayout.FieldRole, self.amplitudeSpinBox
+        )
         self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.label_3.setMinimumSize(QtCore.QSize(0, 30))
         self.label_3.setObjectName("label_3")
@@ -102,17 +121,23 @@ class Ui_Form(object):
         self.overshootSpinBox.setSingleStep(0.1)
         self.overshootSpinBox.setProperty("value", -1.0)
         self.overshootSpinBox.setObjectName("overshootSpinBox")
-        self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.overshootSpinBox)
+        self.formLayout.setWidget(
+            4, QtWidgets.QFormLayout.FieldRole, self.overshootSpinBox
+        )
         self.label_2 = QtWidgets.QLabel(self.groupBox)
         self.label_2.setMinimumSize(QtCore.QSize(0, 30))
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_2)
         self.verticalLayout.addWidget(self.groupBox)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
         self.verticalLayout.addItem(spacerItem)
         self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 1)
         self.graphicsView = QtWidgets.QGraphicsView(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.graphicsView.sizePolicy().hasHeightForWidth())
@@ -133,4 +158,3 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "Period"))
         self.label_3.setText(_translate("Form", "Overshoot"))
         self.label_2.setText(_translate("Form", "Amplitude"))
-

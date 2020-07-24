@@ -24,9 +24,11 @@ def display_new_messages():
     if new_message:
         text_area.appendPlainText(new_message)
 
+
 def send_message():
     server.post(chat_url, {"name": name, "message": message.text()})
     message.clear()
+
 
 # Signals:
 message.returnPressed.connect(send_message)

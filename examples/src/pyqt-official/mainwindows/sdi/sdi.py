@@ -42,11 +42,16 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QFile, QFileInfo, QPoint, QSettings, QSize, Qt,
-        QTextStream)
+from PyQt5.QtCore import QFile, QFileInfo, QPoint, QSettings, QSize, Qt, QTextStream
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import (QAction, QApplication, QFileDialog, QMainWindow,
-        QMessageBox, QTextEdit)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QFileDialog,
+    QMainWindow,
+    QMessageBox,
+    QTextEdit,
+)
 
 import sdi_rc
 
@@ -62,7 +67,7 @@ class MainWindow(QMainWindow):
         if fileName:
             self.loadFile(fileName)
         else:
-            self.setCurrentFile('')
+            self.setCurrentFile("")
 
     def closeEvent(self, event):
         if self.maybeSave():
@@ -87,7 +92,11 @@ class MainWindow(QMainWindow):
                 existing.activateWindow()
                 return
 
-            if self.isUntitled and self.textEdit.document().isEmpty() and not self.isWindowModified():
+            if (
+                self.isUntitled
+                and self.textEdit.document().isEmpty()
+                and not self.isWindowModified()
+            ):
                 self.loadFile(fileName)
             else:
                 other = MainWindow(fileName)
@@ -106,17 +115,19 @@ class MainWindow(QMainWindow):
             return self.saveFile(self.curFile)
 
     def saveAs(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save As",
-                self.curFile)
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save As", self.curFile)
         if not fileName:
             return False
 
         return self.saveFile(fileName)
 
     def about(self):
-        QMessageBox.about(self, "About SDI",
-                "The <b>SDI</b> example demonstrates how to write single "
-                "document interface applications using Qt.")
+        QMessageBox.about(
+            self,
+            "About SDI",
+            "The <b>SDI</b> example demonstrates how to write single "
+            "document interface applications using Qt.",
+        )
 
     def documentWasModified(self):
         self.setWindowModified(True)
@@ -137,52 +148,99 @@ class MainWindow(QMainWindow):
         self.textEdit.document().contentsChanged.connect(self.documentWasModified)
 
     def createActions(self):
-        self.newAct = QAction(QIcon(':/images/new.png'), "&New", self,
-                shortcut=QKeySequence.New, statusTip="Create a new file",
-                triggered=self.newFile)
+        self.newAct = QAction(
+            QIcon(":/images/new.png"),
+            "&New",
+            self,
+            shortcut=QKeySequence.New,
+            statusTip="Create a new file",
+            triggered=self.newFile,
+        )
 
-        self.openAct = QAction(QIcon(':/images/open.png'), "&Open...", self,
-                shortcut=QKeySequence.Open, statusTip="Open an existing file",
-                triggered=self.open)
+        self.openAct = QAction(
+            QIcon(":/images/open.png"),
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing file",
+            triggered=self.open,
+        )
 
-        self.saveAct = QAction(QIcon(':/images/save.png'), "&Save", self,
-                shortcut=QKeySequence.Save,
-                statusTip="Save the document to disk", triggered=self.save)
+        self.saveAct = QAction(
+            QIcon(":/images/save.png"),
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk",
+            triggered=self.save,
+        )
 
-        self.saveAsAct = QAction("Save &As...", self,
-                shortcut=QKeySequence.SaveAs,
-                statusTip="Save the document under a new name",
-                triggered=self.saveAs)
+        self.saveAsAct = QAction(
+            "Save &As...",
+            self,
+            shortcut=QKeySequence.SaveAs,
+            statusTip="Save the document under a new name",
+            triggered=self.saveAs,
+        )
 
-        self.closeAct = QAction("&Close", self, shortcut="Ctrl+W",
-                statusTip="Close this window", triggered=self.close)
+        self.closeAct = QAction(
+            "&Close",
+            self,
+            shortcut="Ctrl+W",
+            statusTip="Close this window",
+            triggered=self.close,
+        )
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                statusTip="Exit the application",
-                triggered=QApplication.instance().closeAllWindows)
+        self.exitAct = QAction(
+            "E&xit",
+            self,
+            shortcut="Ctrl+Q",
+            statusTip="Exit the application",
+            triggered=QApplication.instance().closeAllWindows,
+        )
 
-        self.cutAct = QAction(QIcon(':/images/cut.png'), "Cu&t", self,
-                enabled=False, shortcut=QKeySequence.Cut,
-                statusTip="Cut the current selection's contents to the clipboard",
-                triggered=self.textEdit.cut)
+        self.cutAct = QAction(
+            QIcon(":/images/cut.png"),
+            "Cu&t",
+            self,
+            enabled=False,
+            shortcut=QKeySequence.Cut,
+            statusTip="Cut the current selection's contents to the clipboard",
+            triggered=self.textEdit.cut,
+        )
 
-        self.copyAct = QAction(QIcon(':/images/copy.png'), "&Copy", self,
-                enabled=False, shortcut=QKeySequence.Copy,
-                statusTip="Copy the current selection's contents to the clipboard",
-                triggered=self.textEdit.copy)
+        self.copyAct = QAction(
+            QIcon(":/images/copy.png"),
+            "&Copy",
+            self,
+            enabled=False,
+            shortcut=QKeySequence.Copy,
+            statusTip="Copy the current selection's contents to the clipboard",
+            triggered=self.textEdit.copy,
+        )
 
-        self.pasteAct = QAction(QIcon(':/images/paste.png'), "&Paste", self,
-                shortcut=QKeySequence.Paste,
-                statusTip="Paste the clipboard's contents into the current selection",
-                triggered=self.textEdit.paste)
+        self.pasteAct = QAction(
+            QIcon(":/images/paste.png"),
+            "&Paste",
+            self,
+            shortcut=QKeySequence.Paste,
+            statusTip="Paste the clipboard's contents into the current selection",
+            triggered=self.textEdit.paste,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                statusTip="Show the application's About box",
-                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                statusTip="Show the Qt library's About box",
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
         self.textEdit.copyAvailable.connect(self.cutAct.setEnabled)
         self.textEdit.copyAvailable.connect(self.copyAct.setEnabled)
@@ -223,24 +281,25 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage("Ready")
 
     def readSettings(self):
-        settings = QSettings('Trolltech', 'SDI Example')
-        pos = settings.value('pos', QPoint(200, 200))
-        size = settings.value('size', QSize(400, 400))
+        settings = QSettings("Trolltech", "SDI Example")
+        pos = settings.value("pos", QPoint(200, 200))
+        size = settings.value("size", QSize(400, 400))
         self.move(pos)
         self.resize(size)
 
     def writeSettings(self):
-        settings = QSettings('Trolltech', 'SDI Example')
-        settings.setValue('pos', self.pos())
-        settings.setValue('size', self.size())
+        settings = QSettings("Trolltech", "SDI Example")
+        settings.setValue("pos", self.pos())
+        settings.setValue("size", self.size())
 
     def maybeSave(self):
         if self.textEdit.document().isModified():
-            ret = QMessageBox.warning(self, "SDI",
-                    "The document has been modified.\nDo you want to save "
-                    "your changes?",
-                    QMessageBox.Save | QMessageBox.Discard |
-                    QMessageBox.Cancel)
+            ret = QMessageBox.warning(
+                self,
+                "SDI",
+                "The document has been modified.\nDo you want to save " "your changes?",
+                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+            )
 
             if ret == QMessageBox.Save:
                 return self.save()
@@ -253,8 +312,11 @@ class MainWindow(QMainWindow):
     def loadFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.ReadOnly | QFile.Text):
-            QMessageBox.warning(self, "SDI",
-                    "Cannot read file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "SDI",
+                "Cannot read file %s:\n%s." % (fileName, file.errorString()),
+            )
             return
 
         instr = QTextStream(file)
@@ -268,8 +330,11 @@ class MainWindow(QMainWindow):
     def saveFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.WriteOnly | QFile.Text):
-            QMessageBox.warning(self, "SDI",
-                    "Cannot write file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "SDI",
+                "Cannot write file %s:\n%s." % (fileName, file.errorString()),
+            )
             return False
 
         outstr = QTextStream(file)
@@ -307,7 +372,7 @@ class MainWindow(QMainWindow):
         return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

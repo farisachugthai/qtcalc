@@ -45,9 +45,19 @@
 import pickle
 
 from PyQt5.QtCore import QFile, QIODevice, Qt, QTextStream
-from PyQt5.QtWidgets import (QDialog, QFileDialog, QGridLayout, QHBoxLayout,
-        QLabel, QLineEdit, QMessageBox, QPushButton, QTextEdit, QVBoxLayout,
-        QWidget)
+from PyQt5.QtWidgets import (
+    QDialog,
+    QFileDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class SortedDict(dict):
@@ -86,8 +96,8 @@ class AddressBook(QWidget):
         super(AddressBook, self).__init__(parent)
 
         self.contacts = SortedDict()
-        self.oldName = ''
-        self.oldAddress = ''
+        self.oldName = ""
+        self.oldAddress = ""
         self.currentMode = self.NavigationMode
 
         nameLabel = QLabel("Name:")
@@ -187,34 +197,50 @@ class AddressBook(QWidget):
         address = self.addressText.toPlainText()
 
         if name == "" or address == "":
-            QMessageBox.information(self, "Empty Field",
-                    "Please enter a name and address.")
+            QMessageBox.information(
+                self, "Empty Field", "Please enter a name and address."
+            )
             return
 
         if self.currentMode == self.AddingMode:
             if name not in self.contacts:
                 self.contacts[name] = address
-                QMessageBox.information(self, "Add Successful",
-                        "\"%s\" has been added to your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Add Successful",
+                    '"%s" has been added to your address book.' % name,
+                )
             else:
-                QMessageBox.information(self, "Add Unsuccessful",
-                        "Sorry, \"%s\" is already in your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Add Unsuccessful",
+                    'Sorry, "%s" is already in your address book.' % name,
+                )
                 return
 
         elif self.currentMode == self.EditingMode:
             if self.oldName != name:
                 if name not in self.contacts:
-                    QMessageBox.information(self, "Edit Successful",
-                            "\"%s\" has been edited in your address book." % self.oldName)
+                    QMessageBox.information(
+                        self,
+                        "Edit Successful",
+                        '"%s" has been edited in your address book.' % self.oldName,
+                    )
                     del self.contacts[self.oldName]
                     self.contacts[name] = address
                 else:
-                    QMessageBox.information(self, "Edit Unsuccessful",
-                            "Sorry, \"%s\" is already in your address book." % name)
+                    QMessageBox.information(
+                        self,
+                        "Edit Unsuccessful",
+                        'Sorry, "%s" is already in your address book.' % name,
+                    )
                     return
             elif self.oldAddress != address:
-                QMessageBox.information(self, "Edit Successful",
-                        "\"%s\" has been edited in your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Edit Successful",
+                    '"%s" has been edited in your address book.' % name,
+                )
                 self.contacts[name] = address
 
         self.updateInterface(self.NavigationMode)
@@ -229,16 +255,22 @@ class AddressBook(QWidget):
         address = self.addressText.toPlainText()
 
         if name in self.contacts:
-            button = QMessageBox.question(self, "Confirm Remove",
-                    "Are you sure you want to remove \"%s\"?" % name,
-                    QMessageBox.Yes | QMessageBox.No)
+            button = QMessageBox.question(
+                self,
+                "Confirm Remove",
+                'Are you sure you want to remove "%s"?' % name,
+                QMessageBox.Yes | QMessageBox.No,
+            )
 
             if button == QMessageBox.Yes:
                 self.previous()
                 del self.contacts[name]
 
-                QMessageBox.information(self, "Remove Successful",
-                        "\"%s\" has been removed from your address book." % name)
+                QMessageBox.information(
+                    self,
+                    "Remove Successful",
+                    '"%s" has been removed from your address book.' % name,
+                )
 
         self.updateInterface(self.NavigationMode)
 
@@ -291,8 +323,11 @@ class AddressBook(QWidget):
                 self.nameLine.setText(contactName)
                 self.addressText.setText(self.contacts[contactName])
             else:
-                QMessageBox.information(self, "Contact Not Found",
-                        "Sorry, \"%s\" is not in your address book." % contactName)
+                QMessageBox.information(
+                    self,
+                    "Contact Not Found",
+                    'Sorry, "%s" is not in your address book.' % contactName,
+                )
                 return
 
         self.updateInterface(self.NavigationMode)
@@ -333,7 +368,7 @@ class AddressBook(QWidget):
             self.removeButton.setEnabled(number >= 1)
             self.findButton.setEnabled(number > 2)
             self.nextButton.setEnabled(number > 1)
-            self.previousButton.setEnabled(number >1 )
+            self.previousButton.setEnabled(number > 1)
 
             self.submitButton.hide()
             self.cancelButton.hide()
@@ -344,43 +379,53 @@ class AddressBook(QWidget):
             self.saveButton.setEnabled(number >= 1)
 
     def saveToFile(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save Address Book",
-                '', "Address Book (*.abk);;All Files (*)")
+        fileName, _ = QFileDialog.getSaveFileName(
+            self, "Save Address Book", "", "Address Book (*.abk);;All Files (*)"
+        )
 
         if not fileName:
             return
 
         try:
-            out_file = open(str(fileName), 'wb')
+            out_file = open(str(fileName), "wb")
         except IOError:
-            QMessageBox.information(self, "Unable to open file",
-                    "There was an error opening \"%s\"" % fileName)
+            QMessageBox.information(
+                self,
+                "Unable to open file",
+                'There was an error opening "%s"' % fileName,
+            )
             return
 
         pickle.dump(self.contacts, out_file)
         out_file.close()
 
     def loadFromFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Address Book",
-                '', "Address Book (*.abk);;All Files (*)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Open Address Book", "", "Address Book (*.abk);;All Files (*)"
+        )
 
         if not fileName:
             return
 
         try:
-            in_file = open(str(fileName), 'rb')
+            in_file = open(str(fileName), "rb")
         except IOError:
-            QMessageBox.information(self, "Unable to open file",
-                    "There was an error opening \"%s\"" % fileName)
+            QMessageBox.information(
+                self,
+                "Unable to open file",
+                'There was an error opening "%s"' % fileName,
+            )
             return
 
         self.contacts = pickle.load(in_file)
         in_file.close()
 
         if len(self.contacts) == 0:
-            QMessageBox.information(self, "No contacts in file",
-                    "The file you are attempting to open contains no "
-                    "contacts.")
+            QMessageBox.information(
+                self,
+                "No contacts in file",
+                "The file you are attempting to open contains no " "contacts.",
+            )
         else:
             for name, address in self.contacts:
                 self.nameLine.setText(name)
@@ -399,10 +444,11 @@ class AddressBook(QWidget):
             lastName = nameList[-1]
         else:
             firstName = name
-            lastName = ''
+            lastName = ""
 
-        fileName, _ = QFileDialog.getSaveFileName(self, "Export Contact", '',
-                "vCard Files (*.vcf);;All Files (*)")
+        fileName, _ = QFileDialog.getSaveFileName(
+            self, "Export Contact", "", "vCard Files (*.vcf);;All Files (*)"
+        )
 
         if not fileName:
             return
@@ -410,26 +456,26 @@ class AddressBook(QWidget):
         out_file = QFile(fileName)
 
         if not out_file.open(QIODevice.WriteOnly):
-            QMessageBox.information(self, "Unable to open file",
-                    out_file.errorString())
+            QMessageBox.information(self, "Unable to open file", out_file.errorString())
             return
 
         out_s = QTextStream(out_file)
 
-        out_s << 'BEGIN:VCARD' << '\n'
-        out_s << 'VERSION:2.1' << '\n'
-        out_s << 'N:' << lastName << ';' << firstName << '\n'
-        out_s << 'FN:' << ' '.join(nameList) << '\n'
+        out_s << "BEGIN:VCARD" << "\n"
+        out_s << "VERSION:2.1" << "\n"
+        out_s << "N:" << lastName << ";" << firstName << "\n"
+        out_s << "FN:" << " ".join(nameList) << "\n"
 
-        address.replace(';', '\\;')
-        address.replace('\n', ';')
-        address.replace(',', ' ')
+        address.replace(";", "\\;")
+        address.replace("\n", ";")
+        address.replace(",", " ")
 
-        out_s << 'ADR;HOME:;' << address << '\n'
-        out_s << 'END:VCARD' << '\n'
+        out_s << "ADR;HOME:;" << address << "\n"
+        out_s << "END:VCARD" << "\n"
 
-        QMessageBox.information(self, "Export Successful",
-                "\"%s\" has been exported as a vCard." % name)
+        QMessageBox.information(
+            self, "Export Successful", '"%s" has been exported as a vCard.' % name
+        )
 
 
 class FindDialog(QDialog):
@@ -440,7 +486,7 @@ class FindDialog(QDialog):
         self.lineEdit = QLineEdit()
 
         self.findButton = QPushButton("&Find")
-        self.findText = ''
+        self.findText = ""
 
         layout = QHBoxLayout()
         layout.addWidget(findLabel)
@@ -457,8 +503,7 @@ class FindDialog(QDialog):
         text = self.lineEdit.text()
 
         if not text:
-            QMessageBox.information(self, "Empty Field",
-                    "Please enter a name.")
+            QMessageBox.information(self, "Empty Field", "Please enter a name.")
             return
 
         self.findText = text
@@ -469,7 +514,7 @@ class FindDialog(QDialog):
         return self.findText
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     from PyQt5.QtWidgets import QApplication

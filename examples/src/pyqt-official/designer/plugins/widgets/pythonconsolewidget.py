@@ -33,30 +33,30 @@ class PythonConsoleWidget(QLineEdit):
     Provides a custom widget to accept Python expressions and emit output
     to other components via a custom signal.
     """
-    
+
     pythonOutput = pyqtSignal(str)
-    
+
     def __init__(self, parent=None):
-    
+
         super(PythonConsoleWidget, self).__init__(parent)
-        
+
         self.history = []
         self.current = -1
-        
+
         self.returnPressed.connect(self.execute)
-    
+
     def keyReleaseEvent(self, event):
-    
+
         if event.type() == QEvent.KeyRelease:
-        
+
             if event.key() == Qt.Key_Up:
                 current = max(0, self.current - 1)
                 if 0 <= current < len(self.history):
                     self.setText(self.history[current])
                     self.current = current
-                
+
                 event.accept()
-            
+
             elif event.key() == Qt.Key_Down:
                 current = min(len(self.history), self.current + 1)
                 if 0 <= current < len(self.history):
@@ -64,18 +64,18 @@ class PythonConsoleWidget(QLineEdit):
                 else:
                     self.clear()
                 self.current = current
-                
+
                 event.accept()
-    
+
     def execute(self):
-    
+
         # Define this here to give users something to look at.
         qApp = QApplication.instance()
-        
+
         self.expression = self.text()
         try:
             result = str(eval(str(self.expression)))
-            
+
             # Emit the result of the evaluated expression.
             self.pythonOutput.emit(result)
 

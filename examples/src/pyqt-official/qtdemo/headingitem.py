@@ -41,8 +41,7 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (QColor, QFontMetrics, QImage, QLinearGradient,
-        QPainter, QPen)
+from PyQt5.QtGui import QColor, QFontMetrics, QImage, QLinearGradient, QPainter, QPen
 
 from colors import Colors
 from demoitem import DemoItem
@@ -65,8 +64,11 @@ class HeadingItem(DemoItem):
         xShadow = 3.0
         yShadow = 3.0
 
-        image = QImage(int((w + xShadow) * sx), int((h + yShadow) * sy),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(
+            int((w + xShadow) * sx),
+            int((h + yShadow) * sy),
+            QImage.Format_ARGB32_Premultiplied,
+        )
         image.fill(QColor(0, 0, 0, 0).rgba())
         painter = QPainter(image)
         painter.setFont(Colors.headingFont())
@@ -82,8 +84,9 @@ class HeadingItem(DemoItem):
         pen_shadow = QPen()
         pen_shadow.setBrush(brush_shadow)
         painter.setPen(pen_shadow)
-        painter.drawText(int(xShadow), int(yShadow), int(w), int(h),
-                Qt.AlignLeft, self.text)
+        painter.drawText(
+            int(xShadow), int(yShadow), int(w), int(h), Qt.AlignLeft, self.text
+        )
 
         # Draw text.
         brush_text = QLinearGradient(0, 0, w, w)

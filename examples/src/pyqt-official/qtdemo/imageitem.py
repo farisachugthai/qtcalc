@@ -48,7 +48,9 @@ from demoitem import DemoItem
 
 
 class ImageItem(DemoItem):
-    def __init__(self, image, maxWidth, maxHeight, parent=None, adjustSize=False, scale=1.0):
+    def __init__(
+        self, image, maxWidth, maxHeight, parent=None, adjustSize=False, scale=1.0
+    ):
         super(ImageItem, self).__init__(parent)
 
         self.image = image
@@ -68,7 +70,12 @@ class ImageItem(DemoItem):
 
         # Optimization: if image is smaller than maximum allowed size, just
         # return the loaded image.
-        if original.size().height() <= h and original.size().width() <= w and not self.adjustSize and self.scale == 1:
+        if (
+            original.size().height() <= h
+            and original.size().width() <= w
+            and not self.adjustSize
+            and self.scale == 1
+        ):
             return original
 
         # Calculate what the size of the final image will be.
@@ -84,8 +91,7 @@ class ImageItem(DemoItem):
             h *= adjusty
 
         # Create a new image with correct size, and draw original on it.
-        image = QImage(int(w + 2), int(h + 2),
-                QImage.Format_ARGB32_Premultiplied)
+        image = QImage(int(w + 2), int(h + 2), QImage.Format_ARGB32_Premultiplied)
         image.fill(QColor(0, 0, 0, 0).rgba())
         painter = QPainter(image)
         painter.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
@@ -104,15 +110,13 @@ class ImageItem(DemoItem):
                 brush1.setSpread(QLinearGradient.PadSpread)
                 brush1.setColorAt(0.0, QColor(0, 0, 0, 0))
                 brush1.setColorAt(1.0, Colors.sceneBg1)
-                painter.fillRect(0, int(h) - blur, original.width(), int(h),
-                        brush1)
+                painter.fillRect(0, int(h) - blur, original.width(), int(h), brush1)
 
             if w < original.width():
                 brush2 = QLinearGradient(w - blur, 0, w, 0)
                 brush2.setSpread(QLinearGradient.PadSpread)
                 brush2.setColorAt(0.0, QColor(0, 0, 0, 0))
                 brush2.setColorAt(1.0, Colors.sceneBg1)
-                painter.fillRect(int(w) - blur, 0, int(w), original.height(),
-                        brush2)
+                painter.fillRect(int(w) - blur, 0, int(w), original.height(), brush2)
 
         return image

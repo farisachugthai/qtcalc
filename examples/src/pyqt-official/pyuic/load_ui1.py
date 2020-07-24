@@ -46,6 +46,6 @@ from PyQt5.uic import loadUi
 
 
 app = QApplication(sys.argv)
-widget = loadUi('demo.ui')
+widget = loadUi("demo.ui")
 widget.show()
 sys.exit(app.exec_())

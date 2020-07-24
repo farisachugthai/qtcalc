@@ -43,8 +43,7 @@
 
 
 from PyQt5.QtCore import QPoint, QRect, QSize, Qt
-from PyQt5.QtWidgets import (QApplication, QLayout, QPushButton, QSizePolicy,
-        QWidget)
+from PyQt5.QtWidgets import QApplication, QLayout, QPushButton, QSizePolicy, QWidget
 
 
 class Window(QWidget):
@@ -131,8 +130,12 @@ class FlowLayout(QLayout):
 
         for item in self.itemList:
             wid = item.widget()
-            spaceX = self.spacing() + wid.style().layoutSpacing(QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Horizontal)
-            spaceY = self.spacing() + wid.style().layoutSpacing(QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Vertical)
+            spaceX = self.spacing() + wid.style().layoutSpacing(
+                QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Horizontal
+            )
+            spaceY = self.spacing() + wid.style().layoutSpacing(
+                QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Vertical
+            )
             nextX = x + item.sizeHint().width() + spaceX
             if nextX - spaceX > rect.right() and lineHeight > 0:
                 x = rect.x()
@@ -149,7 +152,7 @@ class FlowLayout(QLayout):
         return y + lineHeight - rect.y()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

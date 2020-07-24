@@ -42,8 +42,14 @@
 import sys
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
-        QMessageBox, QProgressBar)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QProgressBar,
+)
 
 import mainwindow_rc
 from ui_mainwindow import Ui_MainWindow
@@ -82,7 +88,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pb.hide()
         self.statusBar().addPermanentWidget(self.pb)
 
-        self.WebBrowser.dynamicCall('GoHome()')
+        self.WebBrowser.dynamicCall("GoHome()")
 
     def closeEvent(self, e):
         MainWindow._window_list.remove(self)
@@ -114,15 +120,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_actionGo_triggered(self):
-        self.WebBrowser.dynamicCall('Navigate(const QString&)',
-                self.addressEdit.text())
+        self.WebBrowser.dynamicCall("Navigate(const QString&)", self.addressEdit.text())
 
     @pyqtSlot()
     def on_actionNewWindow_triggered(self):
         window = MainWindow()
         window.show()
         if self.addressEdit.text().isEmpty():
-            return;
+            return
 
         window.addressEdit.setText(self.addressEdit.text())
         window.actionStop.setEnabled(True)
@@ -130,10 +135,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_actionAbout_triggered(self):
-        QMessageBox.about(self, "About WebBrowser",
-                "This Example has been created using the ActiveQt integration into Qt Designer.\n"
-                "It demonstrates the use of QAxWidget to embed the Internet Explorer ActiveX\n"
-                "control into a Qt application.")
+        QMessageBox.about(
+            self,
+            "About WebBrowser",
+            "This Example has been created using the ActiveQt integration into Qt Designer.\n"
+            "It demonstrates the use of QAxWidget to embed the Internet Explorer ActiveX\n"
+            "control into a Qt application.",
+        )
 
     @pyqtSlot()
     def on_actionAboutQt_triggered(self):

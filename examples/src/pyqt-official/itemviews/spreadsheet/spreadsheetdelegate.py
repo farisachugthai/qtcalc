@@ -42,8 +42,7 @@ from PyQt5.QtWidgets import QCompleter, QDateTimeEdit, QItemDelegate, QLineEdit
 
 
 class SpreadSheetDelegate(QItemDelegate):
-
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(SpreadSheetDelegate, self).__init__(parent)
 
     def createEditor(self, parent, styleOption, index):
@@ -75,11 +74,17 @@ class SpreadSheetDelegate(QItemDelegate):
         if isinstance(editor, QLineEdit):
             editor.setText(index.model().data(index, Qt.EditRole))
         elif isinstance(editor, QDateTimeEdit):
-            editor.setDate(QDate.fromString(
-                index.model().data(index, Qt.EditRole), self.parent().currentDateFormat))
+            editor.setDate(
+                QDate.fromString(
+                    index.model().data(index, Qt.EditRole),
+                    self.parent().currentDateFormat,
+                )
+            )
 
     def setModelData(self, editor, model, index):
         if isinstance(editor, QLineEdit):
             model.setData(index, editor.text())
         elif isinstance(editor, QDateTimeEdit):
-            model.setData(index, editor.date().toString(self.parent().currentDateFormat))
+            model.setData(
+                index, editor.date().toString(self.parent().currentDateFormat)
+            )

@@ -68,10 +68,10 @@ class Dialog(QDialog):
     appropriate for handling each button.
     """
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Dialog, self).__init__(parent)
 
-        self.sharedMemory = QSharedMemory('QSharedMemoryExample')
+        self.sharedMemory = QSharedMemory("QSharedMemoryExample")
 
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
@@ -104,12 +104,14 @@ class Dialog(QDialog):
             self.detach()
 
         self.ui.label.setText("Select an image file")
-        fileName, _ = QFileDialog.getOpenFileName(self, None, None,
-                "Images (*.png *.xpm *.jpg)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, None, None, "Images (*.png *.xpm *.jpg)"
+        )
         image = QImage()
         if not image.load(fileName):
             self.ui.label.setText(
-                    "Selected file is not an image, please select another.")
+                "Selected file is not an image, please select another."
+            )
             return
 
         self.ui.label.setPixmap(QPixmap.fromImage(image))
@@ -144,10 +146,10 @@ class Dialog(QDialog):
 
         if not self.sharedMemory.attach():
             self.ui.label.setText(
-                    "Unable to attach to shared memory segment.\nLoad an "
-                    "image first.")
+                "Unable to attach to shared memory segment.\nLoad an " "image first."
+            )
             return
- 
+
         buf = QBuffer()
         ins = QDataStream(buf)
         image = QImage()
@@ -171,7 +173,7 @@ class Dialog(QDialog):
             self.ui.label.setText("Unable to detach from shared memory.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

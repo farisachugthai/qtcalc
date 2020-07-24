@@ -49,29 +49,33 @@ from PyQt5.QtDBus import QDBusConnection
 
 
 class Pong(QObject):
-
     @pyqtSlot(str, result=str)
     def ping(self, arg):
-        QMetaObject.invokeMethod(QCoreApplication.instance(), 'quit')
+        QMetaObject.invokeMethod(QCoreApplication.instance(), "quit")
 
-        return "ping(\"%s\") got called" % arg
+        return 'ping("%s") got called' % arg
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QCoreApplication(sys.argv)
 
     if not QDBusConnection.sessionBus().isConnected():
-        sys.stderr.write("Cannot connect to the D-Bus session bus.\n"
-                "To start it, run:\n"
-                "\teval `dbus-launch --auto-syntax`\n");
+        sys.stderr.write(
+            "Cannot connect to the D-Bus session bus.\n"
+            "To start it, run:\n"
+            "\teval `dbus-launch --auto-syntax`\n"
+        )
         sys.exit(1)
 
-    if not QDBusConnection.sessionBus().registerService('org.example.QtDBus.PingExample'):
+    if not QDBusConnection.sessionBus().registerService(
+        "org.example.QtDBus.PingExample"
+    ):
         sys.stderr.write("%s\n" % QDBusConnection.sessionBus().lastError().message())
         sys.exit(1)
 
     pong = Pong()
-    QDBusConnection.sessionBus().registerObject('/', pong,
-            QDBusConnection.ExportAllSlots)
+    QDBusConnection.sessionBus().registerObject(
+        "/", pong, QDBusConnection.ExportAllSlots
+    )
 
     sys.exit(app.exec_())

@@ -43,8 +43,15 @@
 
 
 from PyQt5.QtCore import QRect, QSize, Qt
-from PyQt5.QtWidgets import (QApplication, QFrame, QLabel, QLayout,
-        QTextBrowser, QWidget, QWidgetItem)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFrame,
+    QLabel,
+    QLayout,
+    QTextBrowser,
+    QWidget,
+    QWidgetItem,
+)
 
 
 class ItemWrapper(object):
@@ -110,21 +117,32 @@ class BorderLayout(QLayout):
             position = wrapper.position
 
             if position == self.North:
-                item.setGeometry(QRect(rect.x(), northHeight,
-                        rect.width(), item.sizeHint().height()))    
+                item.setGeometry(
+                    QRect(rect.x(), northHeight, rect.width(), item.sizeHint().height())
+                )
 
                 northHeight += item.geometry().height() + self.spacing()
 
             elif position == self.South:
-                item.setGeometry(QRect(item.geometry().x(),
-                        item.geometry().y(), rect.width(),
-                        item.sizeHint().height()))
+                item.setGeometry(
+                    QRect(
+                        item.geometry().x(),
+                        item.geometry().y(),
+                        rect.width(),
+                        item.sizeHint().height(),
+                    )
+                )
 
                 southHeight += item.geometry().height() + self.spacing()
 
-                item.setGeometry(QRect(rect.x(),
+                item.setGeometry(
+                    QRect(
+                        rect.x(),
                         rect.y() + rect.height() - southHeight + self.spacing(),
-                        item.geometry().width(), item.geometry().height()))
+                        item.geometry().width(),
+                        item.geometry().height(),
+                    )
+                )
 
             elif position == self.Center:
                 center = wrapper
@@ -136,25 +154,47 @@ class BorderLayout(QLayout):
             position = wrapper.position
 
             if position == self.West:
-                item.setGeometry(QRect(rect.x() + westWidth,
-                        northHeight, item.sizeHint().width(), centerHeight))    
+                item.setGeometry(
+                    QRect(
+                        rect.x() + westWidth,
+                        northHeight,
+                        item.sizeHint().width(),
+                        centerHeight,
+                    )
+                )
 
                 westWidth += item.geometry().width() + self.spacing()
 
             elif position == self.East:
-                item.setGeometry(QRect(item.geometry().x(),
-                        item.geometry().y(), item.sizeHint().width(),
-                        centerHeight))
+                item.setGeometry(
+                    QRect(
+                        item.geometry().x(),
+                        item.geometry().y(),
+                        item.sizeHint().width(),
+                        centerHeight,
+                    )
+                )
 
                 eastWidth += item.geometry().width() + self.spacing()
 
-                item.setGeometry(QRect(rect.x() + rect.width() - eastWidth + self.spacing(),
-                        northHeight, item.geometry().width(),
-                        item.geometry().height()))
+                item.setGeometry(
+                    QRect(
+                        rect.x() + rect.width() - eastWidth + self.spacing(),
+                        northHeight,
+                        item.geometry().width(),
+                        item.geometry().height(),
+                    )
+                )
 
         if center:
-            center.item.setGeometry(QRect(westWidth, northHeight,
-                    rect.width() - eastWidth - westWidth, centerHeight))
+            center.item.setGeometry(
+                QRect(
+                    westWidth,
+                    northHeight,
+                    rect.width() - eastWidth - westWidth,
+                    centerHeight,
+                )
+            )
 
     def sizeHint(self):
         return self.calculateSize(self.SizeHint)
@@ -178,7 +218,7 @@ class BorderLayout(QLayout):
 
             if sizeType == self.MinimumSize:
                 itemSize = wrapper.item.minimumSize()
-            else: # sizeType == self.SizeHint
+            else:  # sizeType == self.SizeHint
                 itemSize = wrapper.item.sizeHint()
 
             if position in (self.North, self.South, self.Center):
@@ -230,11 +270,11 @@ class Window(QWidget):
         return label
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     window = Window()
     window.show()
-    sys.exit(app.exec_())    
+    sys.exit(app.exec_())

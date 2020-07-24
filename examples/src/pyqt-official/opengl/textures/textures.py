@@ -45,9 +45,16 @@
 import sys
 
 from PyQt5.QtCore import pyqtSignal, QFileInfo, QPoint, QSize, Qt, QTimer
-from PyQt5.QtGui import (QColor, QImage, QMatrix4x4, QOpenGLShader,
-        QOpenGLShaderProgram, QOpenGLTexture, QOpenGLVersionProfile,
-        QSurfaceFormat)
+from PyQt5.QtGui import (
+    QColor,
+    QImage,
+    QMatrix4x4,
+    QOpenGLShader,
+    QOpenGLShaderProgram,
+    QOpenGLTexture,
+    QOpenGLVersionProfile,
+    QSurfaceFormat,
+)
 from PyQt5.QtWidgets import QApplication, QGridLayout, QOpenGLWidget, QWidget
 
 
@@ -79,12 +86,12 @@ void main(void)
 """
 
     coords = (
-        (( +1, -1, -1 ), ( -1, -1, -1 ), ( -1, +1, -1 ), ( +1, +1, -1 )),
-        (( +1, +1, -1 ), ( -1, +1, -1 ), ( -1, +1, +1 ), ( +1, +1, +1 )),
-        (( +1, -1, +1 ), ( +1, -1, -1 ), ( +1, +1, -1 ), ( +1, +1, +1 )),
-        (( -1, -1, -1 ), ( -1, -1, +1 ), ( -1, +1, +1 ), ( -1, +1, -1 )),
-        (( +1, -1, +1 ), ( -1, -1, +1 ), ( -1, -1, -1 ), ( +1, -1, -1 )),
-        (( -1, -1, +1 ), ( +1, -1, +1 ), ( +1, +1, +1 ), ( -1, +1, +1 ))
+        ((+1, -1, -1), (-1, -1, -1), (-1, +1, -1), (+1, +1, -1)),
+        ((+1, +1, -1), (-1, +1, -1), (-1, +1, +1), (+1, +1, +1)),
+        ((+1, -1, +1), (+1, -1, -1), (+1, +1, -1), (+1, +1, +1)),
+        ((-1, -1, -1), (-1, -1, +1), (-1, +1, +1), (-1, +1, -1)),
+        ((+1, -1, +1), (-1, -1, +1), (-1, -1, -1), (+1, -1, -1)),
+        ((-1, -1, +1), (+1, -1, +1), (+1, +1, +1), (-1, +1, +1)),
     )
 
     def __init__(self, parent=None):
@@ -134,27 +141,26 @@ void main(void)
         self.program = QOpenGLShaderProgram()
         self.program.addShader(vshader)
         self.program.addShader(fshader)
-        self.program.bindAttributeLocation('vertex',
-                self.PROGRAM_VERTEX_ATTRIBUTE)
-        self.program.bindAttributeLocation('texCoord',
-                self.PROGRAM_TEXCOORD_ATTRIBUTE)
+        self.program.bindAttributeLocation("vertex", self.PROGRAM_VERTEX_ATTRIBUTE)
+        self.program.bindAttributeLocation("texCoord", self.PROGRAM_TEXCOORD_ATTRIBUTE)
         self.program.link()
 
         self.program.bind()
-        self.program.setUniformValue('texture', 0)
+        self.program.setUniformValue("texture", 0)
 
         self.program.enableAttributeArray(self.PROGRAM_VERTEX_ATTRIBUTE)
         self.program.enableAttributeArray(self.PROGRAM_TEXCOORD_ATTRIBUTE)
-        self.program.setAttributeArray(self.PROGRAM_VERTEX_ATTRIBUTE,
-                self.vertices)
-        self.program.setAttributeArray(self.PROGRAM_TEXCOORD_ATTRIBUTE,
-                self.texCoords)
+        self.program.setAttributeArray(self.PROGRAM_VERTEX_ATTRIBUTE, self.vertices)
+        self.program.setAttributeArray(self.PROGRAM_TEXCOORD_ATTRIBUTE, self.texCoords)
 
     def paintGL(self):
-        self.gl.glClearColor(self.clearColor.redF(), self.clearColor.greenF(),
-                self.clearColor.blueF(), self.clearColor.alphaF())
-        self.gl.glClear(
-                self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
+        self.gl.glClearColor(
+            self.clearColor.redF(),
+            self.clearColor.greenF(),
+            self.clearColor.blueF(),
+            self.clearColor.alphaF(),
+        )
+        self.gl.glClear(self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
 
         m = QMatrix4x4()
         m.ortho(-0.5, 0.5, 0.5, -0.5, 4.0, 15.0)
@@ -163,7 +169,7 @@ void main(void)
         m.rotate(self.yRot / 16.0, 0.0, 1.0, 0.0)
         m.rotate(self.zRot / 16.0, 0.0, 0.0, 1.0)
 
-        self.program.setUniformValue('matrix', m)
+        self.program.setUniformValue("matrix", m)
 
         for i, texture in enumerate(self.textures):
             texture.bind()
@@ -171,8 +177,7 @@ void main(void)
 
     def resizeGL(self, width, height):
         side = min(width, height)
-        self.gl.glViewport((width - side) // 2, (height - side) // 2, side,
-                side)
+        self.gl.glViewport((width - side) // 2, (height - side) // 2, side, side)
 
     def mousePressEvent(self, event):
         self.lastPos = event.pos()
@@ -200,8 +205,10 @@ void main(void)
 
         for i in range(6):
             self.textures.append(
-                    QOpenGLTexture(
-                            QImage(root + ('/images/side%d.png' % (i + 1))).mirrored()))
+                QOpenGLTexture(
+                    QImage(root + ("/images/side%d.png" % (i + 1))).mirrored()
+                )
+            )
 
             for j in range(4):
                 self.texCoords.append(((j == 0 or j == 3), (j == 0 or j == 1)))
@@ -226,9 +233,13 @@ class Window(QWidget):
 
             for j in range(Window.NumColumns):
                 clearColor = QColor()
-                clearColor.setHsv(((i * Window.NumColumns) + j) * 255
-                                  / (Window.NumRows * Window.NumColumns - 1),
-                                  255, 63)
+                clearColor.setHsv(
+                    ((i * Window.NumColumns) + j)
+                    * 255
+                    / (Window.NumRows * Window.NumColumns - 1),
+                    255,
+                    63,
+                )
 
                 widget = GLWidget()
                 widget.setClearColor(clearColor)
@@ -259,7 +270,7 @@ class Window(QWidget):
             self.currentGlWidget.rotateBy(+2 * 16, +2 * 16, -1 * 16)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 

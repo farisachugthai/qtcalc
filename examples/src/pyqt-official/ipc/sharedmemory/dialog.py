@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -34,6 +35,12 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.loadFromFileButton.setText(_translate("Dialog", "Load Image From File..."))
-        self.label.setText(_translate("Dialog", "Launch two of these dialogs.  In the first, press the top button and load an image from a file.  In the second, press the bottom button and display the loaded image from shared memory."))
-        self.loadFromSharedMemoryButton.setText(_translate("Dialog", "Display Image From Shared Memory"))
-
+        self.label.setText(
+            _translate(
+                "Dialog",
+                "Launch two of these dialogs.  In the first, press the top button and load an image from a file.  In the second, press the bottom button and display the loaded image from shared memory.",
+            )
+        )
+        self.loadFromSharedMemoryButton.setText(
+            _translate("Dialog", "Display Image From Shared Memory")
+        )

@@ -45,9 +45,16 @@
 import array
 
 from PyQt5.QtCore import QEvent
-from PyQt5.QtGui import (QGuiApplication, QMatrix4x4, QOpenGLContext,
-        QOpenGLShader, QOpenGLShaderProgram, QOpenGLVersionProfile,
-        QSurfaceFormat, QWindow)
+from PyQt5.QtGui import (
+    QGuiApplication,
+    QMatrix4x4,
+    QOpenGLContext,
+    QOpenGLShader,
+    QOpenGLShaderProgram,
+    QOpenGLVersionProfile,
+    QSurfaceFormat,
+    QWindow,
+)
 
 
 class OpenGLWindow(QWindow):
@@ -122,7 +129,7 @@ class OpenGLWindow(QWindow):
 
 
 class TriangleWindow(OpenGLWindow):
-    vertexShaderSource = '''
+    vertexShaderSource = """
 attribute highp vec4 posAttr;
 attribute lowp vec4 colAttr;
 varying lowp vec4 col;
@@ -131,14 +138,14 @@ void main() {
     col = colAttr;
     gl_Position = matrix * posAttr;
 }
-'''
+"""
 
-    fragmentShaderSource = '''
+    fragmentShaderSource = """
 varying lowp vec4 col;
 void main() {
     gl_FragColor = col;
 }
-'''
+"""
 
     def __init__(self):
         super(TriangleWindow, self).__init__()
@@ -153,16 +160,18 @@ void main() {
     def initialize(self):
         self.m_program = QOpenGLShaderProgram(self)
 
-        self.m_program.addShaderFromSourceCode(QOpenGLShader.Vertex,
-                self.vertexShaderSource)
-        self.m_program.addShaderFromSourceCode(QOpenGLShader.Fragment,
-                self.fragmentShaderSource)
+        self.m_program.addShaderFromSourceCode(
+            QOpenGLShader.Vertex, self.vertexShaderSource
+        )
+        self.m_program.addShaderFromSourceCode(
+            QOpenGLShader.Fragment, self.fragmentShaderSource
+        )
 
         self.m_program.link()
 
-        self.m_posAttr = self.m_program.attributeLocation('posAttr')
-        self.m_colAttr = self.m_program.attributeLocation('colAttr')
-        self.m_matrixUniform = self.m_program.uniformLocation('matrix')
+        self.m_posAttr = self.m_program.attributeLocation("posAttr")
+        self.m_colAttr = self.m_program.attributeLocation("colAttr")
+        self.m_matrixUniform = self.m_program.uniformLocation("matrix")
 
     def render(self, gl):
         gl.glViewport(0, 0, self.width(), self.height())
@@ -172,29 +181,20 @@ void main() {
         self.m_program.bind()
 
         matrix = QMatrix4x4()
-        matrix.perspective(60, 4.0/3.0, 0.1, 100.0)
+        matrix.perspective(60, 4.0 / 3.0, 0.1, 100.0)
         matrix.translate(0, 0, -2)
-        matrix.rotate(100.0 * self.m_frame / self.screen().refreshRate(),
-                0, 1, 0)
+        matrix.rotate(100.0 * self.m_frame / self.screen().refreshRate(), 0, 1, 0)
 
         self.m_program.setUniformValue(self.m_matrixUniform, matrix)
 
-        vertices = array.array('f', [
-                 0.0,  0.707,
-                -0.5, -0.5,
-                 0.5, -0.5])
+        vertices = array.array("f", [0.0, 0.707, -0.5, -0.5, 0.5, -0.5])
 
-        gl.glVertexAttribPointer(self.m_posAttr, 2, gl.GL_FLOAT, False, 0,
-                vertices)
+        gl.glVertexAttribPointer(self.m_posAttr, 2, gl.GL_FLOAT, False, 0, vertices)
         gl.glEnableVertexAttribArray(self.m_posAttr)
 
-        colors = array.array('f', [
-                1.0, 0.0, 0.0,
-                0.0, 1.0, 0.0,
-                0.0, 0.0, 1.0])
+        colors = array.array("f", [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
-        gl.glVertexAttribPointer(self.m_colAttr, 3, gl.GL_FLOAT, False, 0,
-                colors)
+        gl.glVertexAttribPointer(self.m_colAttr, 3, gl.GL_FLOAT, False, 0, colors)
         gl.glEnableVertexAttribArray(self.m_colAttr)
 
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, 3)
@@ -204,7 +204,7 @@ void main() {
         self.m_frame += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

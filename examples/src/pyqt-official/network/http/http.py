@@ -43,9 +43,18 @@
 
 
 from PyQt5.QtCore import QDir, QFile, QFileInfo, QIODevice, QUrl
-from PyQt5.QtWidgets import (QApplication, QDialog, QDialogButtonBox,
-        QHBoxLayout, QLabel, QLineEdit, QMessageBox, QProgressDialog,
-        QPushButton, QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QProgressDialog,
+    QPushButton,
+    QVBoxLayout,
+)
 from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest
 
 
@@ -60,12 +69,13 @@ class HttpWindow(QDialog):
         self.httpGetId = 0
         self.httpRequestAborted = False
 
-        self.urlLineEdit = QLineEdit('https://www.qt.io')
+        self.urlLineEdit = QLineEdit("https://www.qt.io")
 
         urlLabel = QLabel("&URL:")
         urlLabel.setBuddy(self.urlLineEdit)
         self.statusLabel = QLabel(
-                "Please enter the URL of a file you want to download.")
+            "Please enter the URL of a file you want to download."
+        )
         self.statusLabel.setWordWrap(True)
 
         self.downloadButton = QPushButton("Download")
@@ -80,8 +90,7 @@ class HttpWindow(QDialog):
         self.progressDialog = QProgressDialog(self)
 
         self.urlLineEdit.textChanged.connect(self.enableDownloadButton)
-        self.qnam.authenticationRequired.connect(
-                self.slotAuthenticationRequired)
+        self.qnam.authenticationRequired.connect(self.slotAuthenticationRequired)
         self.qnam.sslErrors.connect(self.sslErrors)
         self.progressDialog.canceled.connect(self.cancelDownload)
         self.downloadButton.clicked.connect(self.downloadFile)
@@ -112,13 +121,17 @@ class HttpWindow(QDialog):
         fileName = fileInfo.fileName()
 
         if not fileName:
-            fileName = 'index.html'
+            fileName = "index.html"
 
         if QFile.exists(fileName):
-            ret = QMessageBox.question(self, "HTTP",
-                    "There already exists a file called %s in the current "
-                    "directory. Overwrite?" % fileName,
-                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            ret = QMessageBox.question(
+                self,
+                "HTTP",
+                "There already exists a file called %s in the current "
+                "directory. Overwrite?" % fileName,
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
 
             if ret == QMessageBox.No:
                 return
@@ -127,8 +140,12 @@ class HttpWindow(QDialog):
 
         self.outFile = QFile(fileName)
         if not self.outFile.open(QIODevice.WriteOnly):
-            QMessageBox.information(self, "HTTP",
-                    "Unable to save the file %s: %s." % (fileName, self.outFile.errorString()))
+            QMessageBox.information(
+                self,
+                "HTTP",
+                "Unable to save the file %s: %s."
+                % (fileName, self.outFile.errorString()),
+            )
             self.outFile = None
             return
 
@@ -162,19 +179,25 @@ class HttpWindow(QDialog):
         self.outFile.flush()
         self.outFile.close()
 
-        redirectionTarget = self.reply.attribute(QNetworkRequest.RedirectionTargetAttribute)
+        redirectionTarget = self.reply.attribute(
+            QNetworkRequest.RedirectionTargetAttribute
+        )
 
         if self.reply.error():
             self.outFile.remove()
-            QMessageBox.information(self, "HTTP",
-                    "Download failed: %s." % self.reply.errorString())
+            QMessageBox.information(
+                self, "HTTP", "Download failed: %s." % self.reply.errorString()
+            )
             self.downloadButton.setEnabled(True)
         elif redirectionTarget is not None:
             newUrl = self.url.resolved(redirectionTarget)
 
-            ret = QMessageBox.question(self, "HTTP",
-                    "Redirect to %s?" % newUrl.toString(),
-                    QMessageBox.Yes | QMessageBox.No)
+            ret = QMessageBox.question(
+                self,
+                "HTTP",
+                "Redirect to %s?" % newUrl.toString(),
+                QMessageBox.Yes | QMessageBox.No,
+            )
 
             if ret == QMessageBox.Yes:
                 self.url = newUrl
@@ -186,7 +209,9 @@ class HttpWindow(QDialog):
                 return
         else:
             fileName = QFileInfo(QUrl(self.urlLineEdit.text()).path()).fileName()
-            self.statusLabel.setText("Downloaded %s to %s." % (fileName, QDir.currentPath()))
+            self.statusLabel.setText(
+                "Downloaded %s to %s." % (fileName, QDir.currentPath())
+            )
 
             self.downloadButton.setEnabled(True)
 
@@ -206,16 +231,18 @@ class HttpWindow(QDialog):
         self.progressDialog.setValue(bytesRead)
 
     def enableDownloadButton(self):
-        self.downloadButton.setEnabled(self.urlLineEdit.text() != '')
+        self.downloadButton.setEnabled(self.urlLineEdit.text() != "")
 
     def slotAuthenticationRequired(self, authenticator):
         import os
         from PyQt5 import uic
 
-        ui = os.path.join(os.path.dirname(__file__), 'authenticationdialog.ui')
+        ui = os.path.join(os.path.dirname(__file__), "authenticationdialog.ui")
         dlg = uic.loadUi(ui)
         dlg.adjustSize()
-        dlg.siteDescription.setText("%s at %s" % (authenticator.realm(), self.url.host()))
+        dlg.siteDescription.setText(
+            "%s at %s" % (authenticator.realm(), self.url.host())
+        )
 
         dlg.userEdit.setText(self.url.userName())
         dlg.passwordEdit.setText(self.url.password())
@@ -227,15 +254,18 @@ class HttpWindow(QDialog):
     def sslErrors(self, reply, errors):
         errorString = ", ".join([str(error.errorString()) for error in errors])
 
-        ret = QMessageBox.warning(self, "HTTP Example",
-                "One or more SSL errors has occurred: %s" % errorString,
-                QMessageBox.Ignore | QMessageBox.Abort)
+        ret = QMessageBox.warning(
+            self,
+            "HTTP Example",
+            "One or more SSL errors has occurred: %s" % errorString,
+            QMessageBox.Ignore | QMessageBox.Abort,
+        )
 
         if ret == QMessageBox.Ignore:
             self.reply.ignoreSslErrors()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

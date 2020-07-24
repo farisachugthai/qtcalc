@@ -44,12 +44,26 @@
 
 from PyQt5.QtCore import QDataStream, QSettings, QTimer
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
-        QDialogButtonBox, QGridLayout, QLabel, QLineEdit, QMessageBox,
-        QPushButton)
-from PyQt5.QtNetwork import (QAbstractSocket, QHostInfo, QNetworkConfiguration,
-        QNetworkConfigurationManager, QNetworkInterface, QNetworkSession,
-        QTcpSocket)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+)
+from PyQt5.QtNetwork import (
+    QAbstractSocket,
+    QHostInfo,
+    QNetworkConfiguration,
+    QNetworkConfigurationManager,
+    QNetworkInterface,
+    QNetworkSession,
+    QTcpSocket,
+)
 
 
 class Client(QDialog):
@@ -58,7 +72,7 @@ class Client(QDialog):
 
         self.networkSession = None
         self.blockSize = 0
-        self.currentFortune = ''
+        self.currentFortune = ""
 
         hostLabel = QLabel("&Server name:")
         portLabel = QLabel("S&erver port:")
@@ -67,15 +81,15 @@ class Client(QDialog):
         self.hostCombo.setEditable(True)
 
         name = QHostInfo.localHostName()
-        if name != '':
+        if name != "":
             self.hostCombo.addItem(name)
 
             domain = QHostInfo.localDomainName()
-            if domain != '':
-                self.hostCombo.addItem(name + '.' + domain)
+            if domain != "":
+                self.hostCombo.addItem(name + "." + domain)
 
-        if name != 'localhost':
-            self.hostCombo.addItem('localhost')
+        if name != "localhost":
+            self.hostCombo.addItem("localhost")
 
         ipAddressesList = QNetworkInterface.allAddresses()
 
@@ -93,8 +107,9 @@ class Client(QDialog):
         hostLabel.setBuddy(self.hostCombo)
         portLabel.setBuddy(self.portLineEdit)
 
-        self.statusLabel = QLabel("This examples requires that you run "
-                "the Fortune Server example as well.")
+        self.statusLabel = QLabel(
+            "This examples requires that you run " "the Fortune Server example as well."
+        )
 
         self.getFortuneButton = QPushButton("Get Fortune")
         self.getFortuneButton.setDefault(True)
@@ -129,9 +144,9 @@ class Client(QDialog):
 
         manager = QNetworkConfigurationManager()
         if manager.capabilities() & QNetworkConfigurationManager.NetworkSessionRequired:
-            settings = QSettings(QSettings.UserScope, 'QtProject')
-            settings.beginGroup('QtNetwork')
-            id = settings.value('DefaultNetworkConfiguration')
+            settings = QSettings(QSettings.UserScope, "QtProject")
+            settings.beginGroup("QtNetwork")
+            id = settings.value("DefaultNetworkConfiguration")
             settings.endGroup()
 
             config = manager.configurationFromIdentifier(id)
@@ -149,8 +164,9 @@ class Client(QDialog):
         self.getFortuneButton.setEnabled(False)
         self.blockSize = 0
         self.tcpSocket.abort()
-        self.tcpSocket.connectToHost(self.hostCombo.currentText(),
-                int(self.portLineEdit.text()))
+        self.tcpSocket.connectToHost(
+            self.hostCombo.currentText(), int(self.portLineEdit.text())
+        )
 
     def readFortune(self):
         instr = QDataStream(self.tcpSocket)
@@ -178,46 +194,57 @@ class Client(QDialog):
         if socketError == QAbstractSocket.RemoteHostClosedError:
             pass
         elif socketError == QAbstractSocket.HostNotFoundError:
-            QMessageBox.information(self, "Fortune Client",
-                    "The host was not found. Please check the host name and "
-                    "port settings.")
+            QMessageBox.information(
+                self,
+                "Fortune Client",
+                "The host was not found. Please check the host name and "
+                "port settings.",
+            )
         elif socketError == QAbstractSocket.ConnectionRefusedError:
-            QMessageBox.information(self, "Fortune Client",
-                    "The connection was refused by the peer. Make sure the "
-                    "fortune server is running, and check that the host name "
-                    "and port settings are correct.")
+            QMessageBox.information(
+                self,
+                "Fortune Client",
+                "The connection was refused by the peer. Make sure the "
+                "fortune server is running, and check that the host name "
+                "and port settings are correct.",
+            )
         else:
-            QMessageBox.information(self, "Fortune Client",
-                    "The following error occurred: %s." % self.tcpSocket.errorString())
+            QMessageBox.information(
+                self,
+                "Fortune Client",
+                "The following error occurred: %s." % self.tcpSocket.errorString(),
+            )
 
         self.getFortuneButton.setEnabled(True)
 
     def enableGetFortuneButton(self):
         self.getFortuneButton.setEnabled(
-                (self.networkSession is None or self.networkSession.isOpen())
-                and self.hostCombo.currentText() != ''
-                and self.portLineEdit.text() != '')
+            (self.networkSession is None or self.networkSession.isOpen())
+            and self.hostCombo.currentText() != ""
+            and self.portLineEdit.text() != ""
+        )
 
     def sessionOpened(self):
         config = self.networkSession.configuration()
 
         if config.type() == QNetworkConfiguration.UserChoice:
-            id = self.networkSession.sessionProperty('UserChoiceConfiguration')
+            id = self.networkSession.sessionProperty("UserChoiceConfiguration")
         else:
             id = config.identifier()
 
-        settings = QSettings(QSettings.UserScope, 'QtProject')
-        settings.beginGroup('QtNetwork')
-        settings.setValue('DefaultNetworkConfiguration', id)
+        settings = QSettings(QSettings.UserScope, "QtProject")
+        settings.beginGroup("QtNetwork")
+        settings.setValue("DefaultNetworkConfiguration", id)
         settings.endGroup()
 
-        self.statusLabel.setText("This examples requires that you run the "
-                            "Fortune Server example as well.")
+        self.statusLabel.setText(
+            "This examples requires that you run the " "Fortune Server example as well."
+        )
 
         self.enableGetFortuneButton()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

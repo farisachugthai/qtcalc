@@ -43,8 +43,15 @@
 
 
 from PyQt5.QtCore import QFile, QIODevice, Qt, QTextStream, QUrl
-from PyQt5.QtWidgets import (QAction, QApplication, QLineEdit, QMainWindow,
-        QSizePolicy, QStyle, QTextEdit)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QLineEdit,
+    QMainWindow,
+    QSizePolicy,
+    QStyle,
+    QTextEdit,
+)
 from PyQt5.QtNetwork import QNetworkProxyFactory, QNetworkRequest
 from PyQt5.QtWebKitWidgets import QWebPage, QWebView
 
@@ -63,7 +70,7 @@ class MainWindow(QMainWindow):
             self.jQuery = QTextStream(fd).readAll()
             fd.close()
         else:
-            self.jQuery = ''
+            self.jQuery = ""
 
         QNetworkProxyFactory.setUseSystemConfiguration(True)
 
@@ -75,8 +82,9 @@ class MainWindow(QMainWindow):
         self.view.loadFinished.connect(self.finishLoading)
 
         self.locationEdit = QLineEdit(self)
-        self.locationEdit.setSizePolicy(QSizePolicy.Expanding,
-                self.locationEdit.sizePolicy().verticalPolicy())
+        self.locationEdit.setSizePolicy(
+            QSizePolicy.Expanding, self.locationEdit.sizePolicy().verticalPolicy()
+        )
         self.locationEdit.returnPressed.connect(self.changeLocation)
 
         toolBar = self.addToolBar("Navigation")
@@ -95,19 +103,19 @@ class MainWindow(QMainWindow):
         effectMenu.addAction("Highlight all links", self.highlightAllLinks)
 
         self.rotateAction = QAction(
-                self.style().standardIcon(QStyle.SP_FileDialogDetailedView),
-                "Turn images upside down", self, checkable=True,
-                toggled=self.rotateImages)
+            self.style().standardIcon(QStyle.SP_FileDialogDetailedView),
+            "Turn images upside down",
+            self,
+            checkable=True,
+            toggled=self.rotateImages,
+        )
         effectMenu.addAction(self.rotateAction)
 
         toolsMenu = self.menuBar().addMenu("&Tools")
         toolsMenu.addAction("Remove GIF images", self.removeGifImages)
-        toolsMenu.addAction("Remove all inline frames",
-                self.removeInlineFrames)
-        toolsMenu.addAction("Remove all object elements",
-                self.removeObjectElements)
-        toolsMenu.addAction("Remove all embedded elements",
-                self.removeEmbeddedElements)
+        toolsMenu.addAction("Remove all inline frames", self.removeInlineFrames)
+        toolsMenu.addAction("Remove all object elements", self.removeObjectElements)
+        toolsMenu.addAction("Remove all embedded elements", self.removeEmbeddedElements)
         self.setCentralWidget(self.view)
 
     def viewSource(self):
@@ -194,7 +202,7 @@ class MainWindow(QMainWindow):
         self.view.page().mainFrame().evaluateJavaScript(code)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -203,7 +211,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         url = QUrl(sys.argv[1])
     else:
-        url = QUrl('http://www.google.com/ncr')
+        url = QUrl("http://www.google.com/ncr")
 
     browser = MainWindow(url)
     browser.show()

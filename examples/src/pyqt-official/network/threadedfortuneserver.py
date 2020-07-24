@@ -44,12 +44,17 @@
 
 import random
 
-from PyQt5.QtCore import (pyqtSignal, QByteArray, QDataStream, QIODevice,
-        QThread)
-from PyQt5.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
-        QMessageBox, QPushButton, QVBoxLayout)
-from PyQt5.QtNetwork import (QHostAddress, QNetworkInterface, QTcpServer,
-        QTcpSocket)
+from PyQt5.QtCore import pyqtSignal, QByteArray, QDataStream, QIODevice, QThread
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+)
+from PyQt5.QtNetwork import QHostAddress, QNetworkInterface, QTcpServer, QTcpSocket
 
 
 class FortuneThread(QThread):
@@ -88,7 +93,8 @@ class FortuneServer(QTcpServer):
         "You will feel hungry again in another hour.",
         "You might have mail.",
         "You cannot kill time without injuring eternity.",
-        "Computers are not intelligent. They only think they are.")
+        "Computers are not intelligent. They only think they are.",
+    )
 
     def incomingConnection(self, socketDescriptor):
         fortune = self.FORTUNES[random.randint(0, len(self.FORTUNES) - 1)]
@@ -110,8 +116,11 @@ class Dialog(QDialog):
         quitButton.setAutoDefault(False)
 
         if not self.server.listen():
-            QMessageBox.critical(self, "Threaded Fortune Server",
-                    "Unable to start the server: %s." % self.server.errorString())
+            QMessageBox.critical(
+                self,
+                "Threaded Fortune Server",
+                "Unable to start the server: %s." % self.server.errorString(),
+            )
             self.close()
             return
 
@@ -123,8 +132,11 @@ class Dialog(QDialog):
 
         ipAddress = ipAddress.toString()
 
-        statusLabel.setText("The server is running on\n\nIP: %s\nport: %d\n\n"
-                "Run the Fortune Client example now." % (ipAddress, self.server.serverPort()))
+        statusLabel.setText(
+            "The server is running on\n\nIP: %s\nport: %d\n\n"
+            "Run the Fortune Client example now."
+            % (ipAddress, self.server.serverPort())
+        )
 
         quitButton.clicked.connect(self.close)
 
@@ -141,7 +153,7 @@ class Dialog(QDialog):
         self.setWindowTitle("Threaded Fortune Server")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

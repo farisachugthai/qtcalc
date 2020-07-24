@@ -44,12 +44,31 @@
 
 import random
 
-from PyQt5.QtCore import (pyqtSignal, QAbstractListModel, QByteArray,
-        QDataStream, QIODevice, QMimeData, QModelIndex, QPoint, QRect, QSize,
-        Qt)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QAbstractListModel,
+    QByteArray,
+    QDataStream,
+    QIODevice,
+    QMimeData,
+    QModelIndex,
+    QPoint,
+    QRect,
+    QSize,
+    Qt,
+)
 from PyQt5.QtGui import QColor, QCursor, QDrag, QIcon, QPainter, QPixmap
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QFrame, QHBoxLayout,
-        QListView, QMainWindow, QMessageBox, QSizePolicy, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QFrame,
+    QHBoxLayout,
+    QListView,
+    QMainWindow,
+    QMessageBox,
+    QSizePolicy,
+    QWidget,
+)
 
 import puzzle_rc
 
@@ -80,7 +99,7 @@ class PuzzleWidget(QWidget):
         self.update()
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasFormat('image/x-puzzle-piece'):
+        if event.mimeData().hasFormat("image/x-puzzle-piece"):
             event.accept()
         else:
             event.ignore()
@@ -94,7 +113,10 @@ class PuzzleWidget(QWidget):
     def dragMoveEvent(self, event):
         updateRect = self.highlightedRect.united(self.targetSquare(event.pos()))
 
-        if event.mimeData().hasFormat('image/x-puzzle-piece') and self.findPiece(self.targetSquare(event.pos())) == -1:
+        if (
+            event.mimeData().hasFormat("image/x-puzzle-piece")
+            and self.findPiece(self.targetSquare(event.pos())) == -1
+        ):
             self.highlightedRect = self.targetSquare(event.pos())
             event.setDropAction(Qt.MoveAction)
             event.accept()
@@ -105,8 +127,11 @@ class PuzzleWidget(QWidget):
         self.update(updateRect)
 
     def dropEvent(self, event):
-        if event.mimeData().hasFormat('image/x-puzzle-piece') and self.findPiece(self.targetSquare(event.pos())) == -1:
-            pieceData = event.mimeData().data('image/x-puzzle-piece')
+        if (
+            event.mimeData().hasFormat("image/x-puzzle-piece")
+            and self.findPiece(self.targetSquare(event.pos())) == -1
+        ):
+            pieceData = event.mimeData().data("image/x-puzzle-piece")
             stream = QDataStream(pieceData, QIODevice.ReadOnly)
             square = self.targetSquare(event.pos())
             pixmap = QPixmap()
@@ -161,7 +186,7 @@ class PuzzleWidget(QWidget):
         dataStream << pixmap << location
 
         mimeData = QMimeData()
-        mimeData.setData('image/x-puzzle-piece', itemData)
+        mimeData.setData("image/x-puzzle-piece", itemData)
 
         drag = QDrag(self)
         drag.setMimeData(mimeData)
@@ -208,8 +233,11 @@ class PiecesModel(QAbstractListModel):
             return None
 
         if role == Qt.DecorationRole:
-            return QIcon(self.pixmaps[index.row()].scaled(
-                    60, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            return QIcon(
+                self.pixmaps[index.row()].scaled(
+                    60, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation
+                )
+            )
 
         if role == Qt.UserRole:
             return self.pixmaps[index.row()]
@@ -230,14 +258,13 @@ class PiecesModel(QAbstractListModel):
         self.locations.insert(row, location)
         self.endInsertRows()
 
-    def flags(self,index):
+    def flags(self, index):
         if index.isValid():
-            return (Qt.ItemIsEnabled | Qt.ItemIsSelectable |
-                    Qt.ItemIsDragEnabled)
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsDragEnabled
 
         return Qt.ItemIsDropEnabled
 
-    def removeRows(self,row, count, parent):
+    def removeRows(self, row, count, parent):
         if parent.isValid():
             return False
 
@@ -249,14 +276,14 @@ class PiecesModel(QAbstractListModel):
 
         self.beginRemoveRows(parent, beginRow, endRow)
 
-        del self.pixmaps[beginRow:endRow + 1]
-        del self.locations[beginRow:endRow + 1]
+        del self.pixmaps[beginRow : endRow + 1]
+        del self.locations[beginRow : endRow + 1]
 
         self.endRemoveRows()
         return True
 
     def mimeTypes(self):
-        return ['image/x-puzzle-piece']
+        return ["image/x-puzzle-piece"]
 
     def mimeData(self, indexes):
         mimeData = QMimeData()
@@ -270,11 +297,11 @@ class PiecesModel(QAbstractListModel):
                 location = self.data(index, Qt.UserRole + 1)
                 stream << pixmap << location
 
-        mimeData.setData('image/x-puzzle-piece', encodedData)
+        mimeData.setData("image/x-puzzle-piece", encodedData)
         return mimeData
 
     def dropMimeData(self, data, action, row, column, parent):
-        if not data.hasFormat('image/x-puzzle-piece'):
+        if not data.hasFormat("image/x-puzzle-piece"):
             return False
 
         if action == Qt.IgnoreAction:
@@ -291,7 +318,7 @@ class PiecesModel(QAbstractListModel):
         else:
             endRow = parent.row()
 
-        encodedData = data.data('image/x-puzzle-piece')
+        encodedData = data.data("image/x-puzzle-piece")
         stream = QDataStream(encodedData, QIODevice.ReadOnly)
 
         while not stream.atEnd():
@@ -325,7 +352,7 @@ class PiecesModel(QAbstractListModel):
 
         for y in range(5):
             for x in range(5):
-                pieceImage = pixmap.copy(x*80, y*80, 80, 80)
+                pieceImage = pixmap.copy(x * 80, y * 80, 80, 80)
                 self.addPiece(pieceImage, QPoint(x, y))
 
 
@@ -343,33 +370,43 @@ class MainWindow(QMainWindow):
 
     def openImage(self, path=None):
         if not path:
-            path, _ = QFileDialog.getOpenFileName(self, "Open Image", '',
-                    "Image Files (*.png *.jpg *.bmp)")
+            path, _ = QFileDialog.getOpenFileName(
+                self, "Open Image", "", "Image Files (*.png *.jpg *.bmp)"
+            )
 
         if path:
             newImage = QPixmap()
             if not newImage.load(path):
-                QMessageBox.warning(self, "Open Image",
-                        "The image file could not be loaded.",
-                        QMessageBox.Cancel)
+                QMessageBox.warning(
+                    self,
+                    "Open Image",
+                    "The image file could not be loaded.",
+                    QMessageBox.Cancel,
+                )
                 return
 
             self.puzzleImage = newImage
             self.setupPuzzle()
 
     def setCompleted(self):
-        QMessageBox.information(self, "Puzzle Completed",
-                "Congratulations! You have completed the puzzle!\nClick OK "
-                "to start again.",
-                QMessageBox.Ok)
+        QMessageBox.information(
+            self,
+            "Puzzle Completed",
+            "Congratulations! You have completed the puzzle!\nClick OK "
+            "to start again.",
+            QMessageBox.Ok,
+        )
 
         self.setupPuzzle()
 
     def setupPuzzle(self):
         size = min(self.puzzleImage.width(), self.puzzleImage.height())
-        self.puzzleImage = self.puzzleImage.copy((self.puzzleImage.width()-size)/2,
-                (self.puzzleImage.height() - size)/2, size, size).scaled(400,
-                        400, Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        self.puzzleImage = self.puzzleImage.copy(
+            (self.puzzleImage.width() - size) / 2,
+            (self.puzzleImage.height() - size) / 2,
+            size,
+            size,
+        ).scaled(400, 400, Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
 
         random.seed(QCursor.pos().x() ^ QCursor.pos().y())
 
@@ -400,8 +437,8 @@ class MainWindow(QMainWindow):
         self.piecesList = QListView()
         self.piecesList.setDragEnabled(True)
         self.piecesList.setViewMode(QListView.IconMode)
-        self.piecesList.setIconSize(QSize(60,60))
-        self.piecesList.setGridSize(QSize(80,80))
+        self.piecesList.setIconSize(QSize(60, 60))
+        self.piecesList.setGridSize(QSize(80, 80))
         self.piecesList.setSpacing(10)
         self.piecesList.setMovement(QListView.Snap)
         self.piecesList.setAcceptDrops(True)
@@ -412,20 +449,21 @@ class MainWindow(QMainWindow):
 
         self.puzzleWidget = PuzzleWidget()
 
-        self.puzzleWidget.puzzleCompleted.connect(self.setCompleted,
-                Qt.QueuedConnection)
+        self.puzzleWidget.puzzleCompleted.connect(
+            self.setCompleted, Qt.QueuedConnection
+        )
 
         frameLayout.addWidget(self.piecesList)
         frameLayout.addWidget(self.puzzleWidget)
         self.setCentralWidget(frame)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     window = MainWindow()
-    window.openImage(':/images/example.jpg')
+    window.openImage(":/images/example.jpg")
     window.show()
     sys.exit(app.exec_())

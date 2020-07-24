@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -72,8 +73,8 @@ class Ui_Form(object):
         self.verticalLayout_2.addWidget(self.groupBox_2)
 
         self.retranslateUi(Form)
-        self.horizontalSlider.valueChanged['int'].connect(self.spinBox.setValue)
-        self.spinBox.valueChanged['int'].connect(self.horizontalSlider.setValue)
+        self.horizontalSlider.valueChanged["int"].connect(self.spinBox.setValue)
+        self.spinBox.valueChanged["int"].connect(self.horizontalSlider.setValue)
         QtCore.QMetaObject.connectSlotsByName(Form)
         Form.setTabOrder(self.groupBox, self.hostName)
         Form.setTabOrder(self.hostName, self.dateTimeEdit)
@@ -91,19 +92,42 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Modified:"))
         self.label_3.setText(_translate("Form", "Extent"))
         self.groupBox_2.setTitle(_translate("Form", "Other input"))
-        self.treeWidget.headerItem().setText(0, _translate("Form", "Widgets On Graphics View"))
+        self.treeWidget.headerItem().setText(
+            0, _translate("Form", "Widgets On Graphics View")
+        )
         __sortingEnabled = self.treeWidget.isSortingEnabled()
         self.treeWidget.setSortingEnabled(False)
-        self.treeWidget.topLevelItem(0).setText(0, _translate("Form", "QGraphicsProxyWidget"))
-        self.treeWidget.topLevelItem(0).child(0).setText(0, _translate("Form", "QGraphicsWidget"))
-        self.treeWidget.topLevelItem(0).child(0).child(0).setText(0, _translate("Form", "QObject"))
-        self.treeWidget.topLevelItem(0).child(0).child(1).setText(0, _translate("Form", "QGraphicsItem"))
-        self.treeWidget.topLevelItem(0).child(0).child(2).setText(0, _translate("Form", "QGraphicsLayoutItem"))
-        self.treeWidget.topLevelItem(1).setText(0, _translate("Form", "QGraphicsGridLayout"))
-        self.treeWidget.topLevelItem(1).child(0).setText(0, _translate("Form", "QGraphicsLayout"))
-        self.treeWidget.topLevelItem(1).child(0).child(0).setText(0, _translate("Form", "QGraphicsLayoutItem"))
-        self.treeWidget.topLevelItem(2).setText(0, _translate("Form", "QGraphicsLinearLayout"))
-        self.treeWidget.topLevelItem(2).child(0).setText(0, _translate("Form", "QGraphicsLayout"))
-        self.treeWidget.topLevelItem(2).child(0).child(0).setText(0, _translate("Form", "QGraphicsLayoutItem"))
+        self.treeWidget.topLevelItem(0).setText(
+            0, _translate("Form", "QGraphicsProxyWidget")
+        )
+        self.treeWidget.topLevelItem(0).child(0).setText(
+            0, _translate("Form", "QGraphicsWidget")
+        )
+        self.treeWidget.topLevelItem(0).child(0).child(0).setText(
+            0, _translate("Form", "QObject")
+        )
+        self.treeWidget.topLevelItem(0).child(0).child(1).setText(
+            0, _translate("Form", "QGraphicsItem")
+        )
+        self.treeWidget.topLevelItem(0).child(0).child(2).setText(
+            0, _translate("Form", "QGraphicsLayoutItem")
+        )
+        self.treeWidget.topLevelItem(1).setText(
+            0, _translate("Form", "QGraphicsGridLayout")
+        )
+        self.treeWidget.topLevelItem(1).child(0).setText(
+            0, _translate("Form", "QGraphicsLayout")
+        )
+        self.treeWidget.topLevelItem(1).child(0).child(0).setText(
+            0, _translate("Form", "QGraphicsLayoutItem")
+        )
+        self.treeWidget.topLevelItem(2).setText(
+            0, _translate("Form", "QGraphicsLinearLayout")
+        )
+        self.treeWidget.topLevelItem(2).child(0).setText(
+            0, _translate("Form", "QGraphicsLayout")
+        )
+        self.treeWidget.topLevelItem(2).child(0).child(0).setText(
+            0, _translate("Form", "QGraphicsLayoutItem")
+        )
         self.treeWidget.setSortingEnabled(__sortingEnabled)
-

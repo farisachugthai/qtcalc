@@ -45,10 +45,24 @@
 import math
 
 from PyQt5.QtCore import QPointF, Qt, QTimer
-from PyQt5.QtGui import (QBrush, QColor, QLinearGradient, QPen, QPainter,
-        QPixmap, QRadialGradient)
-from PyQt5.QtWidgets import (QApplication, QFrame, QGraphicsDropShadowEffect,
-        QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsScene, QGraphicsView)
+from PyQt5.QtGui import (
+    QBrush,
+    QColor,
+    QLinearGradient,
+    QPen,
+    QPainter,
+    QPixmap,
+    QRadialGradient,
+)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFrame,
+    QGraphicsDropShadowEffect,
+    QGraphicsEllipseItem,
+    QGraphicsRectItem,
+    QGraphicsScene,
+    QGraphicsView,
+)
 
 
 class Lighting(QGraphicsView):
@@ -116,7 +130,7 @@ class Lighting(QGraphicsView):
                 self.m_items.append(item)
 
     def animate(self):
-        self.angle += (math.pi / 30)
+        self.angle += math.pi / 30
         xs = 200 * math.sin(self.angle) - 40 + 25
         ys = 200 * math.cos(self.angle) - 40 + 25
         self.m_lightSource.setPos(xs, ys)
@@ -135,7 +149,7 @@ class Lighting(QGraphicsView):
         self.m_scene.update()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

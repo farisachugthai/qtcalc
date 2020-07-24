@@ -103,21 +103,22 @@ class DomModel(QAbstractItemModel):
 
         if index.column() == 0:
             return node.nodeName()
-        
+
         elif index.column() == 1:
             for i in range(0, attributeMap.count()):
                 attribute = attributeMap.item(i)
-                attributes.append(attribute.nodeName() + '="' +
-                                  attribute.nodeValue() + '"')
+                attributes.append(
+                    attribute.nodeName() + '="' + attribute.nodeValue() + '"'
+                )
 
             return " ".join(attributes)
 
         if index.column() == 2:
             value = node.nodeValue()
             if value is None:
-                return ''
+                return ""
 
-            return ' '.join(node.nodeValue().split('\n'))
+            return " ".join(node.nodeValue().split("\n"))
 
         return None
 
@@ -196,9 +197,13 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Simple DOM Model")
 
     def openFile(self):
-        filePath, _ = QFileDialog.getOpenFileName(self, "Open File",
-                self.xmlPath, "XML files (*.xml);;HTML files (*.html);;"
-                "SVG files (*.svg);;User Interface files (*.ui)")
+        filePath, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open File",
+            self.xmlPath,
+            "XML files (*.xml);;HTML files (*.html);;"
+            "SVG files (*.svg);;User Interface files (*.ui)",
+        )
 
         if filePath:
             f = QFile(filePath)
@@ -213,7 +218,7 @@ class MainWindow(QMainWindow):
                 f.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

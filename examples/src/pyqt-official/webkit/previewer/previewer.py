@@ -45,8 +45,16 @@
 
 from PyQt5.QtCore import QFile, QIODevice, QTextStream, QUrl
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import (QAction, QApplication, QFileDialog, QInputDialog,
-        QLineEdit, QMainWindow, QMessageBox, QWidget)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QFileDialog,
+    QInputDialog,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QWidget,
+)
 
 from ui_previewer import Ui_Form
 
@@ -57,7 +65,7 @@ class Previewer(QWidget, Ui_Form):
 
         self.setupUi(self)
         self.baseUrl = QUrl()
- 
+
     def setBaseUrl(self, url):
         self.baseUrl = url
 
@@ -79,25 +87,51 @@ class MainWindow(QMainWindow):
         self.setStartupText()
 
     def createActions(self):
-        self.openAct = QAction("&Open...", self, shortcut=QKeySequence.Open,
-                statusTip="Open an existing HTML file", triggered=self.open)
+        self.openAct = QAction(
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing HTML file",
+            triggered=self.open,
+        )
 
-        self.openUrlAct = QAction("&Open URL...", self, shortcut="Ctrl+U",
-                statusTip="Open a URL", triggered=self.openUrl)
+        self.openUrlAct = QAction(
+            "&Open URL...",
+            self,
+            shortcut="Ctrl+U",
+            statusTip="Open a URL",
+            triggered=self.openUrl,
+        )
 
-        self.saveAct = QAction("&Save", self, shortcut=QKeySequence.Save,
-                statusTip="Save the HTML file to disk", triggered=self.save)
+        self.saveAct = QAction(
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the HTML file to disk",
+            triggered=self.save,
+        )
 
-        self.exitAct = QAction("E&xit", self, shortcut=QKeySequence.Quit,
-                statusTip="Exit the application", triggered=self.close)
+        self.exitAct = QAction(
+            "E&xit",
+            self,
+            shortcut=QKeySequence.Quit,
+            statusTip="Exit the application",
+            triggered=self.close,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                statusTip="Show the application's About box",
-                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                statusTip="Show the Qt library's About box",
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -112,17 +146,19 @@ class MainWindow(QMainWindow):
         self.helpMenu.addAction(self.aboutQtAct)
 
     def about(self):
-        QMessageBox.about(self, "About Previewer",
-                "The <b>Previewer</b> example demonstrates how to view HTML "
-                "documents using a QtWebKitWidgets.QWebView.")
+        QMessageBox.about(
+            self,
+            "About Previewer",
+            "The <b>Previewer</b> example demonstrates how to view HTML "
+            "documents using a QtWebKitWidgets.QWebView.",
+        )
 
     def open(self):
         fileName, _ = QFileDialog.getOpenFileName(self)
         if fileName:
             fd = QFile(fileName)
             if not fd.open(QIODevice.ReadOnly):
-                QMessageBox.information(self, "Unable to open file",
-                        fd.errorString())
+                QMessageBox.information(self, "Unable to open file", fd.errorString())
                 return
 
             output = QTextStream(fd).readAll()
@@ -132,8 +168,9 @@ class MainWindow(QMainWindow):
             self.centralWidget.setBaseUrl(QUrl.fromLocalFile(fileName))
 
     def openUrl(self):
-        url, ok = QInputDialog.getText(self, "Enter a URL", "URL:",
-                QLineEdit.Normal, "http://")
+        url, ok = QInputDialog.getText(
+            self, "Enter a URL", "URL:", QLineEdit.Normal, "http://"
+        )
 
         if ok and url:
             url = QUrl(url)
@@ -145,28 +182,29 @@ class MainWindow(QMainWindow):
         if fileName:
             fd = QFile(fileName)
             if not fd.open(QIODevice.WriteOnly):
-                QMessageBox.information(self, "Unable to open file",
-                        fd.errorString())
+                QMessageBox.information(self, "Unable to open file", fd.errorString())
                 return
 
             QTextStream(fd) << content
- 
+
     def updateTextEdit(self):
         mainFrame = self.centralWidget.webView.page().mainFrame()
         frameText = mainFrame.toHtml()
         self.centralWidget.plainTextEdit.setPlainText(frameText)
 
     def setStartupText(self):
-        self.centralWidget.webView.setHtml("""
+        self.centralWidget.webView.setHtml(
+            """
 <html><body>
  <h1>HTML Previewer</h1>
   <p>This example shows you how to use QtWebKitWidgets.QWebView to
    preview HTML data written in a QtWidgets.QPlainTextEdit.
   </p>
-</body></html>""")
+</body></html>"""
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -43,10 +43,24 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QAbstractListModel, QDir, QLibraryInfo,
-        QModelIndex, Qt)
-from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
-        QListView, QSizePolicy, QTextBrowser, QWidget)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QAbstractListModel,
+    QDir,
+    QLibraryInfo,
+    QModelIndex,
+    Qt,
+)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QListView,
+    QSizePolicy,
+    QTextBrowser,
+    QWidget,
+)
 
 
 class FileListModel(QAbstractListModel):
@@ -55,7 +69,7 @@ class FileListModel(QAbstractListModel):
     def __init__(self, parent=None):
         super(FileListModel, self).__init__(parent)
 
-        self.fileCount = 0    
+        self.fileCount = 0
         self.fileList = []
 
     def rowCount(self, parent=QModelIndex()):
@@ -87,8 +101,9 @@ class FileListModel(QAbstractListModel):
         remainder = len(self.fileList) - self.fileCount
         itemsToFetch = min(100, remainder)
 
-        self.beginInsertRows(QModelIndex(), self.fileCount,
-                self.fileCount + itemsToFetch)
+        self.beginInsertRows(
+            QModelIndex(), self.fileCount, self.fileCount + itemsToFetch
+        )
 
         self.fileCount += itemsToFetch
 
@@ -120,7 +135,9 @@ class Window(QWidget):
         view.setModel(model)
 
         self.logViewer = QTextBrowser()
-        self.logViewer.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred))
+        self.logViewer.setSizePolicy(
+            QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        )
 
         lineEdit.textChanged.connect(model.setDirPath)
         lineEdit.textChanged.connect(self.logViewer.clear)
@@ -139,7 +156,7 @@ class Window(QWidget):
         self.logViewer.append("%d items added." % number)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

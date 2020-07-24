@@ -62,8 +62,7 @@ class DragLabel(QLabel):
 
         mimeData = QMimeData()
         mimeData.setText(self.text())
-        mimeData.setData('application/x-hotspot',
-                '%d %d' % (hotSpot.x(), hotSpot.y()))
+        mimeData.setData("application/x-hotspot", "%d %d" % (hotSpot.x(), hotSpot.y()))
 
         pixmap = QPixmap(self.size())
         self.render(pixmap)
@@ -84,7 +83,7 @@ class DragWidget(QWidget):
     def __init__(self, parent=None):
         super(DragWidget, self).__init__(parent)
 
-        dictionaryFile = QFile(':/dictionary/words.txt')
+        dictionaryFile = QFile(":/dictionary/words.txt")
         dictionaryFile.open(QIODevice.ReadOnly)
 
         x = 5
@@ -124,10 +123,10 @@ class DragWidget(QWidget):
             position = event.pos()
             hotSpot = QPoint()
 
-            hotSpotPos = mime.data('application/x-hotspot').split(' ')
+            hotSpotPos = mime.data("application/x-hotspot").split(" ")
             if len(hotSpotPos) == 2:
-               hotSpot.setX(hotSpotPos[0].toInt()[0])
-               hotSpot.setY(hotSpotPos[1].toInt()[0])
+                hotSpot.setX(hotSpotPos[0].toInt()[0])
+                hotSpot.setY(hotSpotPos[1].toInt()[0])
 
             for piece in pieces:
                 newLabel = DragLabel(piece, self)
@@ -145,7 +144,7 @@ class DragWidget(QWidget):
             event.ignore()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

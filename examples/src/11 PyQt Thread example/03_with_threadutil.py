@@ -23,16 +23,19 @@ window.show()
 
 append_message = run_in_main_thread(text_area.appendPlainText)
 
+
 def fetch_new_messages():
     while True:
         response = server.get(chat_url).text
         if response:
             append_message(response)
-        sleep(.5)
+        sleep(0.5)
+
 
 def send_message():
     server.post(chat_url, {"name": name, "message": message.text()})
     message.clear()
+
 
 # Signals:
 message.returnPressed.connect(send_message)

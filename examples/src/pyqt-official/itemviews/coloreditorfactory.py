@@ -45,9 +45,16 @@
 
 from PyQt5.QtCore import pyqtProperty, Qt, QVariant
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import (QApplication, QComboBox, QGridLayout,
-        QItemEditorCreatorBase, QItemEditorFactory, QTableWidget,
-        QTableWidgetItem, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QGridLayout,
+    QItemEditorCreatorBase,
+    QItemEditorFactory,
+    QTableWidget,
+    QTableWidgetItem,
+    QWidget,
+)
 
 
 class ColorListEditor(QComboBox):
@@ -89,9 +96,9 @@ class Window(QWidget):
 
     def createGUI(self):
         tableData = [
-            ("Alice", QColor('aliceblue')),
-            ("Neptun", QColor('aquamarine')),
-            ("Ferdinand", QColor('springgreen'))
+            ("Alice", QColor("aliceblue")),
+            ("Neptun", QColor("aquamarine")),
+            ("Ferdinand", QColor("springgreen")),
         ]
 
         table = QTableWidget(3, 2)
@@ -116,7 +123,7 @@ class Window(QWidget):
         self.setWindowTitle("Color Editor Factory")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -22,23 +22,29 @@ window.show()
 
 # Event handlers:
 new_messages = []
+
+
 def fetch_new_messages():
     while True:
         response = server.get(chat_url).text
         if response:
             new_messages.append(response)
-        sleep(.5)
+        sleep(0.5)
+
 
 thread = Thread(target=fetch_new_messages, daemon=True)
 thread.start()
+
 
 def display_new_messages():
     while new_messages:
         text_area.appendPlainText(new_messages.pop(0))
 
+
 def send_message():
     server.post(chat_url, {"name": name, "message": message.text()})
     message.clear()
+
 
 # Signals:
 message.returnPressed.connect(send_message)

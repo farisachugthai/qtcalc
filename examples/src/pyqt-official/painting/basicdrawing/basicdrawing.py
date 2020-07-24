@@ -43,24 +43,49 @@
 
 
 from PyQt5.QtCore import QPoint, QRect, QSize, Qt
-from PyQt5.QtGui import (QBrush, QConicalGradient, QLinearGradient, QPainter,
-        QPainterPath, QPalette, QPen, QPixmap, QPolygon, QRadialGradient)
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QGridLayout,
-        QLabel, QSpinBox, QWidget)
+from PyQt5.QtGui import (
+    QBrush,
+    QConicalGradient,
+    QLinearGradient,
+    QPainter,
+    QPainterPath,
+    QPalette,
+    QPen,
+    QPixmap,
+    QPolygon,
+    QRadialGradient,
+)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QGridLayout,
+    QLabel,
+    QSpinBox,
+    QWidget,
+)
 
 import basicdrawing_rc
 
 
 class RenderArea(QWidget):
-    points = QPolygon([
-        QPoint(10, 80),
-        QPoint(20, 10),
-        QPoint(80, 30),
-        QPoint(90, 70)
-    ])
+    points = QPolygon([QPoint(10, 80), QPoint(20, 10), QPoint(80, 30), QPoint(90, 70)])
 
-    Line, Points, Polyline, Polygon, Rect, RoundedRect, Ellipse, Arc, Chord, \
-            Pie, Path, Text, Pixmap = range(13)
+    (
+        Line,
+        Points,
+        Polyline,
+        Polygon,
+        Rect,
+        RoundedRect,
+        Ellipse,
+        Arc,
+        Chord,
+        Pie,
+        Path,
+        Text,
+        Pixmap,
+    ) = range(13)
 
     def __init__(self, parent=None):
         super(RenderArea, self).__init__(parent)
@@ -72,7 +97,7 @@ class RenderArea(QWidget):
         self.shape = RenderArea.Polygon
         self.antialiased = False
         self.transformed = False
-        self.pixmap.load(':/images/qt-logo.png')
+        self.pixmap.load(":/images/qt-logo.png")
 
         self.setBackgroundRole(QPalette.Base)
         self.setAutoFillBackground(True)
@@ -153,8 +178,9 @@ class RenderArea(QWidget):
                 elif self.shape == RenderArea.Path:
                     painter.drawPath(path)
                 elif self.shape == RenderArea.Text:
-                    painter.drawText(rect, Qt.AlignCenter,
-                            "PyQt by\nRiverbank Computing")
+                    painter.drawText(
+                        rect, Qt.AlignCenter, "PyQt by\nRiverbank Computing"
+                    )
                 elif self.shape == RenderArea.Pixmap:
                     painter.drawPixmap(10, 10, self.pixmap)
 
@@ -166,6 +192,7 @@ class RenderArea(QWidget):
 
 
 IdRole = Qt.UserRole
+
 
 class Window(QWidget):
     def __init__(self):
@@ -226,12 +253,9 @@ class Window(QWidget):
         penJoinLabel.setBuddy(self.penJoinComboBox)
 
         self.brushStyleComboBox = QComboBox()
-        self.brushStyleComboBox.addItem("Linear Gradient",
-                Qt.LinearGradientPattern)
-        self.brushStyleComboBox.addItem("Radial Gradient",
-                Qt.RadialGradientPattern)
-        self.brushStyleComboBox.addItem("Conical Gradient",
-                Qt.ConicalGradientPattern)
+        self.brushStyleComboBox.addItem("Linear Gradient", Qt.LinearGradientPattern)
+        self.brushStyleComboBox.addItem("Radial Gradient", Qt.RadialGradientPattern)
+        self.brushStyleComboBox.addItem("Conical Gradient", Qt.ConicalGradientPattern)
         self.brushStyleComboBox.addItem("Texture", Qt.TexturePattern)
         self.brushStyleComboBox.addItem("Solid", Qt.SolidPattern)
         self.brushStyleComboBox.addItem("Horizontal", Qt.HorPattern)
@@ -296,24 +320,29 @@ class Window(QWidget):
         self.setWindowTitle("Basic Drawing")
 
     def shapeChanged(self):
-        shape = self.shapeComboBox.itemData(self.shapeComboBox.currentIndex(),
-                IdRole)
+        shape = self.shapeComboBox.itemData(self.shapeComboBox.currentIndex(), IdRole)
         self.renderArea.setShape(shape)
 
     def penChanged(self):
         width = self.penWidthSpinBox.value()
-        style = Qt.PenStyle(self.penStyleComboBox.itemData(
-                self.penStyleComboBox.currentIndex(), IdRole))
-        cap = Qt.PenCapStyle(self.penCapComboBox.itemData(
-                self.penCapComboBox.currentIndex(), IdRole))
-        join = Qt.PenJoinStyle(self.penJoinComboBox.itemData(
-                self.penJoinComboBox.currentIndex(), IdRole))
+        style = Qt.PenStyle(
+            self.penStyleComboBox.itemData(self.penStyleComboBox.currentIndex(), IdRole)
+        )
+        cap = Qt.PenCapStyle(
+            self.penCapComboBox.itemData(self.penCapComboBox.currentIndex(), IdRole)
+        )
+        join = Qt.PenJoinStyle(
+            self.penJoinComboBox.itemData(self.penJoinComboBox.currentIndex(), IdRole)
+        )
 
         self.renderArea.setPen(QPen(Qt.blue, width, style, cap, join))
 
     def brushChanged(self):
-        style = Qt.BrushStyle(self.brushStyleComboBox.itemData(
-                self.brushStyleComboBox.currentIndex(), IdRole))
+        style = Qt.BrushStyle(
+            self.brushStyleComboBox.itemData(
+                self.brushStyleComboBox.currentIndex(), IdRole
+            )
+        )
 
         if style == Qt.LinearGradientPattern:
             linearGradient = QLinearGradient(0, 0, 100, 100)
@@ -334,12 +363,12 @@ class Window(QWidget):
             conicalGradient.setColorAt(1.0, Qt.black)
             self.renderArea.setBrush(QBrush(conicalGradient))
         elif style == Qt.TexturePattern:
-            self.renderArea.setBrush(QBrush(QPixmap(':/images/brick.png')))
+            self.renderArea.setBrush(QBrush(QPixmap(":/images/brick.png")))
         else:
             self.renderArea.setBrush(QBrush(Qt.green, style))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

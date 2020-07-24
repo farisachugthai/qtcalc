@@ -44,8 +44,14 @@
 
 from PyQt5.QtCore import QFile, QRegExp, Qt
 from PyQt5.QtGui import QFont, QSyntaxHighlighter, QTextCharFormat
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QMainWindow, QMenu,
-        QMessageBox, QTextEdit)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QTextEdit,
+)
 
 
 class MainWindow(QMainWindow):
@@ -60,19 +66,23 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Syntax Highlighter")
 
     def about(self):
-        QMessageBox.about(self, "About Syntax Highlighter",
-                "<p>The <b>Syntax Highlighter</b> example shows how to " \
-                "perform simple syntax highlighting by subclassing the " \
-                "QSyntaxHighlighter class and describing highlighting " \
-                "rules using regular expressions.</p>")
+        QMessageBox.about(
+            self,
+            "About Syntax Highlighter",
+            "<p>The <b>Syntax Highlighter</b> example shows how to "
+            "perform simple syntax highlighting by subclassing the "
+            "QSyntaxHighlighter class and describing highlighting "
+            "rules using regular expressions.</p>",
+        )
 
     def newFile(self):
         self.editor.clear()
 
     def openFile(self, path=None):
         if not path:
-            path, _ = QFileDialog.getOpenFileName(self, "Open File", '',
-                    "C++ Files (*.cpp *.h)")
+            path, _ = QFileDialog.getOpenFileName(
+                self, "Open File", "", "C++ Files (*.cpp *.h)"
+            )
 
         if path:
             inFile = QFile(path)
@@ -81,7 +91,7 @@ class MainWindow(QMainWindow):
 
                 try:
                     # Python v3.
-                    text = str(text, encoding='ascii')
+                    text = str(text, encoding="ascii")
                 except TypeError:
                     # Python v2.
                     text = str(text)
@@ -90,7 +100,7 @@ class MainWindow(QMainWindow):
 
     def setupEditor(self):
         font = QFont()
-        font.setFamily('Courier')
+        font.setFamily("Courier")
         font.setFixedPitch(True)
         font.setPointSize(10)
 
@@ -123,42 +133,64 @@ class Highlighter(QSyntaxHighlighter):
         keywordFormat.setForeground(Qt.darkBlue)
         keywordFormat.setFontWeight(QFont.Bold)
 
-        keywordPatterns = ["\\bchar\\b", "\\bclass\\b", "\\bconst\\b",
-                "\\bdouble\\b", "\\benum\\b", "\\bexplicit\\b", "\\bfriend\\b",
-                "\\binline\\b", "\\bint\\b", "\\blong\\b", "\\bnamespace\\b",
-                "\\boperator\\b", "\\bprivate\\b", "\\bprotected\\b",
-                "\\bpublic\\b", "\\bshort\\b", "\\bsignals\\b", "\\bsigned\\b",
-                "\\bslots\\b", "\\bstatic\\b", "\\bstruct\\b",
-                "\\btemplate\\b", "\\btypedef\\b", "\\btypename\\b",
-                "\\bunion\\b", "\\bunsigned\\b", "\\bvirtual\\b", "\\bvoid\\b",
-                "\\bvolatile\\b"]
+        keywordPatterns = [
+            "\\bchar\\b",
+            "\\bclass\\b",
+            "\\bconst\\b",
+            "\\bdouble\\b",
+            "\\benum\\b",
+            "\\bexplicit\\b",
+            "\\bfriend\\b",
+            "\\binline\\b",
+            "\\bint\\b",
+            "\\blong\\b",
+            "\\bnamespace\\b",
+            "\\boperator\\b",
+            "\\bprivate\\b",
+            "\\bprotected\\b",
+            "\\bpublic\\b",
+            "\\bshort\\b",
+            "\\bsignals\\b",
+            "\\bsigned\\b",
+            "\\bslots\\b",
+            "\\bstatic\\b",
+            "\\bstruct\\b",
+            "\\btemplate\\b",
+            "\\btypedef\\b",
+            "\\btypename\\b",
+            "\\bunion\\b",
+            "\\bunsigned\\b",
+            "\\bvirtual\\b",
+            "\\bvoid\\b",
+            "\\bvolatile\\b",
+        ]
 
-        self.highlightingRules = [(QRegExp(pattern), keywordFormat)
-                for pattern in keywordPatterns]
+        self.highlightingRules = [
+            (QRegExp(pattern), keywordFormat) for pattern in keywordPatterns
+        ]
 
         classFormat = QTextCharFormat()
         classFormat.setFontWeight(QFont.Bold)
         classFormat.setForeground(Qt.darkMagenta)
-        self.highlightingRules.append((QRegExp("\\bQ[A-Za-z]+\\b"),
-                classFormat))
+        self.highlightingRules.append((QRegExp("\\bQ[A-Za-z]+\\b"), classFormat))
 
         singleLineCommentFormat = QTextCharFormat()
         singleLineCommentFormat.setForeground(Qt.red)
-        self.highlightingRules.append((QRegExp("//[^\n]*"),
-                singleLineCommentFormat))
+        self.highlightingRules.append((QRegExp("//[^\n]*"), singleLineCommentFormat))
 
         self.multiLineCommentFormat = QTextCharFormat()
         self.multiLineCommentFormat.setForeground(Qt.red)
 
         quotationFormat = QTextCharFormat()
         quotationFormat.setForeground(Qt.darkGreen)
-        self.highlightingRules.append((QRegExp("\".*\""), quotationFormat))
+        self.highlightingRules.append((QRegExp('".*"'), quotationFormat))
 
         functionFormat = QTextCharFormat()
         functionFormat.setFontItalic(True)
         functionFormat.setForeground(Qt.blue)
-        self.highlightingRules.append((QRegExp("\\b[A-Za-z0-9_]+(?=\\()"),
-                functionFormat))
+        self.highlightingRules.append(
+            (QRegExp("\\b[A-Za-z0-9_]+(?=\\()"), functionFormat)
+        )
 
         self.commentStartExpression = QRegExp("/\\*")
         self.commentEndExpression = QRegExp("\\*/")
@@ -185,15 +217,17 @@ class Highlighter(QSyntaxHighlighter):
                 self.setCurrentBlockState(1)
                 commentLength = len(text) - startIndex
             else:
-                commentLength = endIndex - startIndex + self.commentEndExpression.matchedLength()
+                commentLength = (
+                    endIndex - startIndex + self.commentEndExpression.matchedLength()
+                )
 
-            self.setFormat(startIndex, commentLength,
-                    self.multiLineCommentFormat)
-            startIndex = self.commentStartExpression.indexIn(text,
-                    startIndex + commentLength);
+            self.setFormat(startIndex, commentLength, self.multiLineCommentFormat)
+            startIndex = self.commentStartExpression.indexIn(
+                text, startIndex + commentLength
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

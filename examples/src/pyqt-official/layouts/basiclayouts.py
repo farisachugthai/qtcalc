@@ -42,10 +42,24 @@
 #############################################################################
 
 
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
-        QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
-        QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
-        QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QFormLayout,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMenu,
+    QMenuBar,
+    QPushButton,
+    QSpinBox,
+    QTextEdit,
+    QVBoxLayout,
+)
 
 
 class Dialog(QDialog):
@@ -61,8 +75,9 @@ class Dialog(QDialog):
         self.createFormGroupBox()
 
         bigEditor = QTextEdit()
-        bigEditor.setPlainText("This widget takes up all the remaining space "
-                "in the top-level layout.")
+        bigEditor.setPlainText(
+            "This widget takes up all the remaining space " "in the top-level layout."
+        )
 
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
@@ -110,8 +125,9 @@ class Dialog(QDialog):
             layout.addWidget(lineEdit, i + 1, 1)
 
         self.smallEditor = QTextEdit()
-        self.smallEditor.setPlainText("This widget takes up about two thirds "
-                "of the grid layout.")
+        self.smallEditor.setPlainText(
+            "This widget takes up about two thirds " "of the grid layout."
+        )
 
         layout.addWidget(self.smallEditor, 0, 2, 4, 1)
 
@@ -128,7 +144,7 @@ class Dialog(QDialog):
         self.formGroupBox.setLayout(layout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

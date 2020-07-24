@@ -39,7 +39,7 @@ class PyAnalogClockPlugin(QPyDesignerCustomWidgetPlugin):
     # The __init__() method is only used to set up the plugin and define its
     # initialized variable.
     def __init__(self, parent=None):
-    
+
         super(PyAnalogClockPlugin, self).__init__(parent)
 
         self.initialized = False
@@ -98,15 +98,17 @@ class PyAnalogClockPlugin(QPyDesignerCustomWidgetPlugin):
     # default values for its properties. Each custom widget created by this
     # plugin will be configured using this description.
     def domXml(self):
-        return '<widget class="PyAnalogClock" name="analogClock">\n' \
-               ' <property name="toolTip">\n' \
-               '  <string>The current time</string>\n' \
-               ' </property>\n' \
-               ' <property name="whatsThis">\n' \
-               '  <string>The analog clock widget displays the current ' \
-               'time.</string>\n' \
-               ' </property>\n' \
-               '</widget>\n'
+        return (
+            '<widget class="PyAnalogClock" name="analogClock">\n'
+            ' <property name="toolTip">\n'
+            "  <string>The current time</string>\n"
+            " </property>\n"
+            ' <property name="whatsThis">\n'
+            "  <string>The analog clock widget displays the current "
+            "time.</string>\n"
+            " </property>\n"
+            "</widget>\n"
+        )
 
     # Returns the module containing the custom widget class. It may include
     # a module path.
@@ -190,6 +192,7 @@ _logo_16x16_xpm = [
     ".nVjjjjjjjjjjWX.",
     ".fEVjjjjjjjjWYZ.",
     "..f012jjjj2EXZ..",
-    "....i3QccQ3P...."]
+    "....i3QccQ3P....",
+]
 
 _logo_pixmap = QPixmap(_logo_16x16_xpm)

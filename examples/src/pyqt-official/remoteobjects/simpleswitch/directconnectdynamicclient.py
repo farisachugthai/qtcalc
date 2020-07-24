@@ -73,7 +73,7 @@ class DynamicClient(QObject):
 
     @pyqtSlot(bool)
     def recSwitchState(self, value):
-        self._clientSwitchState = self._replica.property('currState')
+        self._clientSwitchState = self._replica.property("currState")
 
         print("Received source state", value, self._clientSwitchState)
 
@@ -91,7 +91,7 @@ class DynamicClient(QObject):
         self.echoSwitchState.connect(self._replica.server_slot)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QCoreApplication(sys.argv)
 
@@ -99,10 +99,10 @@ if __name__ == '__main__':
     repNode = QRemoteObjectNode()
 
     # Connect with the remote host node.
-    repNode.connectToNode(QUrl('local:replica'))
+    repNode.connectToNode(QUrl("local:replica"))
 
     # Acquire a replica of the source from the host node.
-    replica = repNode.acquireDynamic('SimpleSwitch')
+    replica = repNode.acquireDynamic("SimpleSwitch")
 
     # Create the client switch object and pass the replica to it.
     rswitch = DynamicClient(replica)

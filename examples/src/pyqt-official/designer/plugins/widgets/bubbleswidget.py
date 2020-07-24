@@ -25,8 +25,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import random
 
-from PyQt5.QtCore import (pyqtProperty, pyqtSignal, pyqtSlot, QPointF, QRectF,
-        QSize, QSizeF, Qt, QTimer)
+from PyQt5.QtCore import (
+    pyqtProperty,
+    pyqtSignal,
+    pyqtSlot,
+    QPointF,
+    QRectF,
+    QSize,
+    QSizeF,
+    Qt,
+    QTimer,
+)
 from PyQt5.QtGui import QBrush, QColor, QPainter, QPen, QRadialGradient
 from PyQt5.QtWidgets import QApplication, QWidget
 
@@ -79,8 +88,10 @@ class Bubble:
     def updateBrush(self):
 
         gradient = QRadialGradient(
-                QPointF(self.radius, self.radius), self.radius,
-                QPointF(self.radius*0.5, self.radius*0.5))
+            QPointF(self.radius, self.radius),
+            self.radius,
+            QPointF(self.radius * 0.5, self.radius * 0.5),
+        )
 
         gradient.setColorAt(0, QColor(255, 255, 255, 255))
         gradient.setColorAt(0.25, self.innerColor)
@@ -90,10 +101,11 @@ class Bubble:
     def drawBubble(self, painter):
 
         painter.save()
-        painter.translate(self.position.x() - self.radius,
-                          self.position.y() - self.radius)
+        painter.translate(
+            self.position.x() - self.radius, self.position.y() - self.radius
+        )
         painter.setBrush(self.brush)
-        painter.drawEllipse(0.0, 0.0, 2*self.radius, 2*self.radius)
+        painter.drawEllipse(0.0, 0.0, 2 * self.radius, 2 * self.radius)
         painter.restore()
 
 
@@ -138,8 +150,9 @@ class BubblesWidget(BaseClass):
 
     def paintEvent(self, event):
 
-        background = QRadialGradient(QPointF(self.rect().topLeft()), 500,
-                QPointF(self.rect().bottomRight()))
+        background = QRadialGradient(
+            QPointF(self.rect().topLeft()), 500, QPointF(self.rect().bottomRight())
+        )
         background.setColorAt(0, self.backgroundColor1)
         background.setColorAt(1, self.backgroundColor2)
 
@@ -152,8 +165,10 @@ class BubblesWidget(BaseClass):
 
         for bubble in self.bubbles:
 
-            if QRectF(bubble.position - QPointF(bubble.radius, bubble.radius),
-                      QSizeF(2*bubble.radius, 2*bubble.radius)).intersects(QRectF(event.rect())):
+            if QRectF(
+                bubble.position - QPointF(bubble.radius, bubble.radius),
+                QSizeF(2 * bubble.radius, 2 * bubble.radius),
+            ).intersects(QRectF(event.rect())):
                 bubble.drawBubble(painter)
 
         if self.newBubble:
@@ -166,9 +181,13 @@ class BubblesWidget(BaseClass):
 
         if event.button() == Qt.LeftButton and self.newBubble is None:
 
-            self.newBubble = Bubble(QPointF(event.pos()), 4.0,
-                                    1.0 + random.random() * 7,
-                                    self.randomColor(), self.randomColor())
+            self.newBubble = Bubble(
+                QPointF(event.pos()),
+                4.0,
+                1.0 + random.random() * 7,
+                self.randomColor(),
+                self.randomColor(),
+            )
             self.bubbleTimer.start(50)
             event.accept()
 
@@ -177,16 +196,24 @@ class BubblesWidget(BaseClass):
         if self.newBubble:
 
             self.update(
-                QRectF(self.newBubble.position - \
-                       QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
-                       QSizeF(2*self.newBubble.radius + 2, 2*self.newBubble.radius + 2)).toRect()
-                )
+                QRectF(
+                    self.newBubble.position
+                    - QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
+                    QSizeF(
+                        2 * self.newBubble.radius + 2, 2 * self.newBubble.radius + 2
+                    ),
+                ).toRect()
+            )
             self.newBubble.position = QPointF(event.pos())
             self.update(
-                QRectF(self.newBubble.position - \
-                       QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
-                       QSizeF(2*self.newBubble.radius + 2, 2*self.newBubble.radius + 2)).toRect()
-                )
+                QRectF(
+                    self.newBubble.position
+                    - QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
+                    QSizeF(
+                        2 * self.newBubble.radius + 2, 2 * self.newBubble.radius + 2
+                    ),
+                ).toRect()
+            )
 
         event.accept()
 
@@ -205,13 +232,18 @@ class BubblesWidget(BaseClass):
 
         if self.newBubble:
 
-            self.newBubble.radius = min(self.newBubble.radius + 4.0,
-                                        self.width()/8.0, self.height()/8.0)
+            self.newBubble.radius = min(
+                self.newBubble.radius + 4.0, self.width() / 8.0, self.height() / 8.0
+            )
             self.update(
-                QRectF(self.newBubble.position - \
-                       QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
-                       QSizeF(2*self.newBubble.radius + 2, 2*self.newBubble.radius + 2)).toRect()
-                )
+                QRectF(
+                    self.newBubble.position
+                    - QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
+                    QSizeF(
+                        2 * self.newBubble.radius + 2, 2 * self.newBubble.radius + 2
+                    ),
+                ).toRect()
+            )
             self.newBubble.updateBrush()
 
     def randomColor(self):
@@ -232,9 +264,11 @@ class BubblesWidget(BaseClass):
             bubble.position = bubble.position + QPointF(0, -bubble.speed)
 
             self.update(
-                    QRectF(bubble.position - QPointF(bubble.radius + 1,
-                                    bubble.radius + 1),
-                            QSizeF(2*bubble.radius + 2, 2*bubble.radius + 2 + bubble.speed)).toRect())
+                QRectF(
+                    bubble.position - QPointF(bubble.radius + 1, bubble.radius + 1),
+                    QSizeF(2 * bubble.radius + 2, 2 * bubble.radius + 2 + bubble.speed),
+                ).toRect()
+            )
 
             if bubble.position.y() + bubble.radius > 0:
                 bubbles.append(bubble)
@@ -244,10 +278,14 @@ class BubblesWidget(BaseClass):
 
         if self.newBubble:
             self.update(
-                    QRectF(self.newBubble.position - QPointF(
-                                    self.newBubble.radius + 1,
-                                    self.newBubble.radius + 1),
-                            QSizeF(2*self.newBubble.radius + 2, 2*self.newBubble.radius + 2)).toRect())
+                QRectF(
+                    self.newBubble.position
+                    - QPointF(self.newBubble.radius + 1, self.newBubble.radius + 1),
+                    QSizeF(
+                        2 * self.newBubble.radius + 2, 2 * self.newBubble.radius + 2
+                    ),
+                ).toRect()
+            )
 
         self.bubbles = bubbles
         if left:
@@ -270,11 +308,15 @@ class BubblesWidget(BaseClass):
 
         while len(self.bubbles) < value:
 
-            newBubble = Bubble(QPointF(random.random() * self.width(),
-                                       random.random() * self.height()),
-                               4.0 + random.random() * 20,
-                               1.0 + random.random() * 7,
-                               self.randomColor(), self.randomColor())
+            newBubble = Bubble(
+                QPointF(
+                    random.random() * self.width(), random.random() * self.height()
+                ),
+                4.0 + random.random() * 20,
+                1.0 + random.random() * 7,
+                self.randomColor(),
+                self.randomColor(),
+            )
             newBubble.updateBrush()
             self.bubbles.append(newBubble)
 

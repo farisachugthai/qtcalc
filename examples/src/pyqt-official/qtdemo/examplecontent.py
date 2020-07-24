@@ -59,6 +59,7 @@ class ExampleContent(DemoItem):
 
         # Prevent a circular import.
         from menumanager import MenuManager
+
         self._menu_manager = MenuManager.instance()
 
         self.name = name
@@ -82,17 +83,23 @@ class ExampleContent(DemoItem):
             self._prepared = False
 
     def loadDescription(self):
-        contents = self._menu_manager.getHtml(self.name).data().decode('utf8')
-        if contents == '':
+        contents = self._menu_manager.getHtml(self.name).data().decode("utf8")
+        if contents == "":
             paragraphs = []
         else:
             exampleDoc = parseString(contents)
-            paragraphs = exampleDoc.getElementsByTagName('p')
+            paragraphs = exampleDoc.getElementsByTagName("p")
 
         if len(paragraphs) < 1:
-            Colors.debug("- ExampleContent.loadDescription(): Could not load description:", self._menu_manager.info[self.name].get('docfile'))
+            Colors.debug(
+                "- ExampleContent.loadDescription(): Could not load description:",
+                self._menu_manager.info[self.name].get("docfile"),
+            )
 
-        description = Colors.contentColor + "Could not load description. Ensure that the documentation for Qt is built."
+        description = (
+            Colors.contentColor
+            + "Could not load description. Ensure that the documentation for Qt is built."
+        )
         for p in paragraphs:
             description = self.extractTextFromParagraph(p)
             if self.isSummary(description):
@@ -101,32 +108,36 @@ class ExampleContent(DemoItem):
         return Colors.contentColor + description
 
     def isSummary(self, text):
-        re = QRegExp("(In )?((The|This) )?(%s )?.*(tutorial|example|demo|application)" % self.name, Qt.CaseInsensitive)
+        re = QRegExp(
+            "(In )?((The|This) )?(%s )?.*(tutorial|example|demo|application)"
+            % self.name,
+            Qt.CaseInsensitive,
+        )
 
-        return ('[' not in text) and (re.indexIn(text) >= 0)
+        return ("[" not in text) and (re.indexIn(text) >= 0)
 
     def extractTextFromParagraph(self, parentNode):
-        description = ''
+        description = ""
         node = parentNode.firstChild
 
         while node is not None:
             if node.nodeType == node.TEXT_NODE:
                 description += Colors.contentColor + node.nodeValue
             elif node.hasChildNodes():
-                if node.nodeName == 'b':
-                    beginTag = '<b>'
-                    endTag = '</b>'
-                elif node.nodeName == 'a':
+                if node.nodeName == "b":
+                    beginTag = "<b>"
+                    endTag = "</b>"
+                elif node.nodeName == "a":
                     beginTag = Colors.contentColor
-                    endTag = '</font>'
-                elif node.nodeName == 'i':
-                    beginTag = '<i>'
-                    endTag = '</i>'
-                elif node.nodeName == 'tt':
-                    beginTag = '<tt>'
-                    endTag = '</tt>'
+                    endTag = "</font>"
+                elif node.nodeName == "i":
+                    beginTag = "<i>"
+                    endTag = "</i>"
+                elif node.nodeName == "tt":
+                    beginTag = "<tt>"
+                    endTag = "</tt>"
                 else:
-                    beginTag = endTag = ''
+                    beginTag = endTag = ""
 
                 description += beginTag + self.extractTextFromParagraph(node) + endTag
 
@@ -137,15 +148,26 @@ class ExampleContent(DemoItem):
     def createContent(self):
         # Create the items.
         self.heading = HeadingItem(self.name, self)
-        self.description = DemoTextItem(self.loadDescription(),
-                Colors.contentFont(), Colors.heading, 500, self)
+        self.description = DemoTextItem(
+            self.loadDescription(), Colors.contentFont(), Colors.heading, 500, self
+        )
         imgHeight = 340 - int(self.description.boundingRect().height()) + 50
-        self.screenshot = ImageItem(QImage.fromData(self._menu_manager.getImage(self.name)), 550, imgHeight, self)
+        self.screenshot = ImageItem(
+            QImage.fromData(self._menu_manager.getImage(self.name)),
+            550,
+            imgHeight,
+            self,
+        )
 
         # Place the items on screen.
         self.heading.setPos(0, 3)
-        self.description.setPos(0, self.heading.pos().y() + self.heading.boundingRect().height() + 10)
-        self.screenshot.setPos(0, self.description.pos().y() + self.description.boundingRect().height() + 10)
+        self.description.setPos(
+            0, self.heading.pos().y() + self.heading.boundingRect().height() + 10
+        )
+        self.screenshot.setPos(
+            0,
+            self.description.pos().y() + self.description.boundingRect().height() + 10,
+        )
 
     def boundingRect(self):
         return QRectF(0, 0, 500, 100)

@@ -77,9 +77,19 @@ def sizeToString(size):
 
 
 class StorageModel(QAbstractTableModel):
-    ColumnRootPath, ColumnName, ColumnDevice, ColumnFileSystemName, \
-    ColumnTotal, ColumnFree, ColumnAvailable, ColumnIsReady, \
-    ColumnIsReadOnly, ColumnIsValid, ColumnCount = range(11)
+    (
+        ColumnRootPath,
+        ColumnName,
+        ColumnDevice,
+        ColumnFileSystemName,
+        ColumnTotal,
+        ColumnFree,
+        ColumnAvailable,
+        ColumnIsReady,
+        ColumnIsReadOnly,
+        ColumnIsValid,
+        ColumnCount,
+    ) = range(11)
 
     columnFuncMap = {
         ColumnRootPath: lambda volume: QDir.toNativeSeparators(volume.rootPath()),
@@ -107,11 +117,11 @@ class StorageModel(QAbstractTableModel):
         ColumnIsValid: "Valid",
     }
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(StorageModel, self).__init__(parent)
         self.volumes = QStorageInfo.mountedVolumes()
 
-    def columnCount(self, parent = None):
+    def columnCount(self, parent=None):
         return self.ColumnCount
 
     def rowCount(self, parent):
@@ -135,7 +145,7 @@ class StorageModel(QAbstractTableModel):
                 label = self.columnNameMap.get(column)
                 value = self.columnFuncMap[column](volume)
                 if isinstance(value, QByteArray):
-                    value = str(bytes(value).decode('utf-8'))
+                    value = str(bytes(value).decode("utf-8"))
                 tooltip.append("{0}: {1}".format(label, value))
             return "\n".join(tooltip)
 
@@ -148,7 +158,7 @@ class StorageModel(QAbstractTableModel):
 
 
 def main(args):
-    app = QApplication (args)
+    app = QApplication(args)
     view = QTreeView()
     view.setModel(StorageModel(view))
     view.resize(640, 480)
@@ -159,6 +169,7 @@ def main(args):
     return app.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     main(sys.argv)

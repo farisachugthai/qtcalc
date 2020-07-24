@@ -44,14 +44,12 @@
 
 import sys
 
-from PyQt5.QtCore import (pyqtProperty, Q_CLASSINFO, QCoreApplication, QObject,
-        QUrl)
+from PyQt5.QtCore import pyqtProperty, Q_CLASSINFO, QCoreApplication, QObject, QUrl
 from PyQt5.QtGui import QColor
-from PyQt5.QtQml import (qmlRegisterType, QQmlComponent, QQmlEngine,
-        QQmlListProperty)
+from PyQt5.QtQml import qmlRegisterType, QQmlComponent, QQmlEngine, QQmlListProperty
 
 
-QML = b'''
+QML = b"""
 import People 1.0
 import QtQuick 2.0
 
@@ -84,7 +82,7 @@ BirthdayParty {
         shoe.price: 699.99
     }
 }
-'''
+"""
 
 
 class ShoeDescription(QObject):
@@ -93,7 +91,7 @@ class ShoeDescription(QObject):
 
         self._size = 0
         self._color = QColor()
-        self._brand = ''
+        self._brand = ""
         self._price = 0.0
 
     @pyqtProperty(int)
@@ -133,7 +131,7 @@ class Person(QObject):
     def __init__(self, parent=None):
         super(Person, self).__init__(parent)
 
-        self._name = ''
+        self._name = ""
         self._shoe = ShoeDescription()
 
     @pyqtProperty(str)
@@ -158,7 +156,7 @@ class Girl(Person):
 
 
 class BirthdayParty(QObject):
-    Q_CLASSINFO('DefaultProperty', 'guests')
+    Q_CLASSINFO("DefaultProperty", "guests")
 
     def __init__(self, parent=None):
         super(BirthdayParty, self).__init__(parent)
@@ -195,7 +193,7 @@ component.setData(QML, QUrl())
 party = component.create()
 
 if party is not None and party.host is not None:
-    print("\"%s\" is having a birthday!" % party.host.name)
+    print('"%s" is having a birthday!' % party.host.name)
 
     if isinstance(party.host, Boy):
         print("He is inviting:")
@@ -205,13 +203,13 @@ if party is not None and party.host is not None:
     bestShoe = None
 
     for guest in party.guests:
-        print("    \"%s\"" % guest.name)
+        print('    "%s"' % guest.name)
 
         if bestShoe is None or bestShoe.shoe.price < guest.shoe.price:
             bestShoe = guest
 
     if bestShoe is not None:
-        print("\"%s\" is wearing the best shoes!" % bestShoe.name)
+        print('"%s" is wearing the best shoes!' % bestShoe.name)
 else:
     for e in component.errors():
-        print("Error:", e.toString());
+        print("Error:", e.toString())

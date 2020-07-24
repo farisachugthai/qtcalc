@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_ChatMainWindow(object):
     def setupUi(self, ChatMainWindow):
         ChatMainWindow.setObjectName("ChatMainWindow")
@@ -39,7 +40,9 @@ class Ui_ChatMainWindow(object):
         self.messageLineEdit.setObjectName("messageLineEdit")
         self.hboxlayout1.addWidget(self.messageLineEdit)
         self.sendButton = QtWidgets.QPushButton(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(0))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy(1), QtWidgets.QSizePolicy.Policy(0)
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sendButton.sizePolicy().hasHeightForWidth())
@@ -77,7 +80,7 @@ class Ui_ChatMainWindow(object):
 
         self.retranslateUi(ChatMainWindow)
         self.messageLineEdit.returnPressed.connect(self.sendButton.animateClick)
-        self.actionQuit.triggered['bool'].connect(ChatMainWindow.close)
+        self.actionQuit.triggered["bool"].connect(ChatMainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(ChatMainWindow)
         ChatMainWindow.setTabOrder(self.chatHistory, self.messageLineEdit)
         ChatMainWindow.setTabOrder(self.messageLineEdit, self.sendButton)
@@ -85,15 +88,20 @@ class Ui_ChatMainWindow(object):
     def retranslateUi(self, ChatMainWindow):
         _translate = QtCore.QCoreApplication.translate
         ChatMainWindow.setWindowTitle(_translate("ChatMainWindow", "Qt D-Bus Chat"))
-        self.chatHistory.setToolTip(_translate("ChatMainWindow", "Messages sent and received from other users"))
+        self.chatHistory.setToolTip(
+            _translate("ChatMainWindow", "Messages sent and received from other users")
+        )
         self.label.setText(_translate("ChatMainWindow", "Message:"))
-        self.sendButton.setToolTip(_translate("ChatMainWindow", "Sends a message to other people"))
+        self.sendButton.setToolTip(
+            _translate("ChatMainWindow", "Sends a message to other people")
+        )
         self.sendButton.setText(_translate("ChatMainWindow", "Send"))
         self.menuQuit.setTitle(_translate("ChatMainWindow", "Help"))
         self.menuFile.setTitle(_translate("ChatMainWindow", "File"))
         self.actionQuit.setText(_translate("ChatMainWindow", "Quit"))
         self.actionQuit.setShortcut(_translate("ChatMainWindow", "Ctrl+Q"))
         self.actionAboutQt.setText(_translate("ChatMainWindow", "About Qt..."))
-        self.actionChangeNickname.setText(_translate("ChatMainWindow", "Change nickname..."))
+        self.actionChangeNickname.setText(
+            _translate("ChatMainWindow", "Change nickname...")
+        )
         self.actionChangeNickname.setShortcut(_translate("ChatMainWindow", "Ctrl+N"))
-

@@ -43,11 +43,21 @@
 
 
 from PyQt5.QtCore import QByteArray, QFile, QRegExp, Qt
-from PyQt5.QtGui import (QColor, QFont, QSyntaxHighlighter, QTextCharFormat,
-        QTextCursor, QTextFormat)
+from PyQt5.QtGui import (
+    QColor,
+    QFont,
+    QSyntaxHighlighter,
+    QTextCharFormat,
+    QTextCursor,
+    QTextFormat,
+)
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTextEdit
-from PyQt5.QtXmlPatterns import (QAbstractMessageHandler, QSourceLocation,
-        QXmlSchema, QXmlSchemaValidator)
+from PyQt5.QtXmlPatterns import (
+    QAbstractMessageHandler,
+    QSourceLocation,
+    QXmlSchema,
+    QXmlSchemaValidator,
+)
 
 import schema_rc
 from ui_schema import Ui_SchemaMainWindow
@@ -55,20 +65,19 @@ from ui_schema import Ui_SchemaMainWindow
 
 def encode_utf8(ba):
     try:
-        return unicode(ba, encoding='utf8')
+        return unicode(ba, encoding="utf8")
     except NameError:
-        return str(ba, encoding='utf8')
+        return str(ba, encoding="utf8")
 
 
 def decode_utf8(qs):
     try:
-        return QByteArray(qs.decode(encoding='utf8'))
+        return QByteArray(qs.decode(encoding="utf8"))
     except AttributeError:
-        return QByteArray(bytes(qs, encoding='utf8'))
+        return QByteArray(bytes(qs, encoding="utf8"))
 
 
 class XmlSyntaxHighlighter(QSyntaxHighlighter):
-
     def __init__(self, parent=None):
         super(XmlSyntaxHighlighter, self).__init__(parent)
 
@@ -122,15 +131,17 @@ class XmlSyntaxHighlighter(QSyntaxHighlighter):
                 self.setCurrentBlockState(1)
                 commentLength = text.length() - startIndex
             else:
-                commentLength = endIndex - startIndex + self.commentEndExpression.matchedLength()
+                commentLength = (
+                    endIndex - startIndex + self.commentEndExpression.matchedLength()
+                )
 
             self.setFormat(startIndex, commentLength, self.commentFormat)
-            startIndex = self.commentStartExpression.indexIn(text,
-                    startIndex + commentLength)
+            startIndex = self.commentStartExpression.indexIn(
+                text, startIndex + commentLength
+            )
 
 
 class MessageHandler(QAbstractMessageHandler):
-
     def __init__(self):
         super(MessageHandler, self).__init__()
 
@@ -152,7 +163,6 @@ class MessageHandler(QAbstractMessageHandler):
 
 
 class MainWindow(QMainWindow, Ui_SchemaMainWindow):
-
     def __init__(self):
         super(MainWindow, self).__init__()
 
@@ -193,7 +203,7 @@ class MainWindow(QMainWindow, Ui_SchemaMainWindow):
 
         self.textChanged()
 
-        schemaFile = QFile(':/schema_%d.xsd' % index)
+        schemaFile = QFile(":/schema_%d.xsd" % index)
         schemaFile.open(QFile.ReadOnly)
         schemaData = schemaFile.readAll()
         self.schemaView.setPlainText(encode_utf8(schemaData))
@@ -202,7 +212,7 @@ class MainWindow(QMainWindow, Ui_SchemaMainWindow):
 
     def instanceSelected(self, index):
         index += 2 * self.schemaSelection.currentIndex()
-        instanceFile = QFile(':/instance_%d.xml' % index)
+        instanceFile = QFile(":/instance_%d.xml" % index)
         instanceFile.open(QFile.ReadOnly)
         instanceData = instanceFile.readAll()
         self.instanceEdit.setPlainText(encode_utf8(instanceData))
@@ -235,7 +245,10 @@ class MainWindow(QMainWindow, Ui_SchemaMainWindow):
             self.validationStatus.setText("validation successful")
             background = Qt.green
 
-        styleSheet = 'QLabel {background: %s; padding: 3px}' % QColor(background).lighter(160).name()
+        styleSheet = (
+            "QLabel {background: %s; padding: 3px}"
+            % QColor(background).lighter(160).name()
+        )
         self.validationStatus.setStyleSheet(styleSheet)
 
     def textChanged(self):
@@ -265,7 +278,7 @@ class MainWindow(QMainWindow, Ui_SchemaMainWindow):
         self.instanceEdit.setFocus()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

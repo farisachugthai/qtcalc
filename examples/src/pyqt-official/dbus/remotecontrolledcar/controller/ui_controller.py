@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Controller(object):
     def setupUi(self, Controller):
         Controller.setObjectName("Controller")
@@ -45,4 +46,3 @@ class Ui_Controller(object):
         self.accelerate.setText(_translate("Controller", "Accelerate"))
         self.right.setText(_translate("Controller", "Right"))
         self.left.setText(_translate("Controller", "Left"))
-

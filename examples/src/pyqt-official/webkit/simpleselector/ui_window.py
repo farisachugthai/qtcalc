@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Window(object):
     def setupUi(self, Window):
         Window.setObjectName("Window")
@@ -29,7 +30,9 @@ class Ui_Window(object):
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.elementLabel)
         self.elementLineEdit = QtWidgets.QLineEdit(Window)
         self.elementLineEdit.setObjectName("elementLineEdit")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.elementLineEdit)
+        self.formLayout.setWidget(
+            0, QtWidgets.QFormLayout.FieldRole, self.elementLineEdit
+        )
         self.horizontalLayout.addLayout(self.formLayout)
         self.highlightButton = QtWidgets.QPushButton(Window)
         self.highlightButton.setObjectName("highlightButton")
@@ -46,5 +49,6 @@ class Ui_Window(object):
         self.elementLabel.setText(_translate("Window", "&Element:"))
         self.elementLineEdit.setText(_translate("Window", "li a"))
         self.highlightButton.setText(_translate("Window", "&Highlight"))
+
 
 from PyQt5 import QtWebKitWidgets

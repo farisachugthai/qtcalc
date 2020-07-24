@@ -44,9 +44,20 @@
 
 from PyQt5.QtCore import QDir, Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QFileDialog, QGridLayout,
-        QGroupBox, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpinBox,
-        QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class Screenshot(QWidget):
@@ -54,8 +65,7 @@ class Screenshot(QWidget):
         super(Screenshot, self).__init__()
 
         self.screenshotLabel = QLabel()
-        self.screenshotLabel.setSizePolicy(QSizePolicy.Expanding,
-                QSizePolicy.Expanding)
+        self.screenshotLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.screenshotLabel.setAlignment(Qt.AlignCenter)
         self.screenshotLabel.setMinimumSize(240, 160)
 
@@ -77,7 +87,10 @@ class Screenshot(QWidget):
     def resizeEvent(self, event):
         scaledSize = self.originalPixmap.size()
         scaledSize.scale(self.screenshotLabel.size(), Qt.KeepAspectRatio)
-        if not self.screenshotLabel.pixmap() or scaledSize != self.screenshotLabel.pixmap().size():
+        if (
+            not self.screenshotLabel.pixmap()
+            or scaledSize != self.screenshotLabel.pixmap().size()
+        ):
             self.updateScreenshotLabel()
 
     def newScreenshot(self):
@@ -85,15 +98,18 @@ class Screenshot(QWidget):
             self.hide()
         self.newScreenshotButton.setDisabled(True)
 
-        QTimer.singleShot(self.delaySpinBox.value() * 1000,
-                self.shootScreen)
+        QTimer.singleShot(self.delaySpinBox.value() * 1000, self.shootScreen)
 
     def saveScreenshot(self):
-        format = 'png'
+        format = "png"
         initialPath = QDir.currentPath() + "/untitled." + format
 
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save As", initialPath,
-                "%s Files (*.%s);;All Files (*)" % (format.upper(), format))
+        fileName, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save As",
+            initialPath,
+            "%s Files (*.%s);;All Files (*)" % (format.upper(), format),
+        )
         if fileName:
             self.originalPixmap.save(fileName, format)
 
@@ -138,11 +154,13 @@ class Screenshot(QWidget):
         self.optionsGroupBox.setLayout(optionsGroupBoxLayout)
 
     def createButtonsLayout(self):
-        self.newScreenshotButton = self.createButton("New Screenshot",
-                self.newScreenshot)
+        self.newScreenshotButton = self.createButton(
+            "New Screenshot", self.newScreenshot
+        )
 
-        self.saveScreenshotButton = self.createButton("Save Screenshot",
-                self.saveScreenshot)
+        self.saveScreenshotButton = self.createButton(
+            "Save Screenshot", self.saveScreenshot
+        )
 
         self.quitScreenshotButton = self.createButton("Quit", self.close)
 
@@ -158,12 +176,14 @@ class Screenshot(QWidget):
         return button
 
     def updateScreenshotLabel(self):
-        self.screenshotLabel.setPixmap(self.originalPixmap.scaled(
-                self.screenshotLabel.size(), Qt.KeepAspectRatio,
-                Qt.SmoothTransformation))
+        self.screenshotLabel.setPixmap(
+            self.originalPixmap.scaled(
+                self.screenshotLabel.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -42,14 +42,35 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QAbstractTableModel, QDir, QModelIndex, QRect,
-        QRectF, QSize, Qt)
+from PyQt5.QtCore import (
+    QAbstractTableModel,
+    QDir,
+    QModelIndex,
+    QRect,
+    QRectF,
+    QSize,
+    Qt,
+)
 from PyQt5.QtGui import QBrush, qGray, QImage, QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
-from PyQt5.QtWidgets import (QAbstractItemDelegate, QApplication, QDialog,
-        QFileDialog, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QMenu,
-        QProgressDialog, QSpinBox, QStyle, QStyleOptionViewItem, QTableView,
-        QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QAbstractItemDelegate,
+    QApplication,
+    QDialog,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QMenu,
+    QProgressDialog,
+    QSpinBox,
+    QStyle,
+    QStyleOptionViewItem,
+    QTableView,
+    QVBoxLayout,
+    QWidget,
+)
 
 import pixelator_rc
 
@@ -69,7 +90,7 @@ class PixelDelegate(QAbstractItemDelegate):
 
         size = min(option.rect.width(), option.rect.height())
         brightness = index.model().data(index, Qt.DisplayRole)
-        radius = (size/2.0) - (brightness/255.0 * size/2.0)
+        radius = (size / 2.0) - (brightness / 255.0 * size / 2.0)
         if radius == 0.0:
             return
 
@@ -82,10 +103,14 @@ class PixelDelegate(QAbstractItemDelegate):
         else:
             painter.setBrush(QBrush(Qt.black))
 
-        painter.drawEllipse(QRectF(
-                            option.rect.x() + option.rect.width()/2 - radius,
-                            option.rect.y() + option.rect.height()/2 - radius,
-                            2*radius, 2*radius))
+        painter.drawEllipse(
+            QRectF(
+                option.rect.x() + option.rect.width() / 2 - radius,
+                option.rect.y() + option.rect.height() / 2 - radius,
+                2 * radius,
+                2 * radius,
+            )
+        )
 
         painter.restore()
 
@@ -193,8 +218,9 @@ class MainWindow(QMainWindow):
         self.resize(640, 480)
 
     def chooseImage(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Choose an Image",
-                self.currentPath, '*')
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Choose an Image", self.currentPath, "*"
+        )
 
         if fileName:
             self.openImage(fileName)
@@ -205,7 +231,7 @@ class MainWindow(QMainWindow):
         if image.load(fileName):
             self.model.setImage(image)
 
-            if not fileName.startswith(':/'):
+            if not fileName.startswith(":/"):
                 self.currentPath = fileName
                 self.setWindowTitle("%s - Pixelator" % self.currentPath)
 
@@ -213,11 +239,17 @@ class MainWindow(QMainWindow):
             self.updateView()
 
     def printImage(self):
-        if self.model.rowCount(QModelIndex()) * self.model.columnCount(QModelIndex()) > 90000:
-            answer = QMessageBox.question(self, "Large Image Size",
-                    "The printed image may be very large. Are you sure that "
-                    "you want to print it?",
-                    QMessageBox.Yes | QMessageBox.No)
+        if (
+            self.model.rowCount(QModelIndex()) * self.model.columnCount(QModelIndex())
+            > 90000
+        ):
+            answer = QMessageBox.question(
+                self,
+                "Large Image Size",
+                "The printed image may be very large. Are you sure that "
+                "you want to print it?",
+                QMessageBox.Yes | QMessageBox.No,
+            )
             if answer == QMessageBox.No:
                 return
 
@@ -234,8 +266,8 @@ class MainWindow(QMainWindow):
 
         rows = self.model.rowCount(QModelIndex())
         columns = self.model.columnCount(QModelIndex())
-        sourceWidth = (columns+1) * ItemSize
-        sourceHeight = (rows+1) * ItemSize
+        sourceWidth = (columns + 1) * ItemSize
+        sourceHeight = (rows + 1) * ItemSize
 
         painter.save()
 
@@ -243,10 +275,12 @@ class MainWindow(QMainWindow):
         yscale = printer.pageRect().height() / float(sourceHeight)
         scale = min(xscale, yscale)
 
-        painter.translate(printer.paperRect().x()+printer.pageRect().width()/2,
-                          printer.paperRect().y()+printer.pageRect().height()/2)
+        painter.translate(
+            printer.paperRect().x() + printer.pageRect().width() / 2,
+            printer.paperRect().y() + printer.pageRect().height() / 2,
+        )
         painter.scale(scale, scale)
-        painter.translate(-sourceWidth/2, -sourceHeight/2)
+        painter.translate(-sourceWidth / 2, -sourceHeight / 2)
 
         option = QStyleOptionViewItem()
         parent = QModelIndex()
@@ -265,8 +299,9 @@ class MainWindow(QMainWindow):
 
             for column in range(columns):
                 option.rect = QRect(x, y, ItemSize, ItemSize)
-                self.view.itemDelegate().paint(painter, option,
-                        self.model.index(row, column, parent))
+                self.view.itemDelegate().paint(
+                    painter, option, self.model.index(row, column, parent)
+                )
                 x += ItemSize
 
             y += ItemSize
@@ -277,26 +312,33 @@ class MainWindow(QMainWindow):
         painter.end()
 
         if progress.wasCanceled():
-            QMessageBox.information(self, "Printing canceled",
-                    "The printing process was canceled.", QMessageBox.Cancel)
+            QMessageBox.information(
+                self,
+                "Printing canceled",
+                "The printing process was canceled.",
+                QMessageBox.Cancel,
+            )
 
     def showAboutBox(self):
-        QMessageBox.about(self, "About the Pixelator example",
-                "This example demonstrates how a standard view and a custom\n"
-                "delegate can be used to produce a specialized "
-                "representation\nof data in a simple custom model.")
+        QMessageBox.about(
+            self,
+            "About the Pixelator example",
+            "This example demonstrates how a standard view and a custom\n"
+            "delegate can be used to produce a specialized "
+            "representation\nof data in a simple custom model.",
+        )
 
     def updateView(self):
         self.view.resizeColumnsToContents()
         self.view.resizeRowsToContents()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    window.openImage(':/images/qt.png')
+    window.openImage(":/images/qt.png")
     sys.exit(app.exec_())

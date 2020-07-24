@@ -44,8 +44,14 @@
 
 from PyQt5.QtCore import QFile, QStringListModel, Qt
 from PyQt5.QtGui import QCursor, QKeySequence, QTextCursor
-from PyQt5.QtWidgets import (QAction, QApplication, QCompleter, QMainWindow,
-        QMessageBox, QTextEdit)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QCompleter,
+    QMainWindow,
+    QMessageBox,
+    QTextEdit,
+)
 
 import customcompleter_rc
 
@@ -57,10 +63,10 @@ class TextEdit(QTextEdit):
         self._completer = None
 
         self.setPlainText(
-                "This TextEdit provides autocompletions for words that have "
-                "more than 3 characters. You can trigger autocompletion "
-                "using %s" % QKeySequence("Ctrl+E").toString(
-                        QKeySequence.NativeText))
+            "This TextEdit provides autocompletions for words that have "
+            "more than 3 characters. You can trigger autocompletion "
+            "using %s" % QKeySequence("Ctrl+E").toString(QKeySequence.NativeText)
+        )
 
     def setCompleter(self, c):
         if self._completer is not None:
@@ -102,12 +108,18 @@ class TextEdit(QTextEdit):
     def keyPressEvent(self, e):
         if self._completer is not None and self._completer.popup().isVisible():
             # The following keys are forwarded by the completer to the widget.
-            if e.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
+            if e.key() in (
+                Qt.Key_Enter,
+                Qt.Key_Return,
+                Qt.Key_Escape,
+                Qt.Key_Tab,
+                Qt.Key_Backtab,
+            ):
                 e.ignore()
                 # Let the completer do default behavior.
                 return
 
-        isShortcut = ((e.modifiers() & Qt.ControlModifier) != 0 and e.key() == Qt.Key_E)
+        isShortcut = (e.modifiers() & Qt.ControlModifier) != 0 and e.key() == Qt.Key_E
         if self._completer is None or not isShortcut:
             # Do not process the shortcut when we have a completer.
             super(TextEdit, self).keyPressEvent(e)
@@ -120,17 +132,26 @@ class TextEdit(QTextEdit):
         hasModifier = (e.modifiers() != Qt.NoModifier) and not ctrlOrShift
         completionPrefix = self.textUnderCursor()
 
-        if not isShortcut and (hasModifier or len(e.text()) == 0 or len(completionPrefix) < 3 or e.text()[-1] in eow):
+        if not isShortcut and (
+            hasModifier
+            or len(e.text()) == 0
+            or len(completionPrefix) < 3
+            or e.text()[-1] in eow
+        ):
             self._completer.popup().hide()
             return
 
         if completionPrefix != self._completer.completionPrefix():
             self._completer.setCompletionPrefix(completionPrefix)
             self._completer.popup().setCurrentIndex(
-                    self._completer.completionModel().index(0, 0))
+                self._completer.completionModel().index(0, 0)
+            )
 
         cr = self.cursorRect()
-        cr.setWidth(self._completer.popup().sizeHintForColumn(0) + self._completer.popup().verticalScrollBar().sizeHint().width())
+        cr.setWidth(
+            self._completer.popup().sizeHintForColumn(0)
+            + self._completer.popup().verticalScrollBar().sizeHint().width()
+        )
         self._completer.complete(cr)
 
 
@@ -142,7 +163,7 @@ class MainWindow(QMainWindow):
 
         self.completingTextEdit = TextEdit()
         self.completer = QCompleter(self)
-        self.completer.setModel(self.modelFromFile(':/resources/wordlist.txt'))
+        self.completer.setModel(self.modelFromFile(":/resources/wordlist.txt"))
         self.completer.setModelSorting(QCompleter.CaseInsensitivelySortedModel)
         self.completer.setCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setWrapAround(False)
@@ -180,7 +201,7 @@ class MainWindow(QMainWindow):
             line = f.readLine().trimmed()
             if line.length() != 0:
                 try:
-                    line = str(line, encoding='ascii')
+                    line = str(line, encoding="ascii")
                 except TypeError:
                     line = str(line)
 
@@ -191,12 +212,15 @@ class MainWindow(QMainWindow):
         return QStringListModel(words, self.completer)
 
     def about(self):
-        QMessageBox.about(self, "About",
-                "This example demonstrates the different features of the "
-                "QCompleter class.")
+        QMessageBox.about(
+            self,
+            "About",
+            "This example demonstrates the different features of the "
+            "QCompleter class.",
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

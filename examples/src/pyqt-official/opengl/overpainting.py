@@ -45,10 +45,17 @@
 import sys
 import math, random
 
-from PyQt5.QtCore import (QPoint, QPointF, QRect, QRectF, QSize, Qt, QTime,
-        QTimer)
-from PyQt5.QtGui import (QBrush, QColor, QFontMetrics, QImage,
-        QOpenGLVersionProfile, QPainter, QRadialGradient, QSurfaceFormat)
+from PyQt5.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, QTime, QTimer
+from PyQt5.QtGui import (
+    QBrush,
+    QColor,
+    QFontMetrics,
+    QImage,
+    QOpenGLVersionProfile,
+    QPainter,
+    QRadialGradient,
+    QSurfaceFormat,
+)
 from PyQt5.QtWidgets import QApplication, QOpenGLWidget
 
 
@@ -63,8 +70,11 @@ class Bubble(object):
         self.updateBrush()
 
     def updateBrush(self):
-        gradient = QRadialGradient(QPointF(self.radius, self.radius),
-                self.radius, QPointF(self.radius*0.5, self.radius*0.5))
+        gradient = QRadialGradient(
+            QPointF(self.radius, self.radius),
+            self.radius,
+            QPointF(self.radius * 0.5, self.radius * 0.5),
+        )
 
         gradient.setColorAt(0, QColor(255, 255, 255, 255))
         gradient.setColorAt(0.25, self.innerColor)
@@ -73,10 +83,11 @@ class Bubble(object):
 
     def drawBubble(self, painter):
         painter.save()
-        painter.translate(self.position.x() - self.radius,
-                self.position.y() - self.radius)
+        painter.translate(
+            self.position.x() - self.radius, self.position.y() - self.radius
+        )
         painter.setBrush(self.brush)
-        painter.drawEllipse(0, 0, int(2*self.radius), int(2*self.radius))
+        painter.drawEllipse(0, 0, int(2 * self.radius), int(2 * self.radius))
         painter.restore()
 
     def randomColor(self):
@@ -109,9 +120,12 @@ class Bubble(object):
             self.vel.setY(-self.vel.y())
 
     def rect(self):
-        return QRectF(self.position.x() - self.radius,
-                self.position.y() - self.radius, 2 * self.radius,
-                2 * self.radius)
+        return QRectF(
+            self.position.x() - self.radius,
+            self.position.y() - self.radius,
+            2 * self.radius,
+            2 * self.radius,
+        )
 
 
 class GLWidget(QOpenGLWidget):
@@ -189,17 +203,15 @@ class GLWidget(QOpenGLWidget):
         self.setClearColor(self.trolltechPurple.darker())
         self.gl.glShadeModel(self.gl.GL_SMOOTH)
         self.gl.glEnable(self.gl.GL_DEPTH_TEST)
-        #self.gl.glEnable(self.gl.GL_CULL_FACE)
+        # self.gl.glEnable(self.gl.GL_CULL_FACE)
         self.gl.glEnable(self.gl.GL_LIGHTING)
         self.gl.glEnable(self.gl.GL_LIGHT0)
         self.gl.glEnable(self.gl.GL_MULTISAMPLE)
-        self.gl.glLightfv(self.gl.GL_LIGHT0, self.gl.GL_POSITION,
-                (0.5, 5.0, 7.0, 1.0))
+        self.gl.glLightfv(self.gl.GL_LIGHT0, self.gl.GL_POSITION, (0.5, 5.0, 7.0, 1.0))
 
         self.setupViewport(self.width(), self.height())
 
-        self.gl.glClear(
-                self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
+        self.gl.glClear(self.gl.GL_COLOR_BUFFER_BIT | self.gl.GL_DEPTH_BUFFER_BIT)
         self.gl.glLoadIdentity()
         self.gl.glTranslated(0.0, 0.0, -10.0)
         self.gl.glRotated(self.xRot / 16.0, 1.0, 0.0, 0.0)
@@ -236,10 +248,16 @@ class GLWidget(QOpenGLWidget):
         self.gl.glEnable(self.gl.GL_NORMALIZE)
         self.gl.glBegin(self.gl.GL_QUADS)
 
-        self.gl.glMaterialfv(self.gl.GL_FRONT, self.gl.GL_DIFFUSE,
-                (self.trolltechGreen.red()/255.0,
-                 self.trolltechGreen.green()/255.0,
-                 self.trolltechGreen.blue()/255.0, 1.0))
+        self.gl.glMaterialfv(
+            self.gl.GL_FRONT,
+            self.gl.GL_DIFFUSE,
+            (
+                self.trolltechGreen.red() / 255.0,
+                self.trolltechGreen.green() / 255.0,
+                self.trolltechGreen.blue() / 255.0,
+                1.0,
+            ),
+        )
 
         x1 = +0.06
         y1 = -0.14
@@ -302,7 +320,7 @@ class GLWidget(QOpenGLWidget):
     def extrude(self, x1, y1, x2, y2):
         self.setColor(self.trolltechGreen.darker(250 + int(100 * x1)))
 
-        self.gl.glNormal3d((x1 + x2)/2.0, (y1 + y2)/2.0, 0.0)
+        self.gl.glNormal3d((x1 + x2) / 2.0, (y1 + y2) / 2.0, 0.0)
         self.gl.glVertex3d(x1, y1, +0.05)
         self.gl.glVertex3d(x2, y2, +0.05)
         self.gl.glVertex3d(x2, y2, -0.05)
@@ -317,11 +335,17 @@ class GLWidget(QOpenGLWidget):
 
     def createBubbles(self, number):
         for i in range(number):
-            position = QPointF(self.width()*(0.1 + 0.8*random.random()),
-                               self.height()*(0.1 + 0.8*random.random()))
-            radius = min(self.width(), self.height())*(0.0125 + 0.0875*random.random())
-            velocity = QPointF(self.width()*0.0125*(-0.5 + random.random()),
-                               self.height()*0.0125*(-0.5 + random.random()))
+            position = QPointF(
+                self.width() * (0.1 + 0.8 * random.random()),
+                self.height() * (0.1 + 0.8 * random.random()),
+            )
+            radius = min(self.width(), self.height()) * (
+                0.0125 + 0.0875 * random.random()
+            )
+            velocity = QPointF(
+                self.width() * 0.0125 * (-0.5 + random.random()),
+                self.height() * 0.0125 * (-0.5 + random.random()),
+            )
 
             self.bubbles.append(Bubble(position, radius, velocity))
 
@@ -333,8 +357,7 @@ class GLWidget(QOpenGLWidget):
 
     def setupViewport(self, width, height):
         side = min(width, height)
-        self.gl.glViewport((width - side) // 2, (height - side) // 2, side,
-                side)
+        self.gl.glViewport((width - side) // 2, (height - side) // 2, side, side)
 
         self.gl.glMatrixMode(self.gl.GL_PROJECTION)
         self.gl.glLoadIdentity()
@@ -342,22 +365,34 @@ class GLWidget(QOpenGLWidget):
         self.gl.glMatrixMode(self.gl.GL_MODELVIEW)
 
     def drawInstructions(self, painter):
-        text = "Click and drag with the left mouse button to rotate the Qt " \
-                "logo."
+        text = "Click and drag with the left mouse button to rotate the Qt " "logo."
         metrics = QFontMetrics(self.font())
         border = max(4, metrics.leading())
 
-        rect = metrics.boundingRect(0, 0, self.width() - 2*border,
-                int(self.height()*0.125), Qt.AlignCenter | Qt.TextWordWrap,
-                text)
+        rect = metrics.boundingRect(
+            0,
+            0,
+            self.width() - 2 * border,
+            int(self.height() * 0.125),
+            Qt.AlignCenter | Qt.TextWordWrap,
+            text,
+        )
         painter.setRenderHint(QPainter.TextAntialiasing)
-        painter.fillRect(QRect(0, 0, self.width(), rect.height() + 2*border),
-                QColor(0, 0, 0, 127))
+        painter.fillRect(
+            QRect(0, 0, self.width(), rect.height() + 2 * border), QColor(0, 0, 0, 127)
+        )
         painter.setPen(Qt.white)
-        painter.fillRect(QRect(0, 0, self.width(), rect.height() + 2*border),
-                QColor(0, 0, 0, 127))
-        painter.drawText((self.width() - rect.width())/2, border, rect.width(),
-                rect.height(), Qt.AlignCenter | Qt.TextWordWrap, text)
+        painter.fillRect(
+            QRect(0, 0, self.width(), rect.height() + 2 * border), QColor(0, 0, 0, 127)
+        )
+        painter.drawText(
+            (self.width() - rect.width()) / 2,
+            border,
+            rect.width(),
+            rect.height(),
+            Qt.AlignCenter | Qt.TextWordWrap,
+            text,
+        )
 
     def setClearColor(self, c):
         self.gl.glClearColor(c.redF(), c.greenF(), c.blueF(), c.alphaF())
@@ -366,7 +401,7 @@ class GLWidget(QOpenGLWidget):
         self.gl.glColor4f(c.redF(), c.greenF(), c.blueF(), c.alphaF())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 

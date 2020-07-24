@@ -42,12 +42,21 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QDate, QDateTime, QRegExp, QSortFilterProxyModel, Qt,
-        QTime)
+from PyQt5.QtCore import QDate, QDateTime, QRegExp, QSortFilterProxyModel, Qt, QTime
 from PyQt5.QtGui import QStandardItemModel
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QGridLayout,
-        QGroupBox, QHBoxLayout, QLabel, QLineEdit, QTreeView, QVBoxLayout,
-        QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QTreeView,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 SUBJECT, SENDER, DATE = range(3)
@@ -64,10 +73,15 @@ class SortFilterProxyModel(QSortFilterProxyModel):
             data = self.sourceModel().data(index)
 
             # Return, if regExp match in displayed format.
-            return (self.filterRegExp().indexIn(data.toString(Qt.DefaultLocaleShortDate)) >= 0)
+            return (
+                self.filterRegExp().indexIn(data.toString(Qt.DefaultLocaleShortDate))
+                >= 0
+            )
 
         # Not our business.
-        return super(SortFilterProxyModel, self).filterAcceptsRow(sourceRow, sourceParent)
+        return super(SortFilterProxyModel, self).filterAcceptsRow(
+            sourceRow, sourceParent
+        )
 
 
 class Window(QWidget):
@@ -153,7 +167,9 @@ class Window(QWidget):
         self.sourceView.setModel(model)
 
     def filterRegExpChanged(self):
-        syntax_nr = self.filterSyntaxComboBox.itemData(self.filterSyntaxComboBox.currentIndex())
+        syntax_nr = self.filterSyntaxComboBox.itemData(
+            self.filterSyntaxComboBox.currentIndex()
+        )
         syntax = QRegExp.PatternSyntax(syntax_nr)
 
         if self.filterCaseSensitivityCheckBox.isChecked():
@@ -161,8 +177,7 @@ class Window(QWidget):
         else:
             caseSensitivity = Qt.CaseInsensitive
 
-        regExp = QRegExp(self.filterPatternLineEdit.text(),
-                caseSensitivity, syntax)
+        regExp = QRegExp(self.filterPatternLineEdit.text(), caseSensitivity, syntax)
         self.proxyModel.setFilterRegExp(regExp)
 
     def filterColumnChanged(self):
@@ -191,31 +206,71 @@ def createMailModel(parent):
     model.setHeaderData(SENDER, Qt.Horizontal, "Sender")
     model.setHeaderData(DATE, Qt.Horizontal, "Date")
 
-    addMail(model, "Happy New Year!", "Grace K. <grace@software-inc.com>",
-            QDateTime(QDate(2006, 12, 31), QTime(17, 3)))
-    addMail(model, "Radically new concept", "Grace K. <grace@software-inc.com>",
-            QDateTime(QDate(2006, 12, 22), QTime(9, 44)))
-    addMail(model, "Accounts", "pascale@nospam.com",
-            QDateTime(QDate(2006, 12, 31), QTime(12, 50)))
-    addMail(model, "Expenses", "Joe Bloggs <joe@bloggs.com>",
-            QDateTime(QDate(2006, 12, 25), QTime(11, 39)))
-    addMail(model, "Re: Expenses", "Andy <andy@nospam.com>",
-            QDateTime(QDate(2007, 1, 2), QTime(16, 5)))
-    addMail(model, "Re: Accounts", "Joe Bloggs <joe@bloggs.com>",
-            QDateTime(QDate(2007, 1, 3), QTime(14, 18)))
-    addMail(model, "Re: Accounts", "Andy <andy@nospam.com>",
-            QDateTime(QDate(2007, 1, 3), QTime(14, 26)))
-    addMail(model, "Sports", "Linda Smith <linda.smith@nospam.com>",
-            QDateTime(QDate(2007, 1, 5), QTime(11, 33)))
-    addMail(model, "AW: Sports", "Rolf Newschweinstein <rolfn@nospam.com>",
-            QDateTime(QDate(2007, 1, 5), QTime(12, 0)))
-    addMail(model, "RE: Sports", "Petra Schmidt <petras@nospam.com>",
-            QDateTime(QDate(2007, 1, 5), QTime(12, 1)))
+    addMail(
+        model,
+        "Happy New Year!",
+        "Grace K. <grace@software-inc.com>",
+        QDateTime(QDate(2006, 12, 31), QTime(17, 3)),
+    )
+    addMail(
+        model,
+        "Radically new concept",
+        "Grace K. <grace@software-inc.com>",
+        QDateTime(QDate(2006, 12, 22), QTime(9, 44)),
+    )
+    addMail(
+        model,
+        "Accounts",
+        "pascale@nospam.com",
+        QDateTime(QDate(2006, 12, 31), QTime(12, 50)),
+    )
+    addMail(
+        model,
+        "Expenses",
+        "Joe Bloggs <joe@bloggs.com>",
+        QDateTime(QDate(2006, 12, 25), QTime(11, 39)),
+    )
+    addMail(
+        model,
+        "Re: Expenses",
+        "Andy <andy@nospam.com>",
+        QDateTime(QDate(2007, 1, 2), QTime(16, 5)),
+    )
+    addMail(
+        model,
+        "Re: Accounts",
+        "Joe Bloggs <joe@bloggs.com>",
+        QDateTime(QDate(2007, 1, 3), QTime(14, 18)),
+    )
+    addMail(
+        model,
+        "Re: Accounts",
+        "Andy <andy@nospam.com>",
+        QDateTime(QDate(2007, 1, 3), QTime(14, 26)),
+    )
+    addMail(
+        model,
+        "Sports",
+        "Linda Smith <linda.smith@nospam.com>",
+        QDateTime(QDate(2007, 1, 5), QTime(11, 33)),
+    )
+    addMail(
+        model,
+        "AW: Sports",
+        "Rolf Newschweinstein <rolfn@nospam.com>",
+        QDateTime(QDate(2007, 1, 5), QTime(12, 0)),
+    )
+    addMail(
+        model,
+        "RE: Sports",
+        "Petra Schmidt <petras@nospam.com>",
+        QDateTime(QDate(2007, 1, 5), QTime(12, 1)),
+    )
 
     return model
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

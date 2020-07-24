@@ -50,7 +50,7 @@ import connection
 
 
 def initializeModel(model):
-    model.setTable('person')
+    model.setTable("person")
 
     model.setEditStrategy(QSqlTableModel.OnManualSubmit)
     model.select()
@@ -67,7 +67,7 @@ def createView(title, model):
     return view
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

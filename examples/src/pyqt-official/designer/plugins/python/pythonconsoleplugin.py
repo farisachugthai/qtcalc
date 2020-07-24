@@ -39,7 +39,7 @@ class PythonConsolePlugin(QPyDesignerCustomWidgetPlugin):
     # The __init__() method is only used to set up the plugin and define its
     # initialized variable.
     def __init__(self, parent=None):
-    
+
         super(PythonConsolePlugin, self).__init__(parent)
 
         self.initialized = False
@@ -98,15 +98,17 @@ class PythonConsolePlugin(QPyDesignerCustomWidgetPlugin):
     # default values for its properties. Each custom widget created by this
     # plugin will be configured using this description.
     def domXml(self):
-        return '<widget class="PythonConsoleWidget" name="consoleWidget">\n' \
-               ' <property name="toolTip" >\n' \
-               '  <string>Python console</string>\n' \
-               ' </property>\n' \
-               ' <property name="whatsThis" >\n' \
-               '  <string>The Python console widget can be used to explore ' \
-               'Qt Designer.</string>\n' \
-               ' </property>\n' \
-               '</widget>\n'
+        return (
+            '<widget class="PythonConsoleWidget" name="consoleWidget">\n'
+            ' <property name="toolTip" >\n'
+            "  <string>Python console</string>\n"
+            " </property>\n"
+            ' <property name="whatsThis" >\n'
+            "  <string>The Python console widget can be used to explore "
+            "Qt Designer.</string>\n"
+            " </property>\n"
+            "</widget>\n"
+        )
 
     # Returns the module containing the custom widget class. It may include
     # a module path.
@@ -138,6 +140,7 @@ _logo_16x16_xpm = [
     ".aa..aa..aa.....",
     "................",
     "................",
-    "................"]
+    "................",
+]
 
 _logo_pixmap = QPixmap(_logo_16x16_xpm)

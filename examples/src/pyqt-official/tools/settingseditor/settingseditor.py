@@ -44,14 +44,46 @@
 
 import sys
 
-from PyQt5.QtCore import (QByteArray, QDate, QDateTime, QEvent, QPoint, QRect,
-        QRegExp, QSettings, QSize, Qt, QTime, QTimer)
+from PyQt5.QtCore import (
+    QByteArray,
+    QDate,
+    QDateTime,
+    QEvent,
+    QPoint,
+    QRect,
+    QRegExp,
+    QSettings,
+    QSize,
+    Qt,
+    QTime,
+    QTimer,
+)
 from PyQt5.QtGui import QColor, QIcon, QRegExpValidator, QValidator
-from PyQt5.QtWidgets import (QAbstractItemView, QAction, QApplication,
-        QComboBox, QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
-        QGroupBox, QHeaderView, QInputDialog, QItemDelegate, QLabel, QLineEdit,
-        QMainWindow, QMessageBox, QStyle, QStyleOptionViewItem, QTableWidget,
-        QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QAction,
+    QApplication,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHeaderView,
+    QInputDialog,
+    QItemDelegate,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QStyle,
+    QStyleOptionViewItem,
+    QTableWidget,
+    QTableWidgetItem,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QVBoxLayout,
+)
 
 
 class MainWindow(QMainWindow):
@@ -77,16 +109,19 @@ class MainWindow(QMainWindow):
             self.locationDialog = LocationDialog(self)
 
         if self.locationDialog.exec_():
-            settings = QSettings(self.locationDialog.format(),
-                                        self.locationDialog.scope(),
-                                        self.locationDialog.organization(),
-                                        self.locationDialog.application())
+            settings = QSettings(
+                self.locationDialog.format(),
+                self.locationDialog.scope(),
+                self.locationDialog.organization(),
+                self.locationDialog.application(),
+            )
             self.setSettingsObject(settings)
             self.fallbacksAct.setEnabled(True)
 
     def openIniFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open INI File", '',
-                "INI Files (*.ini *.conf)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Open INI File", "", "INI Files (*.ini *.conf)"
+        )
 
         if fileName:
             settings = QSettings(fileName, QSettings.IniFormat)
@@ -94,8 +129,9 @@ class MainWindow(QMainWindow):
             self.fallbacksAct.setEnabled(False)
 
     def openPropertyList(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Property List",
-                '', "Property List Files (*.plist)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Open Property List", "", "Property List Files (*.plist)"
+        )
 
         if fileName:
             settings = QSettings(fileName, QSettings.NativeFormat)
@@ -103,56 +139,87 @@ class MainWindow(QMainWindow):
             self.fallbacksAct.setEnabled(False)
 
     def openRegistryPath(self):
-        path, ok = QInputDialog.getText(self, "Open Registry Path",
-                "Enter the path in the Windows registry:", QLineEdit.Normal,
-                'HKEY_CURRENT_USER\\')
+        path, ok = QInputDialog.getText(
+            self,
+            "Open Registry Path",
+            "Enter the path in the Windows registry:",
+            QLineEdit.Normal,
+            "HKEY_CURRENT_USER\\",
+        )
 
-        if ok and path != '':
+        if ok and path != "":
             settings = QSettings(path, QSettings.NativeFormat)
             self.setSettingsObject(settings)
             self.fallbacksAct.setEnabled(False)
 
     def about(self):
-        QMessageBox.about(self, "About Settings Editor",
-                "The <b>Settings Editor</b> example shows how to access "
-                "application settings using Qt.")
+        QMessageBox.about(
+            self,
+            "About Settings Editor",
+            "The <b>Settings Editor</b> example shows how to access "
+            "application settings using Qt.",
+        )
 
     def createActions(self):
-        self.openSettingsAct = QAction("&Open Application Settings...", self,
-                shortcut="Ctrl+O", triggered=self.openSettings)
+        self.openSettingsAct = QAction(
+            "&Open Application Settings...",
+            self,
+            shortcut="Ctrl+O",
+            triggered=self.openSettings,
+        )
 
-        self.openIniFileAct = QAction("Open I&NI File...", self,
-                shortcut="Ctrl+N", triggered=self.openIniFile)
+        self.openIniFileAct = QAction(
+            "Open I&NI File...", self, shortcut="Ctrl+N", triggered=self.openIniFile
+        )
 
-        self.openPropertyListAct = QAction("Open Mac &Property List...", self,
-                shortcut="Ctrl+P", triggered=self.openPropertyList)
-        if sys.platform != 'darwin':
+        self.openPropertyListAct = QAction(
+            "Open Mac &Property List...",
+            self,
+            shortcut="Ctrl+P",
+            triggered=self.openPropertyList,
+        )
+        if sys.platform != "darwin":
             self.openPropertyListAct.setEnabled(False)
 
-        self.openRegistryPathAct = QAction("Open Windows &Registry Path...",
-                self, shortcut="Ctrl+G", triggered=self.openRegistryPath)
-        if sys.platform != 'win32':
+        self.openRegistryPathAct = QAction(
+            "Open Windows &Registry Path...",
+            self,
+            shortcut="Ctrl+G",
+            triggered=self.openRegistryPath,
+        )
+        if sys.platform != "win32":
             self.openRegistryPathAct.setEnabled(False)
 
-        self.refreshAct = QAction("&Refresh", self, shortcut="Ctrl+R",
-                enabled=False, triggered=self.settingsTree.refresh)
+        self.refreshAct = QAction(
+            "&Refresh",
+            self,
+            shortcut="Ctrl+R",
+            enabled=False,
+            triggered=self.settingsTree.refresh,
+        )
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                triggered=self.close)
+        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q", triggered=self.close)
 
-        self.autoRefreshAct = QAction("&Auto-Refresh", self, shortcut="Ctrl+A",
-                checkable=True, enabled=False)
+        self.autoRefreshAct = QAction(
+            "&Auto-Refresh", self, shortcut="Ctrl+A", checkable=True, enabled=False
+        )
         self.autoRefreshAct.triggered.connect(self.settingsTree.setAutoRefresh)
         self.autoRefreshAct.triggered.connect(self.refreshAct.setDisabled)
 
-        self.fallbacksAct = QAction("&Fallbacks", self, shortcut="Ctrl+F",
-                checkable=True, enabled=False,
-                triggered=self.settingsTree.setFallbacksEnabled)
+        self.fallbacksAct = QAction(
+            "&Fallbacks",
+            self,
+            shortcut="Ctrl+F",
+            checkable=True,
+            enabled=False,
+            triggered=self.settingsTree.setFallbacksEnabled,
+        )
 
         self.aboutAct = QAction("&About", self, triggered=self.about)
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt", self, triggered=QApplication.instance().aboutQt
+        )
 
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -183,8 +250,8 @@ class MainWindow(QMainWindow):
         self.autoRefreshAct.setEnabled(True)
 
         niceName = settings.fileName()
-        niceName.replace('\\', '/')
-        niceName = niceName.split('/')[-1]
+        niceName.replace("\\", "/")
+        niceName = niceName.split("/")[-1]
 
         if not settings.isWritable():
             niceName += " (read only)"
@@ -237,15 +304,21 @@ class LocationDialog(QDialog):
         self.locationsTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.locationsTable.setColumnCount(2)
         self.locationsTable.setHorizontalHeaderLabels(("Location", "Access"))
-        self.locationsTable.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.locationsTable.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.Stretch
+        )
         self.locationsTable.horizontalHeader().resizeSection(1, 180)
 
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
         self.formatComboBox.activated.connect(self.updateLocationsTable)
         self.scopeComboBox.activated.connect(self.updateLocationsTable)
-        self.organizationComboBox.lineEdit().editingFinished.connect(self.updateLocationsTable)
-        self.applicationComboBox.lineEdit().editingFinished.connect(self.updateLocationsTable)
+        self.organizationComboBox.lineEdit().editingFinished.connect(
+            self.updateLocationsTable
+        )
+        self.applicationComboBox.lineEdit().editingFinished.connect(
+            self.updateLocationsTable
+        )
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
 
@@ -288,7 +361,7 @@ class LocationDialog(QDialog):
 
     def application(self):
         if self.applicationComboBox.currentText() == "Any":
-            return ''
+            return ""
 
         return self.applicationComboBox.currentText()
 
@@ -312,10 +385,11 @@ class LocationDialog(QDialog):
 
                     actualApplication = self.application()
                 else:
-                    actualApplication = ''
+                    actualApplication = ""
 
-                settings = QSettings(self.format(), actualScope,
-                        self.organization(), actualApplication)
+                settings = QSettings(
+                    self.format(), actualScope, self.organization(), actualApplication
+                )
 
                 row = self.locationsTable.rowCount()
                 self.locationsTable.setRowCount(row + 1)
@@ -362,10 +436,14 @@ class SettingsTree(QTreeWidget):
         self.autoRefresh = False
 
         self.groupIcon = QIcon()
-        self.groupIcon.addPixmap(self.style().standardPixmap(QStyle.SP_DirClosedIcon),
-                QIcon.Normal, QIcon.Off)
-        self.groupIcon.addPixmap(self.style().standardPixmap(QStyle.SP_DirOpenIcon),
-                QIcon.Normal, QIcon.On)
+        self.groupIcon.addPixmap(
+            self.style().standardPixmap(QStyle.SP_DirClosedIcon),
+            QIcon.Normal,
+            QIcon.Off,
+        )
+        self.groupIcon.addPixmap(
+            self.style().standardPixmap(QStyle.SP_DirOpenIcon), QIcon.Normal, QIcon.On
+        )
         self.keyIcon = QIcon()
         self.keyIcon.addPixmap(self.style().standardPixmap(QStyle.SP_FileIcon))
 
@@ -432,7 +510,7 @@ class SettingsTree(QTreeWidget):
         ancestor = item.parent()
 
         while ancestor:
-            key = ancestor.text(0) + '/' + key
+            key = ancestor.text(0) + "/" + key
             ancestor = ancestor.parent()
 
         d = item.data(2, Qt.UserRole)
@@ -448,8 +526,8 @@ class SettingsTree(QTreeWidget):
             childIndex = self.findChild(parent, group, dividerIndex)
             if childIndex != -1:
                 child = self.childAt(parent, childIndex)
-                child.setText(1, '')
-                child.setText(2, '')
+                child.setText(1, "")
+                child.setText(2, "")
                 child.setData(2, Qt.UserRole, None)
                 self.moveItemForward(parent, childIndex, dividerIndex)
             else:
@@ -479,7 +557,7 @@ class SettingsTree(QTreeWidget):
 
             value = self.settings.value(key)
             if value is None:
-                child.setText(1, 'Invalid')
+                child.setText(1, "Invalid")
             else:
                 child.setText(1, value.__class__.__name__)
             child.setText(2, VariantDelegate.displayText(value))
@@ -538,43 +616,45 @@ class VariantDelegate(QItemDelegate):
         super(VariantDelegate, self).__init__(parent)
 
         self.boolExp = QRegExp()
-        self.boolExp.setPattern('true|false')
+        self.boolExp.setPattern("true|false")
         self.boolExp.setCaseSensitivity(Qt.CaseInsensitive)
 
         self.byteArrayExp = QRegExp()
-        self.byteArrayExp.setPattern('[\\x00-\\xff]*')
+        self.byteArrayExp.setPattern("[\\x00-\\xff]*")
 
         self.charExp = QRegExp()
-        self.charExp.setPattern('.')
+        self.charExp.setPattern(".")
 
         self.colorExp = QRegExp()
-        self.colorExp.setPattern('\\(([0-9]*),([0-9]*),([0-9]*),([0-9]*)\\)')
+        self.colorExp.setPattern("\\(([0-9]*),([0-9]*),([0-9]*),([0-9]*)\\)")
 
         self.doubleExp = QRegExp()
-        self.doubleExp.setPattern('')
+        self.doubleExp.setPattern("")
 
         self.pointExp = QRegExp()
-        self.pointExp.setPattern('\\((-?[0-9]*),(-?[0-9]*)\\)')
+        self.pointExp.setPattern("\\((-?[0-9]*),(-?[0-9]*)\\)")
 
         self.rectExp = QRegExp()
-        self.rectExp.setPattern('\\((-?[0-9]*),(-?[0-9]*),(-?[0-9]*),(-?[0-9]*)\\)')
+        self.rectExp.setPattern("\\((-?[0-9]*),(-?[0-9]*),(-?[0-9]*),(-?[0-9]*)\\)")
 
         self.signedIntegerExp = QRegExp()
-        self.signedIntegerExp.setPattern('-?[0-9]*')
+        self.signedIntegerExp.setPattern("-?[0-9]*")
 
         self.sizeExp = QRegExp(self.pointExp)
 
         self.unsignedIntegerExp = QRegExp()
-        self.unsignedIntegerExp.setPattern('[0-9]*')
+        self.unsignedIntegerExp.setPattern("[0-9]*")
 
         self.dateExp = QRegExp()
-        self.dateExp.setPattern('([0-9]{,4})-([0-9]{,2})-([0-9]{,2})')
+        self.dateExp.setPattern("([0-9]{,4})-([0-9]{,2})-([0-9]{,2})")
 
         self.timeExp = QRegExp()
-        self.timeExp.setPattern('([0-9]{,2}):([0-9]{,2}):([0-9]{,2})')
+        self.timeExp.setPattern("([0-9]{,2}):([0-9]{,2}):([0-9]{,2})")
 
         self.dateTimeExp = QRegExp()
-        self.dateTimeExp.setPattern(self.dateExp.pattern() + 'T' + self.timeExp.pattern())
+        self.dateTimeExp.setPattern(
+            self.dateExp.pattern() + "T" + self.timeExp.pattern()
+        )
 
     def paint(self, painter, option, index):
         if index.column() == 2:
@@ -649,10 +729,12 @@ class VariantDelegate(QItemDelegate):
 
         if isinstance(originalValue, QColor):
             self.colorExp.exactMatch(text)
-            value = QColor(min(int(self.colorExp.cap(1)), 255),
-                           min(int(self.colorExp.cap(2)), 255),
-                           min(int(self.colorExp.cap(3)), 255),
-                           min(int(self.colorExp.cap(4)), 255))
+            value = QColor(
+                min(int(self.colorExp.cap(1)), 255),
+                min(int(self.colorExp.cap(2)), 255),
+                min(int(self.colorExp.cap(3)), 255),
+                min(int(self.colorExp.cap(4)), 255),
+            )
         elif isinstance(originalValue, QDate):
             value = QDate.fromString(text, Qt.ISODate)
             if not value.isValid():
@@ -667,20 +749,20 @@ class VariantDelegate(QItemDelegate):
                 return
         elif isinstance(originalValue, QPoint):
             self.pointExp.exactMatch(text)
-            value = QPoint(int(self.pointExp.cap(1)),
-                           int(self.pointExp.cap(2)))
+            value = QPoint(int(self.pointExp.cap(1)), int(self.pointExp.cap(2)))
         elif isinstance(originalValue, QRect):
             self.rectExp.exactMatch(text)
-            value = QRect(int(self.rectExp.cap(1)),
-                          int(self.rectExp.cap(2)),
-                          int(self.rectExp.cap(3)),
-                          int(self.rectExp.cap(4)))
+            value = QRect(
+                int(self.rectExp.cap(1)),
+                int(self.rectExp.cap(2)),
+                int(self.rectExp.cap(3)),
+                int(self.rectExp.cap(4)),
+            )
         elif isinstance(originalValue, QSize):
             self.sizeExp.exactMatch(text)
-            value = QSize(int(self.sizeExp.cap(1)),
-                          int(self.sizeExp.cap(2)))
+            value = QSize(int(self.sizeExp.cap(1)), int(self.sizeExp.cap(2)))
         elif isinstance(originalValue, list):
-            value = text.split(',')
+            value = text.split(",")
         else:
             value = type(originalValue)(text)
 
@@ -689,8 +771,24 @@ class VariantDelegate(QItemDelegate):
 
     @staticmethod
     def isSupportedType(value):
-        return isinstance(value, (bool, float, int, QByteArray, str, QColor,
-                QDate, QDateTime, QTime, QPoint, QRect, QSize, list))
+        return isinstance(
+            value,
+            (
+                bool,
+                float,
+                int,
+                QByteArray,
+                str,
+                QColor,
+                QDate,
+                QDateTime,
+                QTime,
+                QPoint,
+                QRect,
+                QSize,
+                list,
+            ),
+        )
 
     @staticmethod
     def displayText(value):
@@ -699,26 +797,36 @@ class VariantDelegate(QItemDelegate):
         if isinstance(value, str):
             return value
         elif isinstance(value, float):
-            return '%g' % value
+            return "%g" % value
         elif isinstance(value, QColor):
-            return '(%u,%u,%u,%u)' % (value.red(), value.green(), value.blue(), value.alpha())
+            return "(%u,%u,%u,%u)" % (
+                value.red(),
+                value.green(),
+                value.blue(),
+                value.alpha(),
+            )
         elif isinstance(value, (QDate, QDateTime, QTime)):
             return value.toString(Qt.ISODate)
         elif isinstance(value, QPoint):
-            return '(%d,%d)' % (value.x(), value.y())
+            return "(%d,%d)" % (value.x(), value.y())
         elif isinstance(value, QRect):
-            return '(%d,%d,%d,%d)' % (value.x(), value.y(), value.width(), value.height())
+            return "(%d,%d,%d,%d)" % (
+                value.x(),
+                value.y(),
+                value.width(),
+                value.height(),
+            )
         elif isinstance(value, QSize):
-            return '(%d,%d)' % (value.width(), value.height())
+            return "(%d,%d)" % (value.width(), value.height())
         elif isinstance(value, list):
-            return ','.join(value)
+            return ",".join(value)
         elif value is None:
-            return '<Invalid>'
+            return "<Invalid>"
 
-        return '<%s>' % value
+        return "<%s>" % value
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainWin = MainWindow()
     mainWin.show()

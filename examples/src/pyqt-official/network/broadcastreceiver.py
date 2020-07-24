@@ -42,8 +42,14 @@
 #############################################################################
 
 
-from PyQt5.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
-        QPushButton, QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+)
 from PyQt5.QtNetwork import QUdpSocket
 
 
@@ -74,19 +80,21 @@ class Receiver(QDialog):
 
     def processPendingDatagrams(self):
         while self.udpSocket.hasPendingDatagrams():
-            datagram, host, port = self.udpSocket.readDatagram(self.udpSocket.pendingDatagramSize())
+            datagram, host, port = self.udpSocket.readDatagram(
+                self.udpSocket.pendingDatagramSize()
+            )
 
             try:
                 # Python v3.
-                datagram = str(datagram, encoding='ascii')
+                datagram = str(datagram, encoding="ascii")
             except TypeError:
                 # Python v2.
                 pass
 
-            self.statusLabel.setText("Received datagram: \"%s\"" % datagram)
+            self.statusLabel.setText('Received datagram: "%s"' % datagram)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

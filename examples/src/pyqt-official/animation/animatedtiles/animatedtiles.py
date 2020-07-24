@@ -42,14 +42,32 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtProperty, pyqtSignal, QEasingCurve, QObject,
-        QParallelAnimationGroup, QPointF, QPropertyAnimation, qrand, QRectF,
-        QState, QStateMachine, Qt, QTimer)
-from PyQt5.QtGui import (QBrush, QLinearGradient, QPainter, QPainterPath,
-        QPixmap)
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
-        QGraphicsRectItem, QGraphicsScene, QGraphicsView, QGraphicsWidget,
-        QStyle)
+from PyQt5.QtCore import (
+    pyqtProperty,
+    pyqtSignal,
+    QEasingCurve,
+    QObject,
+    QParallelAnimationGroup,
+    QPointF,
+    QPropertyAnimation,
+    qrand,
+    QRectF,
+    QState,
+    QStateMachine,
+    Qt,
+    QTimer,
+)
+from PyQt5.QtGui import QBrush, QLinearGradient, QPainter, QPainterPath, QPixmap
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGraphicsItem,
+    QGraphicsPixmapItem,
+    QGraphicsRectItem,
+    QGraphicsScene,
+    QGraphicsView,
+    QGraphicsWidget,
+    QStyle,
+)
 
 import animatedtiles_rc
 
@@ -127,8 +145,7 @@ class Button(QGraphicsWidget):
             painter.translate(2, 2)
 
         painter.drawEllipse(r.adjusted(5, 5, -5, -5))
-        painter.drawPixmap(-self._pix.width() / 2, -self._pix.height() / 2,
-                self._pix)
+        painter.drawPixmap(-self._pix.width() / 2, -self._pix.height() / 2, self._pix)
 
     def mousePressEvent(self, ev):
         self.pressed.emit()
@@ -144,34 +161,33 @@ class View(QGraphicsView):
         self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
     import math
 
     app = QApplication(sys.argv)
 
-    kineticPix = QPixmap(':/images/kinetic.png')
-    bgPix = QPixmap(':/images/Time-For-Lunch-2.jpg')
+    kineticPix = QPixmap(":/images/kinetic.png")
+    bgPix = QPixmap(":/images/Time-For-Lunch-2.jpg")
 
     scene = QGraphicsScene(-350, -350, 700, 700)
 
     items = []
     for i in range(64):
         item = Pixmap(kineticPix)
-        item.pixmap_item.setOffset(-kineticPix.width() / 2,
-                -kineticPix.height() / 2)
+        item.pixmap_item.setOffset(-kineticPix.width() / 2, -kineticPix.height() / 2)
         item.pixmap_item.setZValue(i)
         items.append(item)
         scene.addItem(item.pixmap_item)
 
     # Buttons.
     buttonParent = QGraphicsRectItem()
-    ellipseButton = Button(QPixmap(':/images/ellipse.png'), buttonParent)
-    figure8Button = Button(QPixmap(':/images/figure8.png'), buttonParent)
-    randomButton = Button(QPixmap(':/images/random.png'), buttonParent)
-    tiledButton = Button(QPixmap(':/images/tile.png'), buttonParent)
-    centeredButton = Button(QPixmap(':/images/centered.png'), buttonParent)
+    ellipseButton = Button(QPixmap(":/images/ellipse.png"), buttonParent)
+    figure8Button = Button(QPixmap(":/images/figure8.png"), buttonParent)
+    randomButton = Button(QPixmap(":/images/random.png"), buttonParent)
+    tiledButton = Button(QPixmap(":/images/tile.png"), buttonParent)
+    centeredButton = Button(QPixmap(":/images/centered.png"), buttonParent)
 
     ellipseButton.setPos(-100, -100)
     figure8Button.setPos(100, -100)
@@ -195,26 +211,41 @@ if __name__ == '__main__':
     # Values.
     for i, item in enumerate(items):
         # Ellipse.
-        ellipseState.assignProperty(item, 'pos',
-                QPointF(math.cos((i / 63.0) * 6.28) * 250,
-                        math.sin((i / 63.0) * 6.28) * 250))
+        ellipseState.assignProperty(
+            item,
+            "pos",
+            QPointF(
+                math.cos((i / 63.0) * 6.28) * 250, math.sin((i / 63.0) * 6.28) * 250
+            ),
+        )
 
         # Figure 8.
-        figure8State.assignProperty(item, 'pos',
-                QPointF(math.sin((i / 63.0) * 6.28) * 250,
-                        math.sin(((i * 2)/63.0) * 6.28) * 250))
+        figure8State.assignProperty(
+            item,
+            "pos",
+            QPointF(
+                math.sin((i / 63.0) * 6.28) * 250,
+                math.sin(((i * 2) / 63.0) * 6.28) * 250,
+            ),
+        )
 
         # Random.
-        randomState.assignProperty(item, 'pos',
-                QPointF(-250 + qrand() % 500, -250 + qrand() % 500))
+        randomState.assignProperty(
+            item, "pos", QPointF(-250 + qrand() % 500, -250 + qrand() % 500)
+        )
 
         # Tiled.
-        tiledState.assignProperty(item, 'pos',
-                QPointF(((i % 8) - 4) * kineticPix.width() + kineticPix.width() / 2,
-                        ((i // 8) - 4) * kineticPix.height() + kineticPix.height() / 2))
+        tiledState.assignProperty(
+            item,
+            "pos",
+            QPointF(
+                ((i % 8) - 4) * kineticPix.width() + kineticPix.width() / 2,
+                ((i // 8) - 4) * kineticPix.height() + kineticPix.height() / 2,
+            ),
+        )
 
         # Centered.
-        centeredState.assignProperty(item, 'pos', QPointF())
+        centeredState.assignProperty(item, "pos", QPointF())
 
     # Ui.
     view = View(scene)
@@ -232,7 +263,7 @@ if __name__ == '__main__':
 
     group = QParallelAnimationGroup()
     for i, item in enumerate(items):
-        anim = QPropertyAnimation(item, b'pos')
+        anim = QPropertyAnimation(item, b"pos")
         anim.setDuration(750 + i * 25)
         anim.setEasingCurve(QEasingCurve.InOutBack)
         group.addAnimation(anim)

@@ -43,9 +43,16 @@
 
 
 from PyQt5.QtCore import QSizeF, Qt
-from PyQt5.QtWidgets import (QApplication, QGraphicsAnchorLayout,
-        QGraphicsProxyWidget, QGraphicsScene, QGraphicsView, QGraphicsWidget,
-        QPushButton, QSizePolicy)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGraphicsAnchorLayout,
+    QGraphicsProxyWidget,
+    QGraphicsScene,
+    QGraphicsView,
+    QGraphicsWidget,
+    QPushButton,
+    QSizePolicy,
+)
 
 
 def createItem(minimum, preferred, maximum, name):
@@ -60,7 +67,7 @@ def createItem(minimum, preferred, maximum, name):
     return w
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_SchemaMainWindow(object):
     def setupUi(self, SchemaMainWindow):
         SchemaMainWindow.setObjectName("SchemaMainWindow")
@@ -54,10 +55,13 @@ class Ui_SchemaMainWindow(object):
 
     def retranslateUi(self, SchemaMainWindow):
         _translate = QtCore.QCoreApplication.translate
-        SchemaMainWindow.setWindowTitle(_translate("SchemaMainWindow", "XML Schema Validation"))
+        SchemaMainWindow.setWindowTitle(
+            _translate("SchemaMainWindow", "XML Schema Validation")
+        )
         self.schemaLabel.setText(_translate("SchemaMainWindow", "XML Schema Document:"))
-        self.instanceLabel.setText(_translate("SchemaMainWindow", "XML Instance Document:"))
+        self.instanceLabel.setText(
+            _translate("SchemaMainWindow", "XML Instance Document:")
+        )
         self.label.setText(_translate("SchemaMainWindow", "Status:"))
         self.validationStatus.setText(_translate("SchemaMainWindow", "not validated"))
         self.validateButton.setText(_translate("SchemaMainWindow", "Validate"))
-

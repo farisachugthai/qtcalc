@@ -1,7 +1,7 @@
 from os.path import expanduser
 from PyQt5.QtWidgets import *
 
-home_directory = expanduser('~')
+home_directory = expanduser("~")
 
 app = QApplication([])
 model = QDirModel()

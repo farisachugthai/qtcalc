@@ -57,22 +57,24 @@ from PyQt5.QtRemoteObjects import QRemoteObjectNode
 from PyQt5.QtWidgets import QApplication, QTreeView
 
 
-QLoggingCategory.setFilterRules('qt.remoteobjects.debug=false\n'
-                                'qt.remoteobjects.warning=false\n'
-                                'qt.remoteobjects.models.debug=false\n'
-                                'qt.remoteobjects.models.debug=false')
+QLoggingCategory.setFilterRules(
+    "qt.remoteobjects.debug=false\n"
+    "qt.remoteobjects.warning=false\n"
+    "qt.remoteobjects.models.debug=false\n"
+    "qt.remoteobjects.models.debug=false"
+)
 
 app = QApplication(sys.argv)
 
-node = QRemoteObjectNode(QUrl('local:registry'))
+node = QRemoteObjectNode(QUrl("local:registry"))
 node.setHeartbeatInterval(1000)
 
 view = QTreeView()
 view.setWindowTitle("RemoteView")
 view.resize(640, 480)
 
-model = node.acquireModel('RemoteModel')
+model = node.acquireModel("RemoteModel")
 view.setModel(model)
-view.show();
+view.show()
 
 sys.exit(app.exec_())

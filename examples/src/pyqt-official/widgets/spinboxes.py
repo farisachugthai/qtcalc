@@ -43,9 +43,20 @@
 
 
 from PyQt5.QtCore import QDate, QDateTime, Qt, QTime
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDateEdit, QDateTimeEdit,
-        QDoubleSpinBox, QGroupBox, QHBoxLayout, QLabel, QSpinBox, QTimeEdit,
-        QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDateEdit,
+    QDateTimeEdit,
+    QDoubleSpinBox,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QSpinBox,
+    QTimeEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -77,7 +88,7 @@ class Window(QWidget):
         zoomSpinBox = QSpinBox()
         zoomSpinBox.setRange(0, 1000)
         zoomSpinBox.setSingleStep(10)
-        zoomSpinBox.setSuffix('%')
+        zoomSpinBox.setSuffix("%")
         zoomSpinBox.setSpecialValueText("Automatic")
         zoomSpinBox.setValue(100)
 
@@ -85,7 +96,7 @@ class Window(QWidget):
         priceSpinBox = QSpinBox()
         priceSpinBox.setRange(0, 999)
         priceSpinBox.setSingleStep(1)
-        priceSpinBox.setPrefix('$')
+        priceSpinBox.setPrefix("$")
         priceSpinBox.setValue(99)
 
         spinBoxLayout = QVBoxLayout()
@@ -103,16 +114,24 @@ class Window(QWidget):
         dateLabel = QLabel()
         dateEdit = QDateEdit(QDate.currentDate())
         dateEdit.setDateRange(QDate(2005, 1, 1), QDate(2010, 12, 31))
-        dateLabel.setText("Appointment date (between %s and %s):" %
-                    (dateEdit.minimumDate().toString(Qt.ISODate),
-                    dateEdit.maximumDate().toString(Qt.ISODate)))
+        dateLabel.setText(
+            "Appointment date (between %s and %s):"
+            % (
+                dateEdit.minimumDate().toString(Qt.ISODate),
+                dateEdit.maximumDate().toString(Qt.ISODate),
+            )
+        )
 
         timeLabel = QLabel()
         timeEdit = QTimeEdit(QTime.currentTime())
         timeEdit.setTimeRange(QTime(9, 0, 0, 0), QTime(16, 30, 0, 0))
-        timeLabel.setText("Appointment time (between %s and %s):" %
-                    (timeEdit.minimumTime().toString(Qt.ISODate),
-                    timeEdit.maximumTime().toString(Qt.ISODate)))
+        timeLabel.setText(
+            "Appointment time (between %s and %s):"
+            % (
+                timeEdit.minimumTime().toString(Qt.ISODate),
+                timeEdit.maximumTime().toString(Qt.ISODate),
+            )
+        )
 
         self.meetingLabel = QLabel()
         self.meetingEdit = QDateTimeEdit(QDateTime.currentDateTime())
@@ -120,11 +139,11 @@ class Window(QWidget):
         formatLabel = QLabel("Format string for the meeting date and time:")
 
         formatComboBox = QComboBox()
-        formatComboBox.addItem('yyyy-MM-dd hh:mm:ss (zzz \'ms\')')
-        formatComboBox.addItem('hh:mm:ss MM/dd/yyyy')
-        formatComboBox.addItem('hh:mm:ss dd/MM/yyyy')
-        formatComboBox.addItem('hh:mm:ss')
-        formatComboBox.addItem('hh:mm ap')
+        formatComboBox.addItem("yyyy-MM-dd hh:mm:ss (zzz 'ms')")
+        formatComboBox.addItem("hh:mm:ss MM/dd/yyyy")
+        formatComboBox.addItem("hh:mm:ss dd/MM/yyyy")
+        formatComboBox.addItem("hh:mm:ss")
+        formatComboBox.addItem("hh:mm ap")
 
         formatComboBox.activated[str].connect(self.setFormatString)
 
@@ -146,14 +165,22 @@ class Window(QWidget):
 
         if self.meetingEdit.displayedSections() & QDateTimeEdit.DateSections_Mask:
             self.meetingEdit.setDateRange(QDate(2004, 11, 1), QDate(2005, 11, 30))
-            self.meetingLabel.setText("Meeting date (between %s and %s):" %
-                    (self.meetingEdit.minimumDate().toString(Qt.ISODate),
-                    self.meetingEdit.maximumDate().toString(Qt.ISODate)))
+            self.meetingLabel.setText(
+                "Meeting date (between %s and %s):"
+                % (
+                    self.meetingEdit.minimumDate().toString(Qt.ISODate),
+                    self.meetingEdit.maximumDate().toString(Qt.ISODate),
+                )
+            )
         else:
             self.meetingEdit.setTimeRange(QTime(0, 7, 20, 0), QTime(21, 0, 0, 0))
-            self.meetingLabel.setText("Meeting time (between %s and %s):" %
-                    (self.meetingEdit.minimumTime().toString(Qt.ISODate),
-                    self.meetingEdit.maximumTime().toString(Qt.ISODate)))
+            self.meetingLabel.setText(
+                "Meeting time (between %s and %s):"
+                % (
+                    self.meetingEdit.minimumTime().toString(Qt.ISODate),
+                    self.meetingEdit.maximumTime().toString(Qt.ISODate),
+                )
+            )
 
     def createDoubleSpinBoxes(self):
         self.doubleSpinBoxesGroup = QGroupBox("Double precision spinboxes")
@@ -173,7 +200,7 @@ class Window(QWidget):
         self.scaleSpinBox = QDoubleSpinBox()
         self.scaleSpinBox.setRange(0.0, 1000.0)
         self.scaleSpinBox.setSingleStep(10.0)
-        self.scaleSpinBox.setSuffix('%')
+        self.scaleSpinBox.setSuffix("%")
         self.scaleSpinBox.setSpecialValueText("No scaling")
         self.scaleSpinBox.setValue(100.0)
 
@@ -181,7 +208,7 @@ class Window(QWidget):
         self.priceSpinBox = QDoubleSpinBox()
         self.priceSpinBox.setRange(0.0, 1000.0)
         self.priceSpinBox.setSingleStep(1.0)
-        self.priceSpinBox.setPrefix('$')
+        self.priceSpinBox.setPrefix("$")
         self.priceSpinBox.setValue(99.99)
 
         precisionSpinBox.valueChanged.connect(self.changePrecision)
@@ -203,11 +230,11 @@ class Window(QWidget):
         self.priceSpinBox.setDecimals(decimals)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
-    app = QApplication(sys.argv)    
+    app = QApplication(sys.argv)
     window = Window()
-    window.show()    
+    window.show()
     sys.exit(app.exec_())

@@ -45,9 +45,19 @@
 
 from PyQt5.QtCore import QDate, QLocale, Qt
 from PyQt5.QtGui import QFont, QTextCharFormat
-from PyQt5.QtWidgets import (QApplication, QCalendarWidget, QCheckBox,
-        QComboBox, QDateEdit, QGridLayout, QGroupBox, QHBoxLayout, QLabel,
-        QLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCalendarWidget,
+    QCheckBox,
+    QComboBox,
+    QDateEdit,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLayout,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -67,10 +77,8 @@ class Window(QWidget):
         layout.setSizeConstraint(QLayout.SetFixedSize)
         self.setLayout(layout)
 
-        self.previewLayout.setRowMinimumHeight(0,
-                self.calendar.sizeHint().height())
-        self.previewLayout.setColumnMinimumWidth(0,
-                self.calendar.sizeHint().width())
+        self.previewLayout.setRowMinimumHeight(0, self.calendar.sizeHint().height())
+        self.previewLayout.setColumnMinimumWidth(0, self.calendar.sizeHint().width())
 
         self.setWindowTitle("Calendar Widget")
 
@@ -79,22 +87,27 @@ class Window(QWidget):
 
     def firstDayChanged(self, index):
         self.calendar.setFirstDayOfWeek(
-                Qt.DayOfWeek(self.firstDayCombo.itemData(index)))
+            Qt.DayOfWeek(self.firstDayCombo.itemData(index))
+        )
 
     def selectionModeChanged(self, index):
         self.calendar.setSelectionMode(
-                QCalendarWidget.SelectionMode(
-                        self.selectionModeCombo.itemData(index)))
+            QCalendarWidget.SelectionMode(self.selectionModeCombo.itemData(index))
+        )
 
     def horizontalHeaderChanged(self, index):
         self.calendar.setHorizontalHeaderFormat(
-                QCalendarWidget.HorizontalHeaderFormat(
-                        self.horizontalHeaderCombo.itemData(index)))
+            QCalendarWidget.HorizontalHeaderFormat(
+                self.horizontalHeaderCombo.itemData(index)
+            )
+        )
 
     def verticalHeaderChanged(self, index):
         self.calendar.setVerticalHeaderFormat(
-                QCalendarWidget.VerticalHeaderFormat(
-                        self.verticalHeaderCombo.itemData(index)))
+            QCalendarWidget.VerticalHeaderFormat(
+                self.verticalHeaderCombo.itemData(index)
+            )
+        )
 
     def selectedDateChanged(self):
         self.currentDateEdit.setDate(self.calendar.selectedDate())
@@ -110,9 +123,10 @@ class Window(QWidget):
     def weekdayFormatChanged(self):
         format = QTextCharFormat()
         format.setForeground(
-                Qt.GlobalColor(
-                        self.weekdayColorCombo.itemData(
-                                self.weekdayColorCombo.currentIndex())))
+            Qt.GlobalColor(
+                self.weekdayColorCombo.itemData(self.weekdayColorCombo.currentIndex())
+            )
+        )
 
         self.calendar.setWeekdayTextFormat(Qt.Monday, format)
         self.calendar.setWeekdayTextFormat(Qt.Tuesday, format)
@@ -123,9 +137,10 @@ class Window(QWidget):
     def weekendFormatChanged(self):
         format = QTextCharFormat()
         format.setForeground(
-                Qt.GlobalColor(
-                        self.weekendColorCombo.itemData(
-                                self.weekendColorCombo.currentIndex())))
+            Qt.GlobalColor(
+                self.weekendColorCombo.itemData(self.weekendColorCombo.currentIndex())
+            )
+        )
 
         self.calendar.setWeekdayTextFormat(Qt.Saturday, format)
         self.calendar.setWeekdayTextFormat(Qt.Sunday, format)
@@ -145,8 +160,9 @@ class Window(QWidget):
 
     def reformatCalendarPage(self):
         if self.firstFridayCheckBox.isChecked():
-            firstFriday = QDate(self.calendar.yearShown(),
-                    self.calendar.monthShown(), 1)
+            firstFriday = QDate(
+                self.calendar.yearShown(), self.calendar.monthShown(), 1
+            )
 
             while firstFriday.dayOfWeek() != Qt.Friday:
                 firstFriday = firstFriday.addDays(1)
@@ -177,7 +193,7 @@ class Window(QWidget):
         self.previewLayout = QGridLayout()
         self.previewLayout.addWidget(self.calendar, 0, 0, Qt.AlignCenter)
         self.previewGroupBox.setLayout(self.previewLayout)
- 
+
     def createGeneralOptionsGroupBox(self):
         self.generalOptionsGroupBox = QGroupBox("General Options")
 
@@ -189,14 +205,16 @@ class Window(QWidget):
         this_language = self.locale().nativeLanguageName()
         this_country = self.locale().nativeCountryName()
 
-        for locale in QLocale.matchingLocales(QLocale.AnyLanguage, QLocale.AnyScript, QLocale.AnyCountry):
+        for locale in QLocale.matchingLocales(
+            QLocale.AnyLanguage, QLocale.AnyScript, QLocale.AnyCountry
+        ):
             language = locale.nativeLanguageName()
             country = locale.nativeCountryName()
 
             if language == this_language and country == this_country:
                 curLocaleIndex = index
 
-            self.localeCombo.addItem('%s/%s' % (language, country), locale)
+            self.localeCombo.addItem("%s/%s" % (language, country), locale)
             index += 1
 
         if curLocaleIndex != -1:
@@ -218,10 +236,10 @@ class Window(QWidget):
         self.firstDayLabel.setBuddy(self.firstDayCombo)
 
         self.selectionModeCombo = QComboBox()
-        self.selectionModeCombo.addItem("Single selection",
-                QCalendarWidget.SingleSelection)
-        self.selectionModeCombo.addItem("None",
-                QCalendarWidget.NoSelection)
+        self.selectionModeCombo.addItem(
+            "Single selection", QCalendarWidget.SingleSelection
+        )
+        self.selectionModeCombo.addItem("None", QCalendarWidget.NoSelection)
         self.selectionModeLabel = QLabel("&Selection mode:")
         self.selectionModeLabel.setBuddy(self.selectionModeCombo)
 
@@ -232,39 +250,39 @@ class Window(QWidget):
         self.navigationCheckBox.setChecked(True)
 
         self.horizontalHeaderCombo = QComboBox()
-        self.horizontalHeaderCombo.addItem("Single letter day names",
-                QCalendarWidget.SingleLetterDayNames)
-        self.horizontalHeaderCombo.addItem("Short day names",
-                QCalendarWidget.ShortDayNames)
-        self.horizontalHeaderCombo.addItem("Long day names",
-                QCalendarWidget.LongDayNames)
-        self.horizontalHeaderCombo.addItem("None",
-                QCalendarWidget.NoHorizontalHeader)
+        self.horizontalHeaderCombo.addItem(
+            "Single letter day names", QCalendarWidget.SingleLetterDayNames
+        )
+        self.horizontalHeaderCombo.addItem(
+            "Short day names", QCalendarWidget.ShortDayNames
+        )
+        self.horizontalHeaderCombo.addItem(
+            "Long day names", QCalendarWidget.LongDayNames
+        )
+        self.horizontalHeaderCombo.addItem("None", QCalendarWidget.NoHorizontalHeader)
         self.horizontalHeaderCombo.setCurrentIndex(1)
 
         self.horizontalHeaderLabel = QLabel("&Horizontal header:")
         self.horizontalHeaderLabel.setBuddy(self.horizontalHeaderCombo)
 
         self.verticalHeaderCombo = QComboBox()
-        self.verticalHeaderCombo.addItem("ISO week numbers",
-                QCalendarWidget.ISOWeekNumbers)
-        self.verticalHeaderCombo.addItem("None",
-                QCalendarWidget.NoVerticalHeader)
+        self.verticalHeaderCombo.addItem(
+            "ISO week numbers", QCalendarWidget.ISOWeekNumbers
+        )
+        self.verticalHeaderCombo.addItem("None", QCalendarWidget.NoVerticalHeader)
 
         self.verticalHeaderLabel = QLabel("&Vertical header:")
         self.verticalHeaderLabel.setBuddy(self.verticalHeaderCombo)
 
         self.localeCombo.currentIndexChanged.connect(self.localeChanged)
         self.firstDayCombo.currentIndexChanged.connect(self.firstDayChanged)
-        self.selectionModeCombo.currentIndexChanged.connect(
-                self.selectionModeChanged)
+        self.selectionModeCombo.currentIndexChanged.connect(self.selectionModeChanged)
         self.gridCheckBox.toggled.connect(self.calendar.setGridVisible)
-        self.navigationCheckBox.toggled.connect(
-                self.calendar.setNavigationBarVisible)
+        self.navigationCheckBox.toggled.connect(self.calendar.setNavigationBarVisible)
         self.horizontalHeaderCombo.currentIndexChanged.connect(
-                self.horizontalHeaderChanged)
-        self.verticalHeaderCombo.currentIndexChanged.connect(
-                self.verticalHeaderChanged)
+            self.horizontalHeaderChanged
+        )
+        self.verticalHeaderCombo.currentIndexChanged.connect(self.verticalHeaderChanged)
 
         checkBoxLayout = QHBoxLayout()
         checkBoxLayout.addWidget(self.gridCheckBox)
@@ -289,32 +307,35 @@ class Window(QWidget):
         self.selectionModeChanged(self.selectionModeCombo.currentIndex())
         self.horizontalHeaderChanged(self.horizontalHeaderCombo.currentIndex())
         self.verticalHeaderChanged(self.verticalHeaderCombo.currentIndex())
- 
+
     def createDatesGroupBox(self):
         self.datesGroupBox = QGroupBox(self.tr("Dates"))
 
         self.minimumDateEdit = QDateEdit()
-        self.minimumDateEdit.setDisplayFormat('MMM d yyyy')
-        self.minimumDateEdit.setDateRange(self.calendar.minimumDate(),
-                                          self.calendar.maximumDate())
+        self.minimumDateEdit.setDisplayFormat("MMM d yyyy")
+        self.minimumDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
         self.minimumDateEdit.setDate(self.calendar.minimumDate())
 
         self.minimumDateLabel = QLabel("&Minimum Date:")
         self.minimumDateLabel.setBuddy(self.minimumDateEdit)
 
         self.currentDateEdit = QDateEdit()
-        self.currentDateEdit.setDisplayFormat('MMM d yyyy')
+        self.currentDateEdit.setDisplayFormat("MMM d yyyy")
         self.currentDateEdit.setDate(self.calendar.selectedDate())
-        self.currentDateEdit.setDateRange(self.calendar.minimumDate(),
-                self.calendar.maximumDate())
+        self.currentDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
 
         self.currentDateLabel = QLabel("&Current Date:")
         self.currentDateLabel.setBuddy(self.currentDateEdit)
 
         self.maximumDateEdit = QDateEdit()
-        self.maximumDateEdit.setDisplayFormat('MMM d yyyy')
-        self.maximumDateEdit.setDateRange(self.calendar.minimumDate(),
-                self.calendar.maximumDate())
+        self.maximumDateEdit.setDisplayFormat("MMM d yyyy")
+        self.maximumDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
         self.maximumDateEdit.setDate(self.calendar.maximumDate())
 
         self.maximumDateLabel = QLabel("Ma&ximum Date:")
@@ -324,7 +345,7 @@ class Window(QWidget):
         self.calendar.selectionChanged.connect(self.selectedDateChanged)
         self.minimumDateEdit.dateChanged.connect(self.minimumDateChanged)
         self.maximumDateEdit.dateChanged.connect(self.maximumDateChanged)
- 
+
         dateBoxLayout = QGridLayout()
         dateBoxLayout.addWidget(self.currentDateLabel, 1, 0)
         dateBoxLayout.addWidget(self.currentDateEdit, 1, 1)
@@ -340,15 +361,13 @@ class Window(QWidget):
         self.textFormatsGroupBox = QGroupBox("Text Formats")
 
         self.weekdayColorCombo = self.createColorComboBox()
-        self.weekdayColorCombo.setCurrentIndex(
-                self.weekdayColorCombo.findText("Black"))
+        self.weekdayColorCombo.setCurrentIndex(self.weekdayColorCombo.findText("Black"))
 
         self.weekdayColorLabel = QLabel("&Weekday color:")
         self.weekdayColorLabel.setBuddy(self.weekdayColorCombo)
 
         self.weekendColorCombo = self.createColorComboBox()
-        self.weekendColorCombo.setCurrentIndex(
-                self.weekendColorCombo.findText("Red"))
+        self.weekendColorCombo.setCurrentIndex(self.weekendColorCombo.findText("Red"))
 
         self.weekendColorLabel = QLabel("Week&end color:")
         self.weekendColorLabel.setBuddy(self.weekendColorCombo)
@@ -365,12 +384,9 @@ class Window(QWidget):
 
         self.mayFirstCheckBox = QCheckBox("May &1 in red")
 
-        self.weekdayColorCombo.currentIndexChanged.connect(
-                self.weekdayFormatChanged)
-        self.weekendColorCombo.currentIndexChanged.connect(
-                self.weekendFormatChanged)
-        self.headerTextFormatCombo.currentIndexChanged.connect(
-                self.reformatHeaders)
+        self.weekdayColorCombo.currentIndexChanged.connect(self.weekdayFormatChanged)
+        self.weekendColorCombo.currentIndexChanged.connect(self.weekendFormatChanged)
+        self.headerTextFormatCombo.currentIndexChanged.connect(self.reformatHeaders)
         self.firstFridayCheckBox.toggled.connect(self.reformatCalendarPage)
         self.mayFirstCheckBox.toggled.connect(self.reformatCalendarPage)
 
@@ -394,7 +410,7 @@ class Window(QWidget):
 
         self.reformatHeaders()
         self.reformatCalendarPage()
- 
+
     def createColorComboBox(self):
         comboBox = QComboBox()
         comboBox.addItem("Red", Qt.red)
@@ -405,7 +421,7 @@ class Window(QWidget):
         return comboBox
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

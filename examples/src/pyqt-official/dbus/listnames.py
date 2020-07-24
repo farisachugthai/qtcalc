@@ -65,9 +65,10 @@ def method2():
     sys.stdout.write("Method 2:\n")
 
     bus = QDBusConnection.sessionBus()
-    dbus_iface = QDBusInterface('org.freedesktop.DBus',
-            '/org/freedesktop/DBus', 'org.freedesktop.DBus', bus)
-    names = dbus_iface.call('ListNames').arguments()[0]
+    dbus_iface = QDBusInterface(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", bus
+    )
+    names = dbus_iface.call("ListNames").arguments()[0]
 
     # Mimic the output from the C++ version.
     sys.stdout.write('QVariant(QStringList, ("%s") )\n' % '", "'.join(names))
@@ -82,13 +83,15 @@ def method3():
     sys.stdout.write('("%s")\n' % '", "'.join(names))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QCoreApplication(sys.argv)
 
     if not QDBusConnection.sessionBus().isConnected():
-        sys.stderr.write("Cannot connect to the D-Bus session bus.\n"
-                "To start it, run:\n"
-                "\teval `dbus-launch --auto-syntax`\n");
+        sys.stderr.write(
+            "Cannot connect to the D-Bus session bus.\n"
+            "To start it, run:\n"
+            "\teval `dbus-launch --auto-syntax`\n"
+        )
         sys.exit(1)
 
     method1()

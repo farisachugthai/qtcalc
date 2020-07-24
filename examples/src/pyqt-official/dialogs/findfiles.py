@@ -42,13 +42,24 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QDir, QIODevice, QFile, QFileInfo, Qt, QTextStream,
-        QUrl)
+from PyQt5.QtCore import QDir, QIODevice, QFile, QFileInfo, Qt, QTextStream, QUrl
 from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtWidgets import (QAbstractItemView, QApplication, QComboBox,
-        QDialog, QFileDialog, QGridLayout, QHBoxLayout, QHeaderView, QLabel,
-        QProgressDialog, QPushButton, QSizePolicy, QTableWidget,
-        QTableWidgetItem)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QApplication,
+    QComboBox,
+    QDialog,
+    QFileDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QProgressDialog,
+    QPushButton,
+    QSizePolicy,
+    QTableWidget,
+    QTableWidgetItem,
+)
 
 
 class Window(QDialog):
@@ -90,14 +101,17 @@ class Window(QDialog):
         self.resize(700, 300)
 
     def browse(self):
-        directory = QFileDialog.getExistingDirectory(self, "Find Files",
-                QDir.currentPath())
+        directory = QFileDialog.getExistingDirectory(
+            self, "Find Files", QDir.currentPath()
+        )
 
         if directory:
             if self.directoryComboBox.findText(directory) == -1:
                 self.directoryComboBox.addItem(directory)
 
-            self.directoryComboBox.setCurrentIndex(self.directoryComboBox.findText(directory))
+            self.directoryComboBox.setCurrentIndex(
+                self.directoryComboBox.findText(directory)
+            )
 
     @staticmethod
     def updateComboBox(comboBox):
@@ -118,8 +132,7 @@ class Window(QDialog):
         self.currentDir = QDir(path)
         if not fileName:
             fileName = "*"
-        files = self.currentDir.entryList([fileName],
-                QDir.Files | QDir.NoSymLinks)
+        files = self.currentDir.entryList([fileName], QDir.Files | QDir.NoSymLinks)
 
         if text:
             files = self.findFiles(files, text)
@@ -136,7 +149,9 @@ class Window(QDialog):
 
         for i in range(files.count()):
             progressDialog.setValue(i)
-            progressDialog.setLabelText("Searching file number %d of %d..." % (i, files.count()))
+            progressDialog.setLabelText(
+                "Searching file number %d of %d..." % (i, files.count())
+            )
             QApplication.processEvents()
 
             if progressDialog.wasCanceled():
@@ -174,7 +189,9 @@ class Window(QDialog):
             self.filesTable.setItem(row, 0, fileNameItem)
             self.filesTable.setItem(row, 1, sizeItem)
 
-        self.filesFoundLabel.setText("%d file(s) found (Double click on a file to open it)" % len(files))
+        self.filesFoundLabel.setText(
+            "%d file(s) found (Double click on a file to open it)" % len(files)
+        )
 
     def createButton(self, text, member):
         button = QPushButton(text)
@@ -205,7 +222,7 @@ class Window(QDialog):
         QDesktopServices.openUrl(QUrl(self.currentDir.absoluteFilePath(item.text())))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

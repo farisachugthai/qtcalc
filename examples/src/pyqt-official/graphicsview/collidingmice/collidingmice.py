@@ -44,12 +44,15 @@
 
 import math
 
-from PyQt5.QtCore import (qAbs, QLineF, QPointF, QRectF, qrand, qsrand, Qt,
-        QTime, QTimer)
-from PyQt5.QtGui import (QBrush, QColor, QPainter, QPainterPath, QPixmap,
-        QPolygonF)
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsScene,
-        QGraphicsView, QGraphicsWidget)
+from PyQt5.QtCore import qAbs, QLineF, QPointF, QRectF, qrand, qsrand, Qt, QTime, QTimer
+from PyQt5.QtGui import QBrush, QColor, QPainter, QPainterPath, QPixmap, QPolygonF
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGraphicsItem,
+    QGraphicsScene,
+    QGraphicsView,
+    QGraphicsWidget,
+)
 
 import mice_rc
 
@@ -94,7 +97,7 @@ class Mouse(QGraphicsItem):
     def shape(self):
         path = QPainterPath()
         path.addRect(-10, -20, 20, 40)
-        return path;
+        return path
 
     def paint(self, painter, option, widget):
         # Body.
@@ -137,13 +140,17 @@ class Mouse(QGraphicsItem):
         if lineToCenter.length() > 150:
             angleToCenter = math.acos(lineToCenter.dx() / lineToCenter.length())
             if lineToCenter.dy() < 0:
-                angleToCenter = Mouse.TwoPi - angleToCenter;
-            angleToCenter = Mouse.normalizeAngle((Mouse.Pi - angleToCenter) + Mouse.Pi / 2)
+                angleToCenter = Mouse.TwoPi - angleToCenter
+            angleToCenter = Mouse.normalizeAngle(
+                (Mouse.Pi - angleToCenter) + Mouse.Pi / 2
+            )
 
             if angleToCenter < Mouse.Pi and angleToCenter > Mouse.Pi / 4:
                 # Rotate left.
                 self.angle += [-0.25, 0.25][self.angle < -Mouse.Pi / 2]
-            elif angleToCenter >= Mouse.Pi and angleToCenter < (Mouse.Pi + Mouse.Pi / 2 + Mouse.Pi / 4):
+            elif angleToCenter >= Mouse.Pi and angleToCenter < (
+                Mouse.Pi + Mouse.Pi / 2 + Mouse.Pi / 4
+            ):
                 # Rotate right.
                 self.angle += [-0.25, 0.25][self.angle < Mouse.Pi / 2]
         elif math.sin(self.angle) < 0:
@@ -152,24 +159,34 @@ class Mouse(QGraphicsItem):
             self.angle -= 0.25
 
         # Try not to crash with any other mice.
-        dangerMice = self.scene().items(QPolygonF([self.mapToScene(0, 0),
-                                                         self.mapToScene(-30, -50),
-                                                         self.mapToScene(30, -50)]))
+        dangerMice = self.scene().items(
+            QPolygonF(
+                [
+                    self.mapToScene(0, 0),
+                    self.mapToScene(-30, -50),
+                    self.mapToScene(30, -50),
+                ]
+            )
+        )
 
         for item in dangerMice:
             if item is self:
                 continue
-        
+
             lineToMouse = QLineF(QPointF(0, 0), self.mapFromItem(item, 0, 0))
             angleToMouse = math.acos(lineToMouse.dx() / lineToMouse.length())
             if lineToMouse.dy() < 0:
                 angleToMouse = Mouse.TwoPi - angleToMouse
-            angleToMouse = Mouse.normalizeAngle((Mouse.Pi - angleToMouse) + Mouse.Pi / 2)
+            angleToMouse = Mouse.normalizeAngle(
+                (Mouse.Pi - angleToMouse) + Mouse.Pi / 2
+            )
 
             if angleToMouse >= 0 and angleToMouse < Mouse.Pi / 2:
                 # Rotate right.
                 self.angle += 0.5
-            elif angleToMouse <= Mouse.TwoPi and angleToMouse > (Mouse.TwoPi - Mouse.Pi / 2):
+            elif angleToMouse <= Mouse.TwoPi and angleToMouse > (
+                Mouse.TwoPi - Mouse.Pi / 2
+            ):
                 # Rotate left.
                 self.angle -= 0.5
 
@@ -189,14 +206,14 @@ class Mouse(QGraphicsItem):
         self.setPos(self.mapToParent(0, -(3 + math.sin(self.speed) * 3)))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     MouseCount = 7
 
     app = QApplication(sys.argv)
-    qsrand(QTime(0,0,0).secsTo(QTime.currentTime()))
+    qsrand(QTime(0, 0, 0).secsTo(QTime.currentTime()))
 
     scene = QGraphicsScene()
     scene.setSceneRect(-300, -300, 600, 600)
@@ -204,13 +221,15 @@ if __name__ == '__main__':
 
     for i in range(MouseCount):
         mouse = Mouse()
-        mouse.setPos(math.sin((i * 6.28) / MouseCount) * 200,
-                     math.cos((i * 6.28) / MouseCount) * 200)
+        mouse.setPos(
+            math.sin((i * 6.28) / MouseCount) * 200,
+            math.cos((i * 6.28) / MouseCount) * 200,
+        )
         scene.addItem(mouse)
 
     view = QGraphicsView(scene)
     view.setRenderHint(QPainter.Antialiasing)
-    view.setBackgroundBrush(QBrush(QPixmap(':/images/cheese.jpg')))
+    view.setBackgroundBrush(QBrush(QPixmap(":/images/cheese.jpg")))
     view.setCacheMode(QGraphicsView.CacheBackground)
     view.setViewportUpdateMode(QGraphicsView.BoundingRectViewportUpdate)
     view.setDragMode(QGraphicsView.ScrollHandDrag)

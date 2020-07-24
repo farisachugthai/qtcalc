@@ -44,7 +44,6 @@ from PyQt5.QtQuick import QQuickPaintedItem
 
 
 class PieSlice(QQuickPaintedItem):
-
     @pyqtProperty(QColor)
     def color(self):
         return self._color

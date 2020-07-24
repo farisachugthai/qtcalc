@@ -73,7 +73,7 @@ class PieChart(QQuickPaintedItem):
     def __init__(self, parent=None):
         super(PieChart, self).__init__(parent)
 
-        self._name = ''
+        self._name = ""
         self._color = QColor()
 
     def paint(self, painter):
@@ -84,7 +84,7 @@ class PieChart(QQuickPaintedItem):
         painter.drawPie(rect, 90 * 16, 290 * 16)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import os
     import sys
 
@@ -95,9 +95,10 @@ if __name__ == '__main__':
     view = QQuickView()
     view.setResizeMode(QQuickView.SizeRootObjectToView)
     view.setSource(
-            QUrl.fromLocalFile(
-                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'app.qml')))
+        QUrl.fromLocalFile(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "app.qml")
+        )
+    )
     view.show()
 
     sys.exit(app.exec_())

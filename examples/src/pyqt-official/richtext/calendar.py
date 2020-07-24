@@ -43,11 +43,19 @@
 
 
 from PyQt5.QtCore import QDate, Qt
-from PyQt5.QtGui import (QColor, QFont, QTextCharFormat, QTextLength,
-        QTextTableFormat)
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDateTimeEdit,
-        QHBoxLayout, QLabel, QMainWindow, QSpinBox, QTextBrowser, QVBoxLayout,
-        QWidget)
+from PyQt5.QtGui import QColor, QFont, QTextCharFormat, QTextLength, QTextTableFormat
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDateTimeEdit,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QSpinBox,
+    QTextBrowser,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class MainWindow(QMainWindow):
@@ -66,7 +74,7 @@ class MainWindow(QMainWindow):
             monthCombo.addItem(QDate.longMonthName(month))
 
         yearEdit = QDateTimeEdit()
-        yearEdit.setDisplayFormat('yyyy')
+        yearEdit.setDisplayFormat("yyyy")
         yearEdit.setDateRange(QDate(1753, 1, 1), QDate(8000, 1, 1))
 
         monthCombo.setCurrentIndex(self.selectedDate.month() - 1)
@@ -109,16 +117,18 @@ class MainWindow(QMainWindow):
 
         tableFormat = QTextTableFormat()
         tableFormat.setAlignment(Qt.AlignHCenter)
-        tableFormat.setBackground(QColor('#e0e0e0'))
+        tableFormat.setBackground(QColor("#e0e0e0"))
         tableFormat.setCellPadding(2)
         tableFormat.setCellSpacing(4)
-        constraints = [QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14)]
+        constraints = [
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+        ]
 
         tableFormat.setColumnWidthConstraints(constraints)
 
@@ -139,7 +149,7 @@ class MainWindow(QMainWindow):
         highlightedFormat.setBackground(Qt.yellow)
 
         for weekDay in range(1, 8):
-            cell = table.cellAt(0, weekDay-1)
+            cell = table.cellAt(0, weekDay - 1)
             cellCursor = cell.firstCursorPosition()
             cellCursor.insertText(QDate.longDayName(weekDay), boldFormat)
 
@@ -147,7 +157,7 @@ class MainWindow(QMainWindow):
 
         while date.month() == self.selectedDate.month():
             weekDay = date.dayOfWeek()
-            cell = table.cellAt(table.rows()-1, weekDay-1)
+            cell = table.cellAt(table.rows() - 1, weekDay - 1)
             cellCursor = cell.firstCursorPosition()
 
             if date == QDate.currentDate():
@@ -162,24 +172,29 @@ class MainWindow(QMainWindow):
 
         cursor.endEditBlock()
 
-        self.setWindowTitle("Calendar for %s %d" % (QDate.longMonthName(self.selectedDate.month()), self.selectedDate.year()))
+        self.setWindowTitle(
+            "Calendar for %s %d"
+            % (QDate.longMonthName(self.selectedDate.month()), self.selectedDate.year())
+        )
 
     def setfontSize(self, size):
         self.fontSize = size
         self.insertCalendar()
 
     def setMonth(self, month):
-        self.selectedDate = QDate(self.selectedDate.year(), month + 1,
-                self.selectedDate.day())
+        self.selectedDate = QDate(
+            self.selectedDate.year(), month + 1, self.selectedDate.day()
+        )
         self.insertCalendar()
 
     def setYear(self, date):
-        self.selectedDate = QDate(date.year(), self.selectedDate.month(),
-                self.selectedDate.day())
+        self.selectedDate = QDate(
+            date.year(), self.selectedDate.month(), self.selectedDate.day()
+        )
         self.insertCalendar()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
@@ -187,4 +202,4 @@ if __name__ == '__main__':
     window = MainWindow()
     window.resize(640, 256)
     window.show()
-    sys.exit(app.exec_())    
+    sys.exit(app.exec_())

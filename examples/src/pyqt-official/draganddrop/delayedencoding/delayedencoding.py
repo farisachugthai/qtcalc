@@ -43,11 +43,24 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QBuffer, QByteArray, QFile, QIODevice,
-        QMimeData, Qt)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QBuffer,
+    QByteArray,
+    QFile,
+    QIODevice,
+    QMimeData,
+    Qt,
+)
 from PyQt5.QtGui import QDrag, QIcon, QImage, QPainter, QPixmap
-from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QPushButton,
-        QScrollArea, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QLabel,
+    QPushButton,
+    QScrollArea,
+    QWidget,
+)
 from PyQt5.QtSvg import QSvgWidget
 
 import delayedencoding_rc
@@ -59,7 +72,7 @@ class MimeData(QMimeData):
 
     def formats(self):
         formats = QMimeData.formats(self)
-        formats.append('image/png')
+        formats.append("image/png")
 
         return formats
 
@@ -75,7 +88,7 @@ class SourceWidget(QWidget):
 
         self.mimeData = None
 
-        imageFile = QFile(':/images/example.svg')
+        imageFile = QFile(":/images/example.svg")
         imageFile.open(QIODevice.ReadOnly)
         self.imageData = imageFile.readAll()
         imageFile.close()
@@ -88,7 +101,7 @@ class SourceWidget(QWidget):
         instructTopLabel = QLabel("This is an SVG drawing:")
         instructBottomLabel = QLabel("Drag the icon to copy the drawing as a PNG file:")
         dragIcon = QPushButton("Export")
-        dragIcon.setIcon(QIcon(':/images/drag.png'))
+        dragIcon.setIcon(QIcon(":/images/drag.png"))
         dragIcon.pressed.connect(self.startDrag)
 
         layout = QGridLayout()
@@ -100,7 +113,7 @@ class SourceWidget(QWidget):
         self.setWindowTitle("Delayed Encoding")
 
     def createData(self, mimeType):
-        if mimeType != 'image/png':
+        if mimeType != "image/png":
             return
 
         image = QImage(self.imageLabel.size(), QImage.Format_RGB32)
@@ -112,9 +125,9 @@ class SourceWidget(QWidget):
         data = QByteArray()
         buffer = QBuffer(data)
         buffer.open(QIODevice.WriteOnly)
-        image.save(buffer, 'PNG')
+        image.save(buffer, "PNG")
         buffer.close()
-        self.mimeData.setData('image/png', data)
+        self.mimeData.setData("image/png", data)
 
     def startDrag(self):
         self.mimeData = MimeData()
@@ -122,11 +135,11 @@ class SourceWidget(QWidget):
 
         drag = QDrag(self)
         drag.setMimeData(self.mimeData)
-        drag.setPixmap(QPixmap(':/images/drag.png'))
+        drag.setPixmap(QPixmap(":/images/drag.png"))
         drag.exec_(Qt.CopyAction)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

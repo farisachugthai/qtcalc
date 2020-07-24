@@ -44,8 +44,15 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QDoubleValidator, QIntValidator
-from PyQt5.QtWidgets import (QApplication, QComboBox, QGridLayout, QGroupBox,
-        QLabel, QLineEdit, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QGridLayout,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QWidget,
+)
 
 
 class Window(QWidget):
@@ -126,7 +133,7 @@ class Window(QWidget):
         alignmentLayout.addWidget(alignmentLabel, 0, 0)
         alignmentLayout.addWidget(alignmentComboBox, 0, 1)
         alignmentLayout.addWidget(self.alignmentLineEdit, 1, 0, 1, 2)
-        alignmentGroup. setLayout(alignmentLayout)
+        alignmentGroup.setLayout(alignmentLayout)
 
         inputMaskLayout = QGridLayout()
         inputMaskLayout.addWidget(inputMaskLabel, 0, 0)
@@ -158,7 +165,7 @@ class Window(QWidget):
         elif index == 2:
             self.echoLineEdit.setEchoMode(QLineEdit.PasswordEchoOnEdit)
         elif index == 3:
-    	    self.echoLineEdit.setEchoMode(QLineEdit.NoEcho)
+            self.echoLineEdit.setEchoMode(QLineEdit.NoEcho)
 
     def validatorChanged(self, index):
         if index == 0:
@@ -166,7 +173,9 @@ class Window(QWidget):
         elif index == 1:
             self.validatorLineEdit.setValidator(QIntValidator(self.validatorLineEdit))
         elif index == 2:
-            self.validatorLineEdit.setValidator(QDoubleValidator(-999.0, 999.0, 2, self.validatorLineEdit))
+            self.validatorLineEdit.setValidator(
+                QDoubleValidator(-999.0, 999.0, 2, self.validatorLineEdit)
+            )
 
         self.validatorLineEdit.clear()
 
@@ -176,19 +185,19 @@ class Window(QWidget):
         elif index == 1:
             self.alignmentLineEdit.setAlignment(Qt.AlignCenter)
         elif index == 2:
-    	    self.alignmentLineEdit.setAlignment(Qt.AlignRight)
+            self.alignmentLineEdit.setAlignment(Qt.AlignRight)
 
     def inputMaskChanged(self, index):
         if index == 0:
-            self.inputMaskLineEdit.setInputMask('')
+            self.inputMaskLineEdit.setInputMask("")
         elif index == 1:
-            self.inputMaskLineEdit.setInputMask('+99 99 99 99 99;_')
+            self.inputMaskLineEdit.setInputMask("+99 99 99 99 99;_")
         elif index == 2:
-            self.inputMaskLineEdit.setInputMask('0000-00-00')
-            self.inputMaskLineEdit.setText('00000000')
+            self.inputMaskLineEdit.setInputMask("0000-00-00")
+            self.inputMaskLineEdit.setText("00000000")
             self.inputMaskLineEdit.setCursorPosition(0)
         elif index == 3:
-            self.inputMaskLineEdit.setInputMask('>AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#')
+            self.inputMaskLineEdit.setInputMask(">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#")
 
     def accessChanged(self, index):
         if index == 0:
@@ -197,7 +206,7 @@ class Window(QWidget):
             self.accessLineEdit.setReadOnly(True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

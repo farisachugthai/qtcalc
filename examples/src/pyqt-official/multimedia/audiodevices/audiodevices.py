@@ -49,7 +49,6 @@ from ui_audiodevicesbase import Ui_AudioDevicesBase
 
 
 class AudioDevicesBase(QMainWindow, Ui_AudioDevicesBase):
-
     def __init__(self, parent=None):
         super(AudioDevicesBase, self).__init__(parent)
 
@@ -57,7 +56,6 @@ class AudioDevicesBase(QMainWindow, Ui_AudioDevicesBase):
 
 
 class AudioTest(AudioDevicesBase):
-
     def __init__(self, parent=None):
         super(AudioTest, self).__init__(parent)
 
@@ -101,16 +99,16 @@ class AudioTest(AudioDevicesBase):
                 self.nearestCodec.setText(nearest.codec())
                 self.nearestSampleSize.setText(str(nearest.sampleSize()))
                 self.nearestSampleType.setText(
-                        self.sampleTypeToString(nearest.sampleType()))
-                self.nearestEndian.setText(
-                        self.endianToString(nearest.byteOrder()))
+                    self.sampleTypeToString(nearest.sampleType())
+                )
+                self.nearestEndian.setText(self.endianToString(nearest.byteOrder()))
         else:
             self.testResult.setText("No Device")
 
     sampleTypeMap = {
         QAudioFormat.SignedInt: "SignedInt",
         QAudioFormat.UnSignedInt: "UnSignedInt",
-        QAudioFormat.Float: "Float"
+        QAudioFormat.Float: "Float",
     }
 
     @classmethod
@@ -119,7 +117,7 @@ class AudioTest(AudioDevicesBase):
 
     endianMap = {
         QAudioFormat.LittleEndian: "LittleEndian",
-        QAudioFormat.BigEndian: "BigEndian"
+        QAudioFormat.BigEndian: "BigEndian",
     }
 
     @classmethod
@@ -179,7 +177,8 @@ class AudioTest(AudioDevicesBase):
         self.sampleTypesBox.clear()
         sampleTypez = self.deviceInfo.supportedSampleTypes()
         self.sampleTypesBox.addItems(
-                [self.sampleTypeToString(st) for st in sampleTypez])
+            [self.sampleTypeToString(st) for st in sampleTypez]
+        )
         if len(sampleTypez) != 0:
             self.settings.setSampleType(sampleTypez[0])
 
@@ -217,18 +216,23 @@ class AudioTest(AudioDevicesBase):
                                     self.allFormatsTable.setRowCount(row + 1)
 
                                     self.setFormatValue(row, 0, format.codec())
-                                    self.setFormatValue(row, 1,
-                                            str(format.sampleRate()))
-                                    self.setFormatValue(row, 2,
-                                            str(format.channelCount()))
-                                    self.setFormatValue(row, 3,
-                                            self.sampleTypeToString(
-                                                    format.sampleType()))
-                                    self.setFormatValue(row, 4,
-                                            str(format.sampleSize()))
-                                    self.setFormatValue(row, 5,
-                                            self.endianToString(
-                                                    format.byteOrder()))
+                                    self.setFormatValue(
+                                        row, 1, str(format.sampleRate())
+                                    )
+                                    self.setFormatValue(
+                                        row, 2, str(format.channelCount())
+                                    )
+                                    self.setFormatValue(
+                                        row,
+                                        3,
+                                        self.sampleTypeToString(format.sampleType()),
+                                    )
+                                    self.setFormatValue(
+                                        row, 4, str(format.sampleSize())
+                                    )
+                                    self.setFormatValue(
+                                        row, 5, self.endianToString(format.byteOrder())
+                                    )
 
                                     row += 1
 
@@ -266,7 +270,7 @@ class AudioTest(AudioDevicesBase):
             self.settings.setByteOrder(QAudioFormat.BigEndian)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

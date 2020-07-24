@@ -46,13 +46,29 @@
 
 import math
 
-from PyQt5.QtCore import (pyqtSignal, QBasicTimer, QObject, QPoint, QPointF,
-        QRect, QSize, QStandardPaths, Qt, QUrl)
-from PyQt5.QtGui import (QColor, QDesktopServices, QImage, QPainter,
-        QPainterPath, QPixmap, QRadialGradient)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QBasicTimer,
+    QObject,
+    QPoint,
+    QPointF,
+    QRect,
+    QSize,
+    QStandardPaths,
+    Qt,
+    QUrl,
+)
+from PyQt5.QtGui import (
+    QColor,
+    QDesktopServices,
+    QImage,
+    QPainter,
+    QPainterPath,
+    QPixmap,
+    QRadialGradient,
+)
 from PyQt5.QtWidgets import QAction, QApplication, QMainWindow, QWidget
-from PyQt5.QtNetwork import (QNetworkAccessManager, QNetworkDiskCache,
-        QNetworkRequest)
+from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkDiskCache, QNetworkRequest
 
 
 # how long (milliseconds) the user need to hold (after a tap on the screen)
@@ -71,6 +87,7 @@ TDIM = 256
 
 class Point(QPoint):
     """QPoint, that is fully qualified as a dict key"""
+
     def __init__(self, *par):
         if par:
             super(Point, self).__init__(*par)
@@ -87,8 +104,13 @@ class Point(QPoint):
 def tileForCoordinate(lat, lng, zoom):
     zn = float(1 << zoom)
     tx = float(lng + 180.0) / 360.0
-    ty = (1.0 - math.log(math.tan(lat * math.pi / 180.0) +
-          1.0 / math.cos(lat * math.pi / 180.0)) / math.pi) / 2.0
+    ty = (
+        1.0
+        - math.log(
+            math.tan(lat * math.pi / 180.0) + 1.0 / math.cos(lat * math.pi / 180.0)
+        )
+        / math.pi
+    ) / 2.0
 
     return QPointF(tx * zn, ty * zn)
 
@@ -117,7 +139,7 @@ class SlippyMap(QObject):
 
         self._offset = QPoint()
         self._tilesRect = QRect()
-        self._tilePixmaps = {} # Point(x, y) to QPixmap mapping
+        self._tilePixmaps = {}  # Point(x, y) to QPixmap mapping
         self._manager = QNetworkAccessManager()
         self._url = QUrl()
         # public vars
@@ -132,7 +154,8 @@ class SlippyMap(QObject):
 
         cache = QNetworkDiskCache()
         cache.setCacheDirectory(
-            QStandardPaths.writableLocation(QStandardPaths.CacheLocation))
+            QStandardPaths.writableLocation(QStandardPaths.CacheLocation)
+        )
         self._manager.setCache(cache)
         self._manager.finished.connect(self.handleNetworkData)
 
@@ -176,7 +199,7 @@ class SlippyMap(QObject):
                 box = self.tileRect(tp)
                 if rect.intersects(box):
                     p.drawPixmap(box, self._tilePixmaps.get(tp, self._emptyTile))
-   
+
     def pan(self, delta):
         dx = QPointF(delta) / float(TDIM)
         center = tileForCoordinate(self.latitude, self.longitude, self.zoom) - dx
@@ -215,11 +238,15 @@ class SlippyMap(QObject):
             self._url = QUrl()
             return
 
-        path = 'http://tile.openstreetmap.org/%d/%d/%d.png' % (self.zoom, grab.x(), grab.y())
+        path = "http://tile.openstreetmap.org/%d/%d/%d.png" % (
+            self.zoom,
+            grab.x(),
+            grab.y(),
+        )
         self._url = QUrl(path)
         request = QNetworkRequest()
         request.setUrl(self._url)
-        request.setRawHeader(b'User-Agent', b'Nokia (PyQt) Graphics Dojo 1.0')
+        request.setRawHeader(b"User-Agent", b"Nokia (PyQt) Graphics Dojo 1.0")
         request.setAttribute(QNetworkRequest.User, grab)
         self._manager.get(request)
 
@@ -232,7 +259,7 @@ class SlippyMap(QObject):
 
 
 class LightMaps(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(LightMaps, self).__init__(parent)
 
         self.pressed = False
@@ -248,7 +275,7 @@ class LightMaps(QWidget):
         self.maskPixmap = QPixmap()
         self._normalMap.updated.connect(self.updateMap)
         self._largeMap.updated.connect(self.update)
- 
+
     def setCenter(self, lat, lng):
         self._normalMap.latitude = lat
         self._normalMap.longitude = lng
@@ -259,7 +286,7 @@ class LightMaps(QWidget):
     def toggleNightMode(self):
         self.invert = not self.invert
         self.update()
- 
+
     def updateMap(self, r):
         self.update(r)
 
@@ -273,7 +300,7 @@ class LightMaps(QWidget):
         self._largeMap.longitude = self._normalMap.longitude
         self._largeMap.invalidate()
         self.update()
- 
+
     def resizeEvent(self, event):
         self._normalMap.width = self.width()
         self._normalMap.height = self.height()
@@ -287,8 +314,11 @@ class LightMaps(QWidget):
         p.begin(self)
         self._normalMap.render(p, event.rect())
         p.setPen(Qt.black)
-        p.drawText(self.rect(), Qt.AlignBottom | Qt.TextWordWrap,
-                   "Map data CCBYSA 2009 OpenStreetMap.org contributors")
+        p.drawText(
+            self.rect(),
+            Qt.AlignBottom | Qt.TextWordWrap,
+            "Map data CCBYSA 2009 OpenStreetMap.org contributors",
+        )
         p.end()
 
         if self.zoomed:
@@ -326,7 +356,7 @@ class LightMaps(QWidget):
             if self.zoomPixmap.size() != box:
                 self.zoomPixmap = QPixmap(box)
                 self.zoomPixmap.fill(Qt.lightGray)
-    
+
             if True:
                 p = QPainter(self.zoomPixmap)
                 p.translate(-xy)
@@ -355,7 +385,7 @@ class LightMaps(QWidget):
             self.activateZoom()
 
         self.update()
- 
+
     def mousePressEvent(self, event):
         if event.buttons() != Qt.LeftButton:
             return
@@ -394,7 +424,7 @@ class LightMaps(QWidget):
     def mouseReleaseEvent(self, event):
         self.zoomed = False
         self.update()
- 
+
     def keyPressEvent(self, event):
         if not self.zoomed:
             if event.key() == Qt.Key_Left:
@@ -466,15 +496,15 @@ class MapZoom(QMainWindow):
         self.map_.setCenter(-6.211544, 106.845172)
 
     def aboutOsm(self):
-        QDesktopServices.openUrl(QUrl('http://www.openstreetmap.org'))
+        QDesktopServices.openUrl(QUrl("http://www.openstreetmap.org"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
-    app.setApplicationName('LightMaps')
+    app.setApplicationName("LightMaps")
     w = MapZoom()
     w.setWindowTitle("OpenStreetMap")
     w.resize(600, 450)

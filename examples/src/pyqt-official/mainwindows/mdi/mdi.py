@@ -42,11 +42,27 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (QFile, QFileInfo, QPoint, QSettings, QSignalMapper,
-        QSize, QTextStream, Qt)
+from PyQt5.QtCore import (
+    QFile,
+    QFileInfo,
+    QPoint,
+    QSettings,
+    QSignalMapper,
+    QSize,
+    QTextStream,
+    Qt,
+)
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import (QAction, QApplication, QFileDialog, QMainWindow,
-        QMdiArea, QMessageBox, QTextEdit, QWidget)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QFileDialog,
+    QMainWindow,
+    QMdiArea,
+    QMessageBox,
+    QTextEdit,
+    QWidget,
+)
 
 import mdi_rc
 
@@ -64,15 +80,18 @@ class MdiChild(QTextEdit):
         self.isUntitled = True
         self.curFile = "document%d.txt" % MdiChild.sequenceNumber
         MdiChild.sequenceNumber += 1
-        self.setWindowTitle(self.curFile + '[*]')
+        self.setWindowTitle(self.curFile + "[*]")
 
         self.document().contentsChanged.connect(self.documentWasModified)
 
     def loadFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.ReadOnly | QFile.Text):
-            QMessageBox.warning(self, "MDI",
-                    "Cannot read file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "MDI",
+                "Cannot read file %s:\n%s." % (fileName, file.errorString()),
+            )
             return False
 
         instr = QTextStream(file)
@@ -103,8 +122,11 @@ class MdiChild(QTextEdit):
         file = QFile(fileName)
 
         if not file.open(QFile.WriteOnly | QFile.Text):
-            QMessageBox.warning(self, "MDI",
-                    "Cannot write file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "MDI",
+                "Cannot write file %s:\n%s." % (fileName, file.errorString()),
+            )
             return False
 
         outstr = QTextStream(file)
@@ -132,10 +154,13 @@ class MdiChild(QTextEdit):
 
     def maybeSave(self):
         if self.document().isModified():
-            ret = QMessageBox.warning(self, "MDI",
-                    "'%s' has been modified.\nDo you want to save your "
-                    "changes?" % self.userFriendlyCurrentFile(),
-                    QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            ret = QMessageBox.warning(
+                self,
+                "MDI",
+                "'%s' has been modified.\nDo you want to save your "
+                "changes?" % self.userFriendlyCurrentFile(),
+                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+            )
 
             if ret == QMessageBox.Save:
                 return self.save()
@@ -228,12 +253,15 @@ class MainWindow(QMainWindow):
             self.activeMdiChild().paste()
 
     def about(self):
-        QMessageBox.about(self, "About MDI",
-                "The <b>MDI</b> example demonstrates how to write multiple "
-                "document interface applications using Qt.")
+        QMessageBox.about(
+            self,
+            "About MDI",
+            "The <b>MDI</b> example demonstrates how to write multiple "
+            "document interface applications using Qt.",
+        )
 
     def updateMenus(self):
-        hasMdiChild = (self.activeMdiChild() is not None)
+        hasMdiChild = self.activeMdiChild() is not None
         self.saveAct.setEnabled(hasMdiChild)
         self.saveAsAct.setEnabled(hasMdiChild)
         self.pasteAct.setEnabled(hasMdiChild)
@@ -245,8 +273,10 @@ class MainWindow(QMainWindow):
         self.previousAct.setEnabled(hasMdiChild)
         self.separatorAct.setVisible(hasMdiChild)
 
-        hasSelection = (self.activeMdiChild() is not None and
-                        self.activeMdiChild().textCursor().hasSelection())
+        hasSelection = (
+            self.activeMdiChild() is not None
+            and self.activeMdiChild().textCursor().hasSelection()
+        )
         self.cutAct.setEnabled(hasSelection)
         self.copyAct.setEnabled(hasSelection)
 
@@ -270,7 +300,7 @@ class MainWindow(QMainWindow):
 
             text = "%d %s" % (i + 1, child.userFriendlyCurrentFile())
             if i < 9:
-                text = '&' + text
+                text = "&" + text
 
             action = self.windowMenu.addAction(text)
             action.setCheckable(True)
@@ -288,76 +318,136 @@ class MainWindow(QMainWindow):
         return child
 
     def createActions(self):
-        self.newAct = QAction(QIcon(':/images/new.png'), "&New", self,
-                shortcut=QKeySequence.New, statusTip="Create a new file",
-                triggered=self.newFile)
+        self.newAct = QAction(
+            QIcon(":/images/new.png"),
+            "&New",
+            self,
+            shortcut=QKeySequence.New,
+            statusTip="Create a new file",
+            triggered=self.newFile,
+        )
 
-        self.openAct = QAction(QIcon(':/images/open.png'), "&Open...", self,
-                shortcut=QKeySequence.Open, statusTip="Open an existing file",
-                triggered=self.open)
+        self.openAct = QAction(
+            QIcon(":/images/open.png"),
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing file",
+            triggered=self.open,
+        )
 
-        self.saveAct = QAction(QIcon(':/images/save.png'), "&Save", self,
-                shortcut=QKeySequence.Save,
-                statusTip="Save the document to disk", triggered=self.save)
+        self.saveAct = QAction(
+            QIcon(":/images/save.png"),
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk",
+            triggered=self.save,
+        )
 
-        self.saveAsAct = QAction("Save &As...", self,
-                shortcut=QKeySequence.SaveAs,
-                statusTip="Save the document under a new name",
-                triggered=self.saveAs)
+        self.saveAsAct = QAction(
+            "Save &As...",
+            self,
+            shortcut=QKeySequence.SaveAs,
+            statusTip="Save the document under a new name",
+            triggered=self.saveAs,
+        )
 
-        self.exitAct = QAction("E&xit", self, shortcut=QKeySequence.Quit,
-                statusTip="Exit the application",
-                triggered=QApplication.instance().closeAllWindows)
+        self.exitAct = QAction(
+            "E&xit",
+            self,
+            shortcut=QKeySequence.Quit,
+            statusTip="Exit the application",
+            triggered=QApplication.instance().closeAllWindows,
+        )
 
-        self.cutAct = QAction(QIcon(':/images/cut.png'), "Cu&t", self,
-                shortcut=QKeySequence.Cut,
-                statusTip="Cut the current selection's contents to the clipboard",
-                triggered=self.cut)
+        self.cutAct = QAction(
+            QIcon(":/images/cut.png"),
+            "Cu&t",
+            self,
+            shortcut=QKeySequence.Cut,
+            statusTip="Cut the current selection's contents to the clipboard",
+            triggered=self.cut,
+        )
 
-        self.copyAct = QAction(QIcon(':/images/copy.png'), "&Copy", self,
-                shortcut=QKeySequence.Copy,
-                statusTip="Copy the current selection's contents to the clipboard",
-                triggered=self.copy)
+        self.copyAct = QAction(
+            QIcon(":/images/copy.png"),
+            "&Copy",
+            self,
+            shortcut=QKeySequence.Copy,
+            statusTip="Copy the current selection's contents to the clipboard",
+            triggered=self.copy,
+        )
 
-        self.pasteAct = QAction(QIcon(':/images/paste.png'), "&Paste", self,
-                shortcut=QKeySequence.Paste,
-                statusTip="Paste the clipboard's contents into the current selection",
-                triggered=self.paste)
+        self.pasteAct = QAction(
+            QIcon(":/images/paste.png"),
+            "&Paste",
+            self,
+            shortcut=QKeySequence.Paste,
+            statusTip="Paste the clipboard's contents into the current selection",
+            triggered=self.paste,
+        )
 
-        self.closeAct = QAction("Cl&ose", self,
-                statusTip="Close the active window",
-                triggered=self.mdiArea.closeActiveSubWindow)
+        self.closeAct = QAction(
+            "Cl&ose",
+            self,
+            statusTip="Close the active window",
+            triggered=self.mdiArea.closeActiveSubWindow,
+        )
 
-        self.closeAllAct = QAction("Close &All", self,
-                statusTip="Close all the windows",
-                triggered=self.mdiArea.closeAllSubWindows)
+        self.closeAllAct = QAction(
+            "Close &All",
+            self,
+            statusTip="Close all the windows",
+            triggered=self.mdiArea.closeAllSubWindows,
+        )
 
-        self.tileAct = QAction("&Tile", self, statusTip="Tile the windows",
-                triggered=self.mdiArea.tileSubWindows)
+        self.tileAct = QAction(
+            "&Tile",
+            self,
+            statusTip="Tile the windows",
+            triggered=self.mdiArea.tileSubWindows,
+        )
 
-        self.cascadeAct = QAction("&Cascade", self,
-                statusTip="Cascade the windows",
-                triggered=self.mdiArea.cascadeSubWindows)
+        self.cascadeAct = QAction(
+            "&Cascade",
+            self,
+            statusTip="Cascade the windows",
+            triggered=self.mdiArea.cascadeSubWindows,
+        )
 
-        self.nextAct = QAction("Ne&xt", self, shortcut=QKeySequence.NextChild,
-                statusTip="Move the focus to the next window",
-                triggered=self.mdiArea.activateNextSubWindow)
+        self.nextAct = QAction(
+            "Ne&xt",
+            self,
+            shortcut=QKeySequence.NextChild,
+            statusTip="Move the focus to the next window",
+            triggered=self.mdiArea.activateNextSubWindow,
+        )
 
-        self.previousAct = QAction("Pre&vious", self,
-                shortcut=QKeySequence.PreviousChild,
-                statusTip="Move the focus to the previous window",
-                triggered=self.mdiArea.activatePreviousSubWindow)
+        self.previousAct = QAction(
+            "Pre&vious",
+            self,
+            shortcut=QKeySequence.PreviousChild,
+            statusTip="Move the focus to the previous window",
+            triggered=self.mdiArea.activatePreviousSubWindow,
+        )
 
         self.separatorAct = QAction(self)
         self.separatorAct.setSeparator(True)
 
-        self.aboutAct = QAction("&About", self,
-                statusTip="Show the application's About box",
-                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                statusTip="Show the Qt library's About box",
-                triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -400,16 +490,16 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage("Ready")
 
     def readSettings(self):
-        settings = QSettings('Trolltech', 'MDI Example')
-        pos = settings.value('pos', QPoint(200, 200))
-        size = settings.value('size', QSize(400, 400))
+        settings = QSettings("Trolltech", "MDI Example")
+        pos = settings.value("pos", QPoint(200, 200))
+        size = settings.value("size", QSize(400, 400))
         self.move(pos)
         self.resize(size)
 
     def writeSettings(self):
-        settings = QSettings('Trolltech', 'MDI Example')
-        settings.setValue('pos', self.pos())
-        settings.setValue('size', self.size())
+        settings = QSettings("Trolltech", "MDI Example")
+        settings.setValue("pos", self.pos())
+        settings.setValue("size", self.size())
 
     def activeMdiChild(self):
         activeSubWindow = self.mdiArea.activeSubWindow()
@@ -436,7 +526,7 @@ class MainWindow(QMainWindow):
             self.mdiArea.setActiveSubWindow(window)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -43,8 +43,17 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-        QMessageBox, QPushButton, QTextEdit, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class SortedDict(dict):
@@ -81,8 +90,8 @@ class AddressBook(QWidget):
         super(AddressBook, self).__init__(parent)
 
         self.contacts = SortedDict()
-        self.oldName = ''
-        self.oldAddress = ''
+        self.oldName = ""
+        self.oldAddress = ""
 
         nameLabel = QLabel("Name:")
         self.nameLine = QLineEdit()
@@ -152,17 +161,24 @@ class AddressBook(QWidget):
         address = self.addressText.toPlainText()
 
         if name == "" or address == "":
-            QMessageBox.information(self, "Empty Field",
-                    "Please enter a name and address.")
+            QMessageBox.information(
+                self, "Empty Field", "Please enter a name and address."
+            )
             return
 
         if name not in self.contacts:
             self.contacts[name] = address
-            QMessageBox.information(self, "Add Successful",
-                    "\"%s\" has been added to your address book." % name)
+            QMessageBox.information(
+                self,
+                "Add Successful",
+                '"%s" has been added to your address book.' % name,
+            )
         else:
-            QMessageBox.information(self, "Add Unsuccessful",
-                    "Sorry, \"%s\" is already in your address book." % name)
+            QMessageBox.information(
+                self,
+                "Add Unsuccessful",
+                'Sorry, "%s" is already in your address book.' % name,
+            )
             return
 
         if not self.contacts:
@@ -239,7 +255,7 @@ class AddressBook(QWidget):
         self.addressText.setText(prev_address)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     from PyQt5.QtWidgets import QApplication

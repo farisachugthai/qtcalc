@@ -43,9 +43,20 @@
 
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QDialog,
-        QDialogButtonBox, QGridLayout, QHBoxLayout, QLabel, QLayout, QLineEdit,
-        QPushButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QDialog,
+    QDialogButtonBox,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLayout,
+    QLineEdit,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class FindDialog(QDialog):
@@ -107,7 +118,7 @@ class FindDialog(QDialog):
         extension.hide()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 

@@ -45,10 +45,14 @@
 
 import sys
 
-from PyQt5.QtCore import (QCommandLineOption, QCommandLineParser,
-        QCoreApplication, QDir, QT_VERSION_STR)
-from PyQt5.QtWidgets import (QApplication, QFileIconProvider, QFileSystemModel,
-        QTreeView)
+from PyQt5.QtCore import (
+    QCommandLineOption,
+    QCommandLineParser,
+    QCoreApplication,
+    QDir,
+    QT_VERSION_STR,
+)
+from PyQt5.QtWidgets import QApplication, QFileIconProvider, QFileSystemModel, QTreeView
 
 
 app = QApplication(sys.argv)
@@ -59,10 +63,11 @@ parser.setApplicationDescription("Qt Dir View Example")
 parser.addHelpOption()
 parser.addVersionOption()
 
-dontUseCustomDirectoryIconsOption = QCommandLineOption('c',
-        "Set QFileIconProvider.DontUseCustomDirectoryIcons")
+dontUseCustomDirectoryIconsOption = QCommandLineOption(
+    "c", "Set QFileIconProvider.DontUseCustomDirectoryIcons"
+)
 parser.addOption(dontUseCustomDirectoryIconsOption)
-parser.addPositionalArgument('directory', "The directory to start in.")
+parser.addPositionalArgument("directory", "The directory to start in.")
 parser.process(app)
 try:
     rootPath = parser.positionalArguments().pop(0)
@@ -70,10 +75,9 @@ except IndexError:
     rootPath = None
 
 model = QFileSystemModel()
-model.setRootPath('')
+model.setRootPath("")
 if parser.isSet(dontUseCustomDirectoryIconsOption):
-    model.iconProvider().setOptions(
-            QFileIconProvider.DontUseCustomDirectoryIcons)
+    model.iconProvider().setOptions(QFileIconProvider.DontUseCustomDirectoryIcons)
 tree = QTreeView()
 tree.setModel(model)
 if rootPath is not None:

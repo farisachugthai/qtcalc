@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -82,4 +83,3 @@ class Ui_MainWindow(object):
         self.removeColumnAction.setShortcut(_translate("MainWindow", "Ctrl+R, C"))
         self.insertChildAction.setText(_translate("MainWindow", "Insert Child"))
         self.insertChildAction.setShortcut(_translate("MainWindow", "Ctrl+N"))
-

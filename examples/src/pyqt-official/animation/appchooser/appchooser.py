@@ -42,11 +42,18 @@
 #############################################################################
 
 
-from PyQt5.QtCore import (pyqtSignal, QPointF, QPropertyAnimation, QRect,
-        QRectF, QState, QStateMachine, Qt)
+from PyQt5.QtCore import (
+    pyqtSignal,
+    QPointF,
+    QPropertyAnimation,
+    QRect,
+    QRectF,
+    QState,
+    QStateMachine,
+    Qt,
+)
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (QApplication, QGraphicsScene, QGraphicsView,
-        QGraphicsWidget)
+from PyQt5.QtWidgets import QApplication, QGraphicsScene, QGraphicsView, QGraphicsWidget
 
 import appchooser_rc
 
@@ -78,26 +85,26 @@ class Pixmap(QGraphicsWidget):
 def createStates(objects, selectedRect, parent):
     for obj in objects:
         state = QState(parent)
-        state.assignProperty(obj, 'geometry', selectedRect)
+        state.assignProperty(obj, "geometry", selectedRect)
         parent.addTransition(obj.clicked, state)
 
 
 def createAnimations(objects, machine):
     for obj in objects:
-        animation = QPropertyAnimation(obj, b'geometry', obj)
+        animation = QPropertyAnimation(obj, b"geometry", obj)
         machine.addDefaultAnimation(animation)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import sys
 
     app = QApplication(sys.argv)
 
-    p1 = Pixmap(QPixmap(':/digikam.png'))
-    p2 = Pixmap(QPixmap(':/akregator.png'))
-    p3 = Pixmap(QPixmap(':/accessories-dictionary.png'))
-    p4 = Pixmap(QPixmap(':/k3b.png'))
+    p1 = Pixmap(QPixmap(":/digikam.png"))
+    p2 = Pixmap(QPixmap(":/akregator.png"))
+    p3 = Pixmap(QPixmap(":/accessories-dictionary.png"))
+    p4 = Pixmap(QPixmap(":/k3b.png"))
 
     p1.setGeometry(QRectF(0.0, 0.0, 64.0, 64.0))
     p2.setGeometry(QRectF(236.0, 0.0, 64.0, 64.0))

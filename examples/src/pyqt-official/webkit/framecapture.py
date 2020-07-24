@@ -85,21 +85,19 @@ class FrameCapture(QObject):
 
         self._percent = 0
         self._page = QWebPage()
-        self._page.mainFrame().setScrollBarPolicy(Qt.Vertical,
-                Qt.ScrollBarAlwaysOff)
-        self._page.mainFrame().setScrollBarPolicy(Qt.Horizontal,
-                Qt.ScrollBarAlwaysOff)
+        self._page.mainFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOff)
+        self._page.mainFrame().setScrollBarPolicy(Qt.Horizontal, Qt.ScrollBarAlwaysOff)
         self._page.loadProgress.connect(self.printProgress)
         self._page.loadFinished.connect(self.saveResult)
- 
+
     def load(self, url, outputFileName):
         cout("Loading %s\n" % url.toString())
         self._percent = 0
-        index = outputFileName.rfind('.')
+        index = outputFileName.rfind(".")
         self._fileName = index == -1 and outputFileName + ".png" or outputFileName
         self._page.mainFrame().load(url)
         self._page.setViewportSize(QSize(1024, 768))
- 
+
     def printProgress(self, percent):
         if self._percent >= percent:
             return
@@ -107,7 +105,7 @@ class FrameCapture(QObject):
         while self._percent < percent:
             self._percent += 1
             cout("#")
- 
+
     def saveResult(self, ok):
         cout("\n")
         # Crude error-checking.
@@ -120,12 +118,16 @@ class FrameCapture(QObject):
         self._frameCounter = 0
         self.saveFrame(self._page.mainFrame())
         self.finished.emit()
- 
+
     def saveFrame(self, frame):
         fileName = self._fileName
         if self._frameCounter:
-            index = fileName.rfind('.')
-            fileName = "%s_frame%s%s" % (fileName[:index], self._frameCounter, fileName[index:])
+            index = fileName.rfind(".")
+            fileName = "%s_frame%s%s" % (
+                fileName[:index],
+                self._frameCounter,
+                fileName[index:],
+            )
         image = QImage(frame.contentsSize(), QImage.Format_ARGB32_Premultiplied)
         image.fill(Qt.transparent)
         painter = QPainter(image)
@@ -140,7 +142,7 @@ class FrameCapture(QObject):
             self.saveFrame(childFrame)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 3:
         cerr(__doc__)
         sys.exit(1)

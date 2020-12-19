@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": "C:\\Users\\Casey\\scoop\\apps\\miniconda3\\current\\envs\\pyqt\\python.exe",
+    "python.pythonPath": "C:\\Users\\fac\\scoop\\apps\\winpython\\current\\python-3.8.5.amd64\\python.exe",
 		"python.linting.pylintEnabled": false
 	}
 }

@@ -13,9 +13,9 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QWidget
 
 
-class filedialogdemo(QWidget):
+class FileDialogDemo(QWidget):
     def __init__(self, parent=None):
-        super(filedialogdemo, self).__init__(parent)
+        super().__init__(parent)
 
         layout = QVBoxLayout()
         self.btn = QPushButton("Image Previewer")
@@ -32,7 +32,7 @@ class filedialogdemo(QWidget):
         self.contents = QTextEdit()
         layout.addWidget(self.contents)
         self.setLayout(layout)
-        self.setWindowTitle("File Dialog demo")
+        self.setWindowTitle("Faris's File Explorer")
 
     def image_previewer(self):
         """Preview a user provided image."""
@@ -62,11 +62,20 @@ class filedialogdemo(QWidget):
             self.contents.setText(data)
 
 
+def qt_mainloop(app):
+    """Simply put this into it's own function to get a cleaner stack trace."""
+    return app.exec_()
+
+
 def main():
+    """Initialize the QApplication and define it a little."""
     app = QApplication(sys.argv)
-    ex = filedialogdemo()
+    app.setOrganizationName("Faris's File Explorer")
+    app.setApplicationName("Faris's File Explorer")
+
+    ex = FileDialogDemo()
     ex.show()
-    sys.exit(app.exec_())
+    sys.exit(qt_mainloop(app))
 
 
 if __name__ == "__main__":

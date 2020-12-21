@@ -24,6 +24,7 @@ has a parent, with the sole exception of top-level windows
 
 
 """
+from functools import partial
 import sys
 
 from PyQt5.QtCore import QLine, Qt
@@ -113,11 +114,45 @@ class PyCalcUi(QMainWindow):
         self.setDisplayText("")
 
 
+class PyCalcCtrl:
+    """PyCalc Controller class.
+
+    Your controller class needs to perform three main tasks:
+
+    Access the GUI’s public interface Handle the creation of math expressions
+    Connect button clicked signals with the appropriate slots This will
+    ensure that your calculator is working correctly. Here’s how you code the
+    controller class:
+
+    """
+
+    def __init__(self, view):
+        """Controller initializer."""
+        # It's a good idea to give the controller full access to the view's interface
+        self._view = view
+        self._connectSignals()
+
+    def _buildExpression(self, sub_exp):
+        """Build expression."""
+        expression = self._view.displayText() + sub_exp
+        self._view.setDisplayText(expression)
+
+    def _connectSignals(self):
+        """Connect signals and slots."""
+        for btnText, btn in self._view.buttons.items():
+            if btnText not in {"=", "C"}:
+                btn.clicked.connect(partial(self._buildExpression, btnText))
+
+        self._view.buttons["C"].clicked.connect(self._view.clearDisplay)
+
+
 def main():
     """Create the QApplication, an instance of PyCalcUi and run."""
     pycalc = QApplication(sys.argv)
     view = PyCalcUi()
     view.show()
+
+    PyCalcCtrl(view=view)
     sys.exit(pycalc.exec_())
 
 

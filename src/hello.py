@@ -28,7 +28,10 @@ window.move(60, 15)
 hellomsg =  QLabel('<h1>Hello World!</h1>', parent=window)
 hellomsg.move(60, 15)
 
-# In this code, window is an instance of QWidget, which provides all the features you’ll need to create the application’s window (or form). With .setWindowTitle(), you can add a title to your application’s window. In this case, the title to show is PyQt5 App.
+# In this code, window is an instance of QWidget, which provides all the
+# features you’ll need to create the application’s window (or form). With
+# .setWindowTitle(), you can add a title to your application’s window. In this
+# case, the title to show is PyQt5 App.
 
 # You can use .setGeometry() to define the size of the window and where to
 # place it on your screen. The first two parameters are the x and y coordinates
@@ -41,20 +44,6 @@ hellomsg.move(60, 15)
 # '<h1>Hello World!</h1>' to format the text as an h1 header. Finally, you use
 # .move() to place helloMsg at the coordinates (60, 15) on your application’s
 # window.
-
-# Note: In PyQt5, you can use any widget (a subclass of QWidget) as a top-level window, or even a button or a label. The only condition is that you pass no parent to it. When you use a widget like this, PyQt5 automatically gives it a title bar and turns it into a normal window.
-
-# The parent-child relationship is used for two complementary purposes:
-
-# A widget that doesn’t have a parent is a main window or a top-level window. A
-# widget that has a parent (which is always another widget) is contained (or
-# shown) within its parent. This relationship also defines ownership, with
-# parents owning their children. The PyQt5 ownership model ensures that if you
-# delete a parent (for example, a top-level window), then all of its children
-# (widgets) are automatically deleted as well.
-
-# To avoid memory leaks, you should always make sure that any QWidget object
-# has a parent, with the sole exception of top-level windows
 
 # 4. Show your application's GUI
 window.show()
@@ -77,7 +66,9 @@ def notes():
     """
     Learning the Basics of PyQt.
     ============================
-    You’ll need to master the basic concepts of PyQt logic in order to efficiently use the library to develop GUI applications. Some of these concepts include:
+    You’ll need to master the basic concepts of PyQt logic in order to
+    efficiently use the library to develop GUI applications. Some of these
+    concepts include:
 
     * Widgets
     * Layout managers

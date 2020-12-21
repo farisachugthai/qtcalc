@@ -31,6 +31,9 @@ from PyQt5.QtCore import QLine, Qt
 from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 
+# Error message global
+ERR = "ERROR"
+
 
 class PyCalcUi(QMainWindow):
     """PyCalc's View in the MVC Format."""
@@ -93,7 +96,7 @@ class PyCalcUi(QMainWindow):
         for btnText, pos in buttons.items():
             self.buttons[btnText] = QPushButton(btnText)
             self.buttons[btnText].setFixedSize(40, 40)
-            buttonsLayout.addWidget((self.buttons[btnText], pos[0], pos[1]))
+            buttonsLayout.addWidget(self.buttons[btnText], pos[0], pos[1])
 
         # Add buttonsLayout to the general layout
         self.generalLayout.addLayout(buttonsLayout)
@@ -105,6 +108,7 @@ class PyCalcUi(QMainWindow):
         and the signal for when the user clicks on it.
         I.E. the return value of this will be the expression to evaluate.
         """
+        return self.display.text()
 
     def setDisplayText(self, text):
         self.display.setText(text)
@@ -126,14 +130,24 @@ class PyCalcCtrl:
 
     """
 
-    def __init__(self, view):
+    def __init__(self, model, view):
         """Controller initializer."""
         # It's a good idea to give the controller full access to the view's interface
         self._view = view
         self._connectSignals()
 
+        # And then bind the model
+        self._evaluate = model
+
+    def _calculateResult(self):
+        result = self._evaluate(expression=self._view.displayText())
+        self._view.setDisplayText(result)
+
     def _buildExpression(self, sub_exp):
         """Build expression."""
+        if self._view.displayText() == ERR:
+            self._view.clearDisplay()
+
         expression = self._view.displayText() + sub_exp
         self._view.setDisplayText(expression)
 
@@ -144,6 +158,23 @@ class PyCalcCtrl:
                 btn.clicked.connect(partial(self._buildExpression, btnText))
 
         self._view.buttons["C"].clicked.connect(self._view.clearDisplay)
+        # And add the logic for the = sign
+        self._view.buttons["="].clicked.connect(self._calculateResult)
+        self._view.display.returnPressed.connect(self._calculateResult)
+
+
+def evaluateExpression(expression):
+    """The model of our application.
+
+    This doesn't need to be a class because it's pretty simple to evaluate math
+    using Python, but more complicated models will obviously need a greater
+    degree of flexibility.
+    """
+    try:
+        result = str(eval(expression, {}, {}))
+    except Exception:
+        result = ERR
+    return result
 
 
 def main():
@@ -152,7 +183,10 @@ def main():
     view = PyCalcUi()
     view.show()
 
-    PyCalcCtrl(view=view)
+    # Create instances of the model and controller
+    model = evaluateExpression
+    PyCalcCtrl(model=model, view=view)
+
     sys.exit(pycalc.exec_())
 
 

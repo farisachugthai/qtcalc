@@ -54,6 +54,8 @@ class FileDialogDemo(QWidget):
 
         if dlg.exec_():
             filenames = dlg.selectedFiles()
+        else:
+            return
         f = open(filenames[0], "r")
 
         with f:

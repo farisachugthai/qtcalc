@@ -25,3 +25,7 @@ View scripts in the following order.
     - Had to do an annoying amount of rewrites to update from pyqt4 to pyqt5
 
     - However works almost perfectly at this point.
+
+9) Calculator project
+
+    - [pycalc.py](pycalc.py)
